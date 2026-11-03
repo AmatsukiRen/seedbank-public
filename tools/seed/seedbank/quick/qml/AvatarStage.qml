@@ -77,8 +77,8 @@ Rectangle {
     }
     FileDialog {
         id: modelFile
-        title: Style.tr("选择角色模型")
-        nameFilters: ["Live2D (*.model3.json)"]
+        title: Style.tr("选择 Live2D 模型（.model3.json）")
+        nameFilters: ["Live2D Cubism (*.model3.json)"]
         onAccepted: bridge.selectAvatarModel(selectedFile.toString())
     }
 }

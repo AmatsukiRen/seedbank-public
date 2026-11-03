@@ -246,6 +246,10 @@ Item {
             color: Style.muted
             font.pixelSize: 12 * Style.scale
         }
+        AvatarModelHelp {
+            Layout.fillWidth: true
+            visible: pet.loadStatus === "error" || pet.loadStatus === "unconfigured"
+        }
         AppButton {
             Layout.fillWidth: true
             implicitWidth: 0

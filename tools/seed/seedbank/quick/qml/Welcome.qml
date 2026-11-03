@@ -29,6 +29,7 @@ Item {
                         Layout.fillWidth: true
                         caption: Style.tr("对话方式")
                         detail: Style.tr("可以先离线认识她，之后再到设置里换模型。")
+                        ModelServiceHelp { Layout.fillWidth: true }
                         Choice { id: preset; Layout.fillWidth: true; model: bridge.presets(); textRole: "label"; Accessible.name: Style.tr("对话方式") }
                         LabelText { visible: preset.currentIndex >= 0 && preset.model[preset.currentIndex].adapter !== "codex"; text: preset.currentIndex >= 0 ? preset.model[preset.currentIndex].hint : ""; Layout.fillWidth: true; color: Style.muted }
                         LabelText { visible: preset.currentIndex >= 0 && !!preset.model[preset.currentIndex].api_key_env && ["openai-compatible", "anthropic"].indexOf(preset.model[preset.currentIndex].adapter) >= 0; text: Style.tr("创建后请到设置填写 Key 和模型 ID，再开始对话。"); Layout.fillWidth: true; color: Style.muted }

@@ -32,8 +32,8 @@ ColumnLayout {
     }
     FileDialog {
         id: avatarFile
-        title: Style.tr("选择角色模型")
-        nameFilters: ["Live2D (*.model3.json)"]
+        title: Style.tr("选择 Live2D 模型（.model3.json）")
+        nameFilters: ["Live2D Cubism (*.model3.json)"]
         onAccepted: bridge.selectAvatarModel(selectedFile.toString())
     }
     Component {
@@ -44,6 +44,7 @@ ColumnLayout {
                 caption: Style.tr("角色与舞台")
                 detail: Style.tr("形象是相遇的载体，经历从出生开始。")
                 Layout.fillWidth: true
+                AvatarModelHelp { Layout.fillWidth: true }
                 LabelText { text: bridge.avatarModel || Style.tr("尚未选择角色模型"); Layout.fillWidth: true; color: Style.muted; font.pixelSize: 12 * Style.scale; wrapMode: Text.WrapAnywhere }
                 Flow {
                     Layout.fillWidth: true; spacing: 8
@@ -134,6 +135,7 @@ ColumnLayout {
                 caption: Style.tr("选择对话方式")
                 detail: Style.tr("选择服务，填写模型与自己的 API Key。使用哪个账号，由 Key 决定。")
                 Layout.fillWidth: true
+                ModelServiceHelp { Layout.fillWidth: true }
                 Choice {
                     Layout.fillWidth: true; model: { bridge.localeRevision; return bridge.presets() }
                     textRole: "label"; currentIndex: -1; displayText: currentIndex < 0 ? Style.tr("选择对话方式") : currentText
