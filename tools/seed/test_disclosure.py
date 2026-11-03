@@ -294,6 +294,7 @@ class DisclosureTest(unittest.TestCase):
         from seedbank.qq import QQAdapter
         from test_qq import group_event, private_event
         bridge, sender = Mock(), Mock()
+        sender.send_group.return_value = sender.send_private.return_value = {"status": "ok", "retcode": 0}
         bridge.call.return_value = {"reply": "safe", "lines": ["safe image"]}
         adapter = QQAdapter(str(self.pack), "7", ["123"], bridge=bridge, sender=sender, log=lambda value: None)
         self.assertTrue(adapter.handle(group_event(123, 7))["ok"])

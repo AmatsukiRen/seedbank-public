@@ -1,22 +1,22 @@
 # 意志：兴趣、计划、边界、主动
 
-2026-11-03 安静自主活动修正：空 reply 不再丢弃有来源的 memory_writes、learning_updates、life_story 或 corrections；仍经过现有校验，只在实际发言时写入主动对话。自主选择次数包含安静决定，不能称为开口次数。自动活动上下文优先利用精简规则和去重数据保留反馈，不提高默认预算。详见 [安静活动与反馈保留](../docs/85-quiet-initiative-learning.md)。
+2026-11-03 安静自主活动修正：空 reply 不再丢弃有来源的 memory_writes、learning_updates、life_story 或 corrections；仍经过现有校验，只在实际发言时写入主动对话。自主选择次数包含安静决定，不能称为开口次数。自动活动上下文优先利用精简规则和去重数据保留反馈，不提高默认预算。详见 [安静活动与反馈保留](../docs/protocol-guide.md#agency)。
 
-2026-11-02 跨日选择扩展（未测试）：prior_choices 提供来源有效的先前专注意图；daily_plan.continuity 明确继续、调整或放下，保存父事件版本与理由，使用 plans@4。休息不自动放弃，旧成果不移交新计划，来源裁减与隐私规则继续适用。见 [跨日的打算](../docs/53-cross-day-intentions.md)。
+2026-11-02 跨日选择扩展（未测试）：prior_choices 提供来源有效的先前专注意图；daily_plan.continuity 明确继续、调整或放下，保存父事件版本与理由，使用 plans@4。休息不自动放弃，旧成果不移交新计划，来源裁减与隐私规则继续适用。见 [跨日的打算](../docs/protocol-guide.md#agency)。
 
-2026-11-02 结束条件扩展（未测试）：focus 可选 checkpoint={criteria_id}，只接受实际提供且有效的完整目标条件。保存为 plans@3 事件，绑定条件记录指纹；按该计划版本下的同目标/条件成果与当前反馈核对，满足后暂缓自动创作/反思，等待新选择。旧 done 与自由文字不自动认证，详见 [结束条件与下一次选择](../docs/50-plan-checkpoints.md)。
+2026-11-02 结束条件扩展（未测试）：focus 可选 checkpoint={criteria_id}，只接受实际提供且有效的完整目标条件。保存为 plans@3 事件，绑定条件记录指纹；按该计划版本下的同目标/条件成果与当前反馈核对，满足后暂缓自动创作/反思，等待新选择。旧 done 与自由文字不自动认证，详见 [结束条件与下一次选择](../docs/protocol-guide.md#agency)。
 
-2026-11-02 尝试计数扩展（未测试）：运行器预排使用来源有效且已知进入执行流程的创作/反思次数；未开始、旧失败未知和已失效来源不冒充已知练习。已作出的模型选择和等待重新选择规则继续优先。见 [行动阶段与统计](../docs/48-action-attempt-states.md)。
+2026-11-02 尝试计数扩展（未测试）：运行器预排使用来源有效且已知进入执行流程的创作/反思次数；未开始、旧失败未知和已失效来源不冒充已知练习。已作出的模型选择和等待重新选择规则继续优先。见 [行动阶段与统计](../docs/protocol-guide.md#agency)。
 
-2026-11-02 跨渠道扩展（未测试）：focus/rest 与待重新选择约束所有当前渠道的模型自动创作/反思；外部只得到不含私人依据的结果。awaiting_choice 与旧 decision_basis_changed 触发记录保持当天等待状态，后台刷新不替代明确选择。详见 [跨渠道选择](../docs/47-cross-channel-choices.md)，替代下方此前仅私人自动动作的范围。
+2026-11-02 跨渠道扩展（未测试）：focus/rest 与待重新选择约束所有当前渠道的模型自动创作/反思；外部只得到不含私人依据的结果。awaiting_choice 与旧 decision_basis_changed 触发记录保持当天等待状态，后台刷新不替代明确选择。详见 [跨渠道选择](../docs/protocol-guide.md#agency)，替代下方此前仅私人自动动作的范围。
 
-2026-11-02 行动关联扩展（未测试）：执行前捕获私人计划版本，回执可选 plan_reference 保存单条事件指纹与 automatic/requested 来源；plan_review 汇总目前可用的确切关联，旧回执不按日页或目标补配。详见 [计划与实际行动](../docs/46-plans-and-action-links.md)。
+2026-11-02 行动关联扩展（未测试）：执行前捕获私人计划版本，回执可选 plan_reference 保存单条事件指纹与 automatic/requested 来源；plan_review 汇总目前可用的确切关联，旧回执不按日页或目标补配。详见 [计划与实际行动](../docs/protocol-guide.md#agency)。
 
-2026-11-02 每日选择扩展（未测试）：可选 daily_plan 提交 focus/rest/open、具体安排、简短理由及可见来源。接受后追加 plans@2 decision 与来源事件，后台刷新保留当天有效选择；私人自动创作/反思遵循此选择。旧数据继续可读，新 decision 需要新版运行器。详见 [每日选择](../docs/45-daily-choices.md)。
+2026-11-02 每日选择扩展（未测试）：可选 daily_plan 提交 focus/rest/open、具体安排、简短理由及可见来源。接受后追加 plans@2 decision 与来源事件，后台刷新保留当天有效选择；私人自动创作/反思遵循此选择。旧数据继续可读，新 decision 需要新版运行器。详见 [每日选择](../docs/protocol-guide.md#agency)。
 
-2026-11-02 计划历史扩展（未测试）：新选择追加到 `mind/plans.jsonl`（`seedbank/plans@1`），首次变更保存完整旧计划 baseline；后续 selection/import/legacy_flag 通过 previous 连接同日上一版本。`agency.json` 的 plan_store 标记权威历史，plans 为兼容投影。没有 90 条保存上限；同日刷新保留历史。详见 [计划历史、分页与兼容](../docs/44-plan-history.md)。以下旧规则中与此冲突的内容视为历史设计。
+2026-11-02 计划历史扩展（未测试）：新选择追加到 `mind/plans.jsonl`（`seedbank/plans@1`），首次变更保存完整旧计划 baseline；后续 selection/import/legacy_flag 通过 previous 连接同日上一版本。`agency.json` 的 plan_store 标记权威历史，plans 为兼容投影。没有 90 条保存上限；同日刷新保留历史。详见 [计划历史、分页与兼容](../docs/protocol-guide.md#agency)。以下旧规则中与此冲突的内容视为历史设计。
 
-> 当前兴趣来自有来源的偏好提案；每日计划承接长期目标，主动开口与动作成功都不自动代表计划完成。2026-11-02：行动回执与完成判定分开，旧 done 只显示为待核对，显式刷新不再受它阻止。以下旧词频与固定计划规则已被 [development.md](development.md) 覆盖，详细变更见 [行动回执与计划](../docs/43-action-outcomes-and-plans.md)。
+> 当前兴趣来自有来源的偏好提案；每日计划承接长期目标，主动开口与动作成功都不自动代表计划完成。2026-11-02：行动回执与完成判定分开，旧 done 只显示为待核对，显式刷新不再受它阻止。以下旧词频与固定计划规则已被 [development.md](development.md) 覆盖，详细变更见 [行动回执与计划](../docs/protocol-guide.md#agency)。
 
 **状态：v1.0（1.11）**
 

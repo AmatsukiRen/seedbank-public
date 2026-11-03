@@ -1,30 +1,30 @@
 # 载体协议 v1.4（`seedbank/bridge@1`）
 
-> 日历期限扩展（2026-11-02，未测试）：reminder.add 接受 due_on/request_id，禁止同时传 due_day；cancel_pending 仅取消未完成 reminder_edit，resume 可继续原输入。relationships.agreement 的 data 可含 due_on。旧日页接口保留，接口保存不表示外部通知送达。字段、恢复及新格式见 [日历期限](../docs/37-calendar-deadlines.md)。
+> 日历期限扩展（2026-11-02，未测试）：reminder.add 接受 due_on/request_id，禁止同时传 due_day；cancel_pending 仅取消未完成 reminder_edit，resume 可继续原输入。relationships.agreement 的 data 可含 due_on。旧日页接口保留，接口保存不表示外部通知送达。字段、恢复及新格式见 [日历期限](../docs/protocol-guide.md#relationships)。
 
-> 经验观察扩展（2026-11-02，未测试）：learning.feedback 可选 lesson_observations，每条含 lesson_id、fit、use、effect、reason、quote；仅接受本次实际提供且当前有效的经验。list 返回候选的当前观察和成果 offered_observations；保存/恢复沿用 learning_edit。用户评价不证明内部采用或因果，见 [经验观察](../docs/36-experience-observations.md)。
+> 经验观察扩展（2026-11-02，未测试）：learning.feedback 可选 lesson_observations，每条含 lesson_id、fit、use、effect、reason、quote；仅接受本次实际提供且当前有效的经验。list 返回候选的当前观察和成果 offered_observations；保存/恢复沿用 learning_edit。用户评价不证明内部采用或因果，见 [经验观察](../docs/protocol-guide.md#agency)。
 
-> 经验复用扩展（2026-11-02，未测试）：learning action=strategy 接受 goal_id、feedback_id、expected、text、expected_result 和 transfer，通用 learning_edit 恢复沿用原机制。list 增加 lessons、offered_lessons、策略当前版本与最近历史。此操作仅保存解释，不调用模型、不认定已经学会，见 [可复用经验](../docs/35-reusable-experience.md)。
+> 经验复用扩展（2026-11-02，未测试）：learning action=strategy 接受 goal_id、feedback_id、expected、text、expected_result 和 transfer，通用 learning_edit 恢复沿用原机制。list 增加 lessons、offered_lessons、策略当前版本与最近历史。此操作仅保存解释，不调用模型、不认定已经学会，见 [可复用经验](../docs/protocol-guide.md#agency)。
 
-> 提取撤回扩展（2026-11-02，未测试）：facts action=retract 接受 data 的 slot、expected（全部当前说法 ID）、target（当前模型 claim）、target_hash 和 reason，可附 request_id。resume 沿用 fact_edit；list 的当前模型说法增加 target_hash，历史增加 retractions，未完成撤回增加 target_preview。原文保留，撤回不决定相反命题为真。见 [撤回误读](../docs/34-mistaken-extractions.md)。
+> 提取撤回扩展（2026-11-02，未测试）：facts action=retract 接受 data 的 slot、expected（全部当前说法 ID）、target（当前模型 claim）、target_hash 和 reason，可附 request_id。resume 沿用 fact_edit；list 的当前模型说法增加 target_hash，历史增加 retractions，未完成撤回增加 target_preview。原文保留，撤回不决定相反命题为真。见 [撤回误读](../docs/protocol-guide.md#memory)。
 
-> 日期修订扩展（2026-11-02，未测试）：facts 提供 action=date_detail（target）与 action=date（data、request_id）；通用 resume 识别 fact_time_edit。data 含 target、target_hash、expected、date 和 reason，date 必须明确提供，空字符串表示未知。时间列表附带待处理修订，来源按当前日期版本读取。见 [日期修订](../docs/33-date-revisions-and-derived-memory.md)。
+> 日期修订扩展（2026-11-02，未测试）：facts 提供 action=date_detail（target）与 action=date（data、request_id）；通用 resume 识别 fact_time_edit。data 含 target、target_hash、expected、date 和 reason，date 必须明确提供，空字符串表示未知。时间列表附带待处理修订，来源按当前日期版本读取。见 [日期修订](../docs/protocol-guide.md#memory)。
 
-> 单项日期扩展（2026-11-02，未测试）：facts add 的 data 可含 starts_on；facts action=timeline 返回 fact_time，接受 on/query/limit/offset/slot/record_offset，不调用模型。模型 memory_search 的 facts_on 查询生效日期，date_from/date_to 仍筛选记录日期。见 [时间回查](../docs/32-memory-time-and-effective-dates.md)。
+> 单项日期扩展（2026-11-02，未测试）：facts add 的 data 可含 starts_on；facts action=timeline 返回 fact_time，接受 on/query/limit/offset/slot/record_offset，不调用模型。模型 memory_search 的 facts_on 查询生效日期，date_from/date_to 仍筛选记录日期。见 [时间回查](../docs/protocol-guide.md#memory)。
 
-> 材料接收扩展（2026-11-02，未测试）：image / sound 接受 request_id；media 提供 probe_intake / resume_intake / cancel_intake，通用 resume 识别 media_intake。重复未完成投递仅确认收到，完成回执重放前核对当前来源。QQ 图片使用账号/会话/发送者/消息编号确定请求号，不保证远端回复恰好一次。见 [接收与恢复](../docs/31-media-intake-and-recovery.md)。
+> 材料接收扩展（2026-11-02，未测试）：image / sound 接受 request_id；media 提供 probe_intake / resume_intake / cancel_intake，通用 resume 识别 media_intake。重复未完成投递仅确认收到，完成回执重放前核对当前来源。QQ 图片使用账号/会话/发送者/消息编号确定请求号，不保证远端回复恰好一次。见 [接收与恢复](../docs/protocol-guide.md#media)。
 
-> 人生回顾扩展（2026-11-02，未测试）：`life_story` 提供 list / save / forget / export。列表的记录与来源分别分页；修改使用 data/request_id，resume 支持 life_story_edit。导出只创建新私人文件，不发布；来源及版本保护见 [人生回顾](../docs/28-life-chapters-and-time.md)。
+> 人生回顾扩展（2026-11-02，未测试）：`life_story` 提供 list / save / forget / export。列表的记录与来源分别分页；修改使用 data/request_id，resume 支持 life_story_edit。导出只创建新私人文件，不发布；来源及版本保护见 [人生回顾](../docs/protocol-guide.md#storage)。
 
-> 披露扩展（2026-11-02，未测试）：message / image 接受 audience_id，描述回复实际接收范围；用户在群内发言也必须使用群范围。disclosure 提供 list / excerpt / profile / revoke，resume 支持 disclosure_edit；修改不调用模型、不发送消息。桥仍是可信本地管理接口，人物编号/范围不是身份认证。字段、来源摘要与限制见 [分享范围](../docs/27-disclosure-and-private-memory.md)。
+> 披露扩展（2026-11-02，未测试）：message / image 接受 audience_id，描述回复实际接收范围；用户在群内发言也必须使用群范围。disclosure 提供 list / excerpt / profile / revoke，resume 支持 disclosure_edit；修改不调用模型、不发送消息。桥仍是可信本地管理接口，人物编号/范围不是身份认证。字段、来源摘要与限制见 [分享范围](../docs/protocol-guide.md#memory)。
 
-> 关系扩展（2026-11-02，未测试）：`relationships` 支持 list / person / note / issue / boundary / agreement / review / forget，使用显式版本、data / request_id，resume 支持 relationship_edit。message 可传 person_id；显示名字不能自动匹配人物，编号不是身份认证。新的关系编辑不调用模型或发送消息。见 [相处与约定](../docs/26-relationships-and-commitments.md)。
+> 关系扩展（2026-11-02，未测试）：`relationships` 支持 list / person / note / issue / boundary / agreement / review / forget，使用显式版本、data / request_id，resume 支持 relationship_edit。message 可传 person_id；显示名字不能自动匹配人物，编号不是身份认证。新的关系编辑不调用模型或发送消息。见 [相处与约定](../docs/protocol-guide.md#relationships)。
 
-> 练习反馈扩展（2026-11-02，未测试）：`learning` 支持 list / plan / feedback / complete / practice。list 接受 goal_id / offset / limit；其他操作接受 data 和 request_id。practice 才会请求创作模型，需携带当前 criteria_id；resume 支持 learning_edit / practice。标准、反馈与完成使用显式版本保护。字段、示例和边界见 [目标与反馈](../docs/25-goals-and-feedback.md)。
+> 练习反馈扩展（2026-11-02，未测试）：`learning` 支持 list / plan / feedback / complete / practice。list 接受 goal_id / offset / limit；其他操作接受 data 和 request_id。practice 才会请求创作模型，需携带当前 criteria_id；resume 支持 learning_edit / practice。标准、反馈与完成使用显式版本保护。字段、示例和边界见 [目标与反馈](../docs/protocol-guide.md#agency)。
 
-> 记忆修订扩展（2026-11-02，未测试）：`memories` 新增 `history` / `revise`，使用 `memory_id` 指定目标，`request_id` 去重，`id` 关联响应。`revise` 接收 `text`、`reason`、`change_type`（`correction` / `change`）、可选 `effective_on` 日期；无需模型。`resume` 支持未完成修订。详见 [修订说明](../docs/21-memory-revisions.md)。
+> 记忆修订扩展（2026-11-02，未测试）：`memories` 新增 `history` / `revise`，使用 `memory_id` 指定目标，`request_id` 去重，`id` 关联响应。`revise` 接收 `text`、`reason`、`change_type`（`correction` / `change`）、可选 `effective_on` 日期；无需模型。`resume` 支持未完成修订。详见 [修订说明](../docs/protocol-guide.md#memory)。
 
-> 可选恢复扩展（2026-11-02，未测试）：`message.request_id` 是幂等编号，独立于响应关联 `id`。相同编号与内容重试可返回已提交结果；不同内容拒绝。新增 `requests` 列出待完成请求、`resume` 显式继续指定 `request_id`。未完成请求不会因进程重启自动重新调用模型；外部网络和载体发送不属于本地事务。见 [恢复说明](../docs/19-recovery-and-backup.md)。
+> 可选恢复扩展（2026-11-02，未测试）：`message.request_id` 是幂等编号，独立于响应关联 `id`。相同编号与内容重试可返回已提交结果；不同内容拒绝。新增 `requests` 列出待完成请求、`resume` 显式继续指定 `request_id`。未完成请求不会因进程重启自动重新调用模型；外部网络和载体发送不属于本地事务。见 [恢复说明](../docs/protocol-guide.md#storage)。
 
 > 她住在生命包里。载体只是一扇窗。
 
@@ -65,8 +65,8 @@ python tools/seed/seed.py bridge ~/fish/小蓝.life
 | `work` | `action`（`list` / `compose` / `read`）、`kind`（`poem` / `letter` / `drawing`）、`title`、`id`、`limit` | 她写的诗、信、字符画（[works.md](works.md)） |
 | `friend` | `action`（`list` / `visit` / `mourn` / `legacy`）、`other`（对方生命包路径）、`friend`、`note`、`letter` | 别的鱼来串门、失去、留给后来的人一封信（[friends.md](friends.md)） |
 | `persona` | `action`（`check` / `capture` / `status`，见 [persona.md](persona.md)） | 固定样本档案理解；status 只读；未评估 passed=null，不证明人格同一性 |
-| `semantic` | `action`（`status` / `index` / `clear`） | 语义缓存状态、补充最多 64 片段或清空当前模型空间。index 需事先启用；status/clear 不请求服务。见 [混合检索](../docs/23-hybrid-memory-retrieval.md) |
-| `facts` | `action`（`list` / `entity` / `add` / `resolve` / `forget`）、`data`、可选 `request_id` | 单项说法及明确核对；list 支持 query / audit / limit / offset，不调用模型。见 [单项说法](../docs/24-facts-and-disagreements.md) |
+| `semantic` | `action`（`status` / `index` / `clear`） | 语义缓存状态、补充最多 64 片段或清空当前模型空间。index 需事先启用；status/clear 不请求服务。见 [混合检索](../docs/protocol-guide.md#memory) |
+| `facts` | `action`（`list` / `entity` / `add` / `resolve` / `forget`）、`data`、可选 `request_id` | 单项说法及明确核对；list 支持 query / audit / limit / offset，不调用模型。见 [单项说法](../docs/protocol-guide.md#memory) |
 | `memories` | `action`（`list` / `history` / `revise` / `forget`）、`memory_id`、`query`、`limit`、`text`、`reason`、`change_type`、`effective_on`、`request_id` | 查看来源与版本、显式用户修订或放下；保留历史 |
 | `agency` | `action`（`list` / `interest` / `boundary` / `clear-boundaries` / `initiate`）、`text`、`force` | 她的兴趣、边界、计划、主动开口（[agency.md](agency.md)） |
 | `recall` | `query`（可选）、`k`（默认 5） | 看此刻她会想起什么 |

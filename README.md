@@ -66,9 +66,27 @@
 <a name="screens"></a>
 <h2><img src="assets/readme/section-screens-zh-CN.svg" width="100%" alt="界面导览"></h2>
 
-陪伴、日记、记忆、生活、设置：五个入口各自承载日常的一部分。下面介绍当前研发版本的功能。
+以下是 0.0.1 当前候选程序的五个不同页面。使用独立人工生命包和离线回复，日期推进仅用于展示日记；不含真实用户内容。
 
+<a href="assets/screenshots/companion.png"><img src="assets/screenshots/companion.png" width="100%" alt="SeedBank 0.0.1 · 陪伴"></a>
 
+**陪伴** · 1280 × 840 · 角色、示例对话与更换角色入口
+
+<a href="assets/screenshots/diary.png"><img src="assets/screenshots/diary.png" width="100%" alt="SeedBank 0.0.1 · 日记"></a>
+
+**日记** · 1280 × 840 · 选择已完成的日期，直接阅读正文
+
+<a href="assets/screenshots/memories.png"><img src="assets/screenshots/memories.png" width="100%" alt="SeedBank 0.0.1 · 记忆"></a>
+
+**记忆** · 1280 × 840 · 可辨识的详情、修订与放下按钮
+
+<a href="assets/screenshots/life.png"><img src="assets/screenshots/life.png" width="100%" alt="SeedBank 0.0.1 · 生活"></a>
+
+**生活** · 1280 × 840 · 成长与行动的独立页面；示例尚未形成目标
+
+<a href="assets/screenshots/settings.png"><img src="assets/screenshots/settings.png" width="100%" alt="SeedBank 0.0.1 · 设置"></a>
+
+**设置** · 1280 × 840 · 支持的服务说明与自有 API Key 配置入口
 
 ### 日常的五个入口
 
@@ -82,7 +100,7 @@
 
 记忆可以回看与更正，经历能参与后续对话。持续成长仍需要时间与观察。
 
-新版五页实机图将在采集完成后补充。 [截图状态与采集约定](docs/screenshots.md)
+画面来自同一个已检查的 Windows 程序；构建摘要与采集范围见截图记录。 [截图状态与采集约定](docs/screenshots.md)
 
 <a name="extend"></a>
 <h2><img src="assets/readme/section-extend-zh-CN.svg" width="100%" alt="让更多人，为这一生添一点可能。"></h2>
@@ -102,7 +120,7 @@
 {"id":"hello-1","op":"hello"}
 ```
 
-Python、QML、前端、模型工程、角色制作、无障碍与翻译，都有值得参与的地方。接入指南说明操作范围、请求编号、记忆来源、休眠行为以及人工样例的使用方式。 本地文本插件已新增管理界面，尚待用户验收；[插件规范与便签示例](docs/plugins.md)可供开发者起步。当前没有权限沙箱或自动工具调用。
+Python、QML、前端、模型工程、角色制作、无障碍与翻译，都有值得参与的地方。接入指南说明操作范围、请求编号、记忆来源、休眠行为以及人工样例的使用方式。 本地文本插件提供管理界面，已完成本轮隔离检查；[插件规范与便签示例](docs/plugins.md)可供开发者起步。当前没有权限沙箱或自动工具调用。
 
 **[接入协议与扩展路线 →](docs/extensions.md)** · **[如何参与 →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 

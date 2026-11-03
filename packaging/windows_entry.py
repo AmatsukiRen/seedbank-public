@@ -194,6 +194,15 @@ def _recover_stdio() -> None:
                 setattr(sys, name, open(os.devnull, mode, encoding="utf-8"))
             except OSError:  # pragma: no cover - 极端环境
                 pass
+        # Windowed executables may retain redirected streams with a system
+        # codepage instead of setting them to None. Worker protocols require
+        # UTF-8 independently of that locale or PYTHONUTF8 environment support.
+        stream = getattr(sys, name, None)
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="strict")
+            except (OSError, ValueError):
+                pass
 
 
 # ---------------------------------------------------------------------------

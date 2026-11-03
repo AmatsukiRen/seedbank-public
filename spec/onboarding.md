@@ -88,7 +88,7 @@ seed brain 小蓝.life --test      # 测一下这个端点
 
 ## 5. 一键包怎么装
 
-见 [打包说明](packaging.md)。打包后的 exe 里带上了：
+见 [打包说明](../docs/development.md)。打包后的 exe 里带上了：
 
 - `tools/seed/seedbank/` 全部模块与资源
 - `assets/pet/`（她的动画）

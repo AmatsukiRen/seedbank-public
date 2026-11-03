@@ -2,14 +2,23 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import tempfile
 import time
 from pathlib import Path
 
 
 def run(output, *, native=False):
+    def no_network(event, _args):
+        if event in ("socket.connect", "socket.bind", "socket.getaddrinfo", "socket.sendto"):
+            raise RuntimeError("Packaged UI self-check is offline")
+    sys.addaudithook(no_network)
     with tempfile.TemporaryDirectory(prefix="seedbank-qt-package-") as directory:
-        os.environ.update(HOME=directory, USERPROFILE=directory, SEEDBANK_LANG="zh_CN", QT_QPA_PLATFORM="windows" if native else "offscreen", QT_QPA_FONTDIR=directory)
+        os.environ.update(HOME=directory, USERPROFILE=directory, SEEDBANK_LANG="zh_CN", QT_QPA_PLATFORM="windows" if native else "offscreen", QT_QPA_FONTDIR=directory,
+                          APPDATA=str(Path(directory) / "Roaming"), LOCALAPPDATA=str(Path(directory) / "Local"))
+        os.environ.pop("SEEDBANK_EGG", None)
+        if not native:
+            os.environ["QT_QUICK_BACKEND"] = "software"
         from PySide6.QtCore import QCoreApplication, QEvent, QObject, Qt, qInstallMessageHandler
         from PySide6.QtGui import QFontDatabase, QImage
         from PySide6.QtQml import QQmlEngine, QQmlExpression
@@ -65,7 +74,7 @@ def run(output, *, native=False):
                     raise RuntimeError(f"No pixels for page {page}")
                 rendered.append([picture.width(), picture.height()])
             settings = root.findChild(QObject, "settingsPage")
-            for section in range(4):
+            for section in range(6):
                 settings.setProperty("section", section)
                 settle()
             for language in ("zh_CN", "en_US", "ja_JP", "ko_KR"):
@@ -116,7 +125,7 @@ def run(output, *, native=False):
             report = {"ok": True, "welcome_rendered": True, "avatar_stage_layout": True,
                       "live2d_rendering": "not_exercised", "diary_selection": True,
                       "diary_sizes": diary_sizes,
-                      "pages_rendered": len(rendered), "settings_sections": 4, "languages": 4,
+                      "pages_rendered": len(rendered), "settings_sections": 6, "languages": 4,
                       "sizes": rendered, "offline_chat": True, "qml_errors": failures,
                       "graphics_api": str(root.rendererInterface().graphicsApi()), "messages": messages}
             Path(output).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")

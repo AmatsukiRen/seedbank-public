@@ -1694,6 +1694,7 @@ class Bridge(QObject):
         if not str(config.get("onebot_http", "")).startswith(("http://", "https://")):
             raise ValueError(t("接口地址需要以 http:// 或 https:// 开头。"))
         config["groups"] = qq.parse_groups(config.get("groups"))
+        config["secret_env"] = qq.secret_env(config)
         config["pack"] = str(self.pack)
         return config
 

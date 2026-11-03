@@ -46,9 +46,9 @@ def run(output, model=""):
                           SEEDBANK_LANG="zh_CN", QT_QPA_PLATFORM="windows")
         os.environ.pop("SEEDBANK_EGG", None)
         os.environ.pop("QT_QUICK_BACKEND", None)
-        from PySide6.QtCore import QCoreApplication, QEvent, QObject, qInstallMessageHandler
+        from PySide6.QtCore import QCoreApplication, QEvent, QObject, QUrl, qInstallMessageHandler
         from PySide6.QtGui import QImage, QPainter
-        from PySide6.QtQml import QQmlEngine, QQmlExpression
+        from PySide6.QtQml import QQmlComponent, QQmlEngine, QQmlExpression
         from ..bridge import Bridge as CoreBridge
         from ..onboarding import find_egg
         from ..pack import hatch
@@ -96,6 +96,18 @@ def run(output, model=""):
             wait_for(lambda: bridge.ready and not bridge._pending, "open artificial life")
             engine = create_engine(bridge, test_mode=True)
             root = engine.rootObjects()[0]
+            # Item capture excludes the window clear color. Paint that same
+            # color inside the captured tree before text is rendered: compositing
+            # afterwards cannot undo subpixel text blended against transparency.
+            background_component = QQmlComponent(engine)
+            background_component.setData(
+                b'import QtQuick; Rectangle { anchors.fill: parent; z: -10000 }', QUrl())
+            background = background_component.create()
+            if background is None:
+                raise RuntimeError("Could not prepare the capture background")
+            background.setParent(root.contentItem())
+            background.setParentItem(root.contentItem())
+            background.setProperty("color", root.color())
             expression = QQmlExpression(QQmlEngine.contextForObject(root), root,
                 "flags = Qt.Tool | Qt.FramelessWindowHint | Qt.WindowDoesNotAcceptFocus | Qt.WindowTransparentForInput")
             expression.evaluate()
@@ -125,6 +137,11 @@ def run(output, model=""):
                         raise RuntimeError("The demonstration diary has no readable body")
                 elif index == 3:
                     bridge.lifeSection("growth")
+                elif index == 4:
+                    # Show the artificial stub connection settings, not the
+                    # selected model's absolute machine-local path.
+                    settings = root.findChild(QObject, "settingsPage")
+                    settings.setProperty("section", 1)
                 wait_for(lambda: not bridge._pending, name)
                 settle(.6)
                 # Async item capture avoids holding the GIL across a native render.

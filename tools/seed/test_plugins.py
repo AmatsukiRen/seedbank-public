@@ -203,6 +203,19 @@ class PluginTest(unittest.TestCase):
         self.assertEqual(self.manager.run(identifier, "你好"), "人工: 你好")
         self.assertIsNone(self.manager._process)
 
+    def test_worker_response_survives_a_windowed_ascii_stream(self):
+        self.entry.write_text("def handle(request):\n    return {'text': '中文 • ☔'}\n", encoding="utf-8")
+        incoming = io.TextIOWrapper(io.BytesIO(json.dumps({"protocol": PROTOCOL}).encode()), encoding="utf-8")
+        outgoing = io.TextIOWrapper(io.BytesIO(), encoding="ascii")
+        self.addCleanup(incoming.close)
+        self.addCleanup(outgoing.close)
+        with mock.patch.object(sys, "stdin", incoming), mock.patch.object(sys, "stdout", outgoing), \
+                mock.patch.object(sys, "stderr", io.StringIO()), mock.patch.object(sys, "path", list(sys.path)):
+            code = worker_main([str(self.entry)])
+        self.assertEqual(code, 0)
+        outgoing.flush()
+        self.assertEqual(json.loads(outgoing.buffer.getvalue())["text"], "中文 • ☔")
+
 
 if __name__ == "__main__":
     unittest.main()

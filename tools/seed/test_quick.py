@@ -658,6 +658,18 @@ class QuickTest(unittest.TestCase):
         self.assertTrue(stage.isVisible())
         self.assert_no_errors()
 
+    def test_change_character_entry_stays_available_in_four_languages(self):
+        self.interface()
+        for language in ("zh_CN", "en_US", "ja_JP", "ko_KR"):
+            self.bridge.preference("language", language)
+            self.app.processEvents()
+            button = self.find("changeAvatarModel")
+            self.assertTrue(button.isVisible())
+            self.assertTrue(button.isEnabled())
+            if language != "zh_CN":
+                self.assertNotEqual(button.property("text"), "更换角色")
+        self.assert_no_errors()
+
     def test_diary_read_failure_shows_retry_and_recovers(self):
         self.interface()
         self.wait_for(lambda: not self.bridge._pending)

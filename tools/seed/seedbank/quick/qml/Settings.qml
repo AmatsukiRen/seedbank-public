@@ -288,10 +288,11 @@ ColumnLayout {
                 detail: Style.tr("连接你已有的第三方 OneBot 桥；这里只负责接收和回复消息。")
                 Layout.fillWidth: true
                 Repeater {
-                    model: [{key: "owner", label: "主人 QQ 号", fallback: ""}, {key: "groups", label: "群白名单（逗号分隔）", fallback: ""}, {key: "self_id", label: "她使用的 QQ 号", fallback: ""}, {key: "onebot_http", label: "OneBot HTTP 地址", fallback: "http://127.0.0.1:3000"}, {key: "port", label: "本机上报端口", fallback: "5701"}]
+                    model: [{key: "owner", label: "主人 QQ 号", fallback: ""}, {key: "groups", label: "群白名单（逗号分隔）", fallback: ""}, {key: "self_id", label: "她使用的 QQ 号", fallback: ""}, {key: "onebot_http", label: "OneBot HTTP 地址", fallback: "http://127.0.0.1:3001"}, {key: "port", label: "本机上报端口", fallback: "8790"}, {key: "secret_env", label: "上报签名密钥环境变量", fallback: "SEEDBANK_ONEBOT_SECRET"}]
                     Field { required property var modelData; caption: Style.tr(modelData.label); text: String(bridge.qqForm[modelData.key] ?? modelData.fallback); Layout.fillWidth: true; onEdited: function(value) { bridge.editQQ(modelData.key, value) } }
                 }
                 LabelText { text: Style.tr("访问令牌使用环境变量 SEEDBANK_ONEBOT_TOKEN，不写进配置。"); Layout.fillWidth: true; font.pixelSize: 13 * Style.scale; color: Style.muted }
+                LabelText { text: Style.tr("上报密钥默认使用 SEEDBANK_ONEBOT_SECRET；请在 OneBot HTTP 上报的 secret 中填写相同密钥。此处只填写变量名，未配置密钥不能启动连接。"); Layout.fillWidth: true; font.pixelSize: 13 * Style.scale; color: Style.muted }
                 RowLayout {
                     AppButton { text: bridge.qqRunning ? Style.tr("停止连接") : Style.tr("启动连接"); enabled: !bridge.busy; onClicked: bridge.toggleQQ() }
                     AppButton { text: Style.tr("测试连接"); enabled: !bridge.busy; onClicked: bridge.testQQ() }

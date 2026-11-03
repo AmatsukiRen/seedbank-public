@@ -1,0 +1,55 @@
+{
+  "scenario": "artificial life / offline stub / explicitly advanced one day",
+  "started": "2026-11-03T23:32:28.384390+08:00",
+  "finished": "2026-11-03T23:32:38.751393+08:00",
+  "captures": [
+    {
+      "page": "companion",
+      "file": "companion.png",
+      "width": 1280,
+      "height": 840,
+      "sha256": "8d022ea0b23b383b312dec8fe96cc4780f1e7de1e8b96a153b5b752901406a56",
+      "background": "#f3f6fa",
+      "captured": "2026-11-03T23:32:36.019193+08:00"
+    },
+    {
+      "page": "diary",
+      "file": "diary.png",
+      "width": 1280,
+      "height": 840,
+      "sha256": "b49d7cc7e8ff980488a6d00f53724d5b488c6ed0c66074672d27207d00c9173d",
+      "background": "#f3f6fa",
+      "captured": "2026-11-03T23:32:36.711629+08:00"
+    },
+    {
+      "page": "memories",
+      "file": "memories.png",
+      "width": 1280,
+      "height": 840,
+      "sha256": "2ea9efde9d16739dc526b512a5ca0f7cb473778643a9b401e04dc0071dc5be1c",
+      "background": "#f3f6fa",
+      "captured": "2026-11-03T23:32:37.362401+08:00"
+    },
+    {
+      "page": "life",
+      "file": "life.png",
+      "width": 1280,
+      "height": 840,
+      "sha256": "4253bf1717026c7cba52be913e1682ced591984f4bc422788db0ba946736429d",
+      "background": "#f3f6fa",
+      "captured": "2026-11-03T23:32:38.011720+08:00"
+    },
+    {
+      "page": "settings",
+      "file": "settings.png",
+      "width": 1280,
+      "height": 840,
+      "sha256": "9fcfbac34dc6901fcab296610cccf5c6c836949ce78e4de93298d93eab64b161",
+      "background": "#f3f6fa",
+      "captured": "2026-11-03T23:32:38.694579+08:00"
+    }
+  ],
+  "runtime_sha256": "f709a04ab7feb9c2294905835927ade0474629fa28d23e5293a1929597bf02c6",
+  "version": "0.0.1",
+  "scope": "Actual packaged pages, artificial offline life; not real model conversations or autonomous-growth evidence."
+}

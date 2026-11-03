@@ -1,8 +1,8 @@
 # 手：动作协议（v1.0）
 
-> 2026-11-02 修订扩展（已实现，未测试）：hands@3 支持待提醒事项的用户 revise/cancel，原内容与原因留在逐条 history，当前内容必须与修订衔接，cancelled 不再执行且不能被 done 复活。expected 核对整条提醒，request_id 对应可恢复的 reminder_change 输入；停止未完成输入不取消已建立事项。Qt、CLI/桥和完整备份均接入，详见 [提醒修订](../docs/39-reminder-revisions.md)。这是明确用户操作，不是模型可自行执行的新动作。
+> 2026-11-02 修订扩展（已实现，未测试）：hands@3 支持待提醒事项的用户 revise/cancel，原内容与原因留在逐条 history，当前内容必须与修订衔接，cancelled 不再执行且不能被 done 复活。expected 核对整条提醒，request_id 对应可恢复的 reminder_change 输入；停止未完成输入不取消已建立事项。Qt、CLI/桥和完整备份均接入，详见 [提醒修订](../docs/protocol-guide.md#relationships)。这是明确用户操作，不是模型可自行执行的新动作。
 
-> 2026-11-02 日历扩展（已实现，未测试）：新桌面提醒使用 hands@2 的 due_on，旧 due_day 仍表示日页。日历过期保持 pending，恢复时在实际日页明确补充；said_via 区分 local_transcript 与 manual，不证明远端送达或已读。仅引用原句不自动完成新提醒；正文、事件和状态同次事务提交。旧程序可能在写入时丢失日历行，须使用兼容运行器。详见 [日历期限](../docs/37-calendar-deadlines.md)。下文是旧日页协议，missed/遗憾规则仅适用于旧提醒。
+> 2026-11-02 日历扩展（已实现，未测试）：新桌面提醒使用 hands@2 的 due_on，旧 due_day 仍表示日页。日历过期保持 pending，恢复时在实际日页明确补充；said_via 区分 local_transcript 与 manual，不证明远端送达或已读。仅引用原句不自动完成新提醒；正文、事件和状态同次事务提交。旧程序可能在写入时丢失日历行，须使用兼容运行器。详见 [日历期限](../docs/protocol-guide.md#relationships)。下文是旧日页协议，missed/遗憾规则仅适用于旧提醒。
 
 状态：1.17 起随 Seedbank 发布。
 

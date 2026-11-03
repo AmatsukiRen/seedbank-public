@@ -76,7 +76,7 @@ def handle(request):
 
 ## 用户执行验收
 
-新实现尚未运行测试。仓库根目录执行：
+本轮源码专项 19 项与实际 exe 的中文返回、配置重开检查通过，准确范围见[验收记录](acceptance.md)。需要复跑时，在仓库根目录执行：
 
 ```powershell
 pwsh -File packaging/run_offline.ps1 -Suite plugins

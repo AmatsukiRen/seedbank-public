@@ -1,0 +1,35 @@
+name: Bug report / 问题反馈
+description: Report a reproducible problem using artificial data.
+body:
+  - type: markdown
+    attributes:
+      value: "For security vulnerabilities, follow SECURITY.md. Do not attach real life packs, private conversations or credentials. / 安全漏洞请按 SECURITY.md 私下报告；不要上传真实生命包、聊天或密钥。"
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit / 版本或提交
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Operating system and installation method / 系统与安装方式
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Artificial reproduction / 人工数据复现步骤
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected and actual behavior / 预期与实际结果
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted logs or screenshots / 脱敏日志或截图
+      description: Include only the relevant excerpt. Remove account identifiers, local paths, keys and private content.

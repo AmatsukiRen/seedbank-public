@@ -19,10 +19,11 @@
 
 ## Windows 生产打包
 
-安装[源码运行依赖](getting-started.md)，另外安装 PyInstaller：
+创建 Python 3.13 的独立虚拟环境，使用已登记的 Windows 依赖版本：
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install "PyInstaller==6.22.3"
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r packaging/requirements-windows.lock
 $env:PYTHON = (Resolve-Path .\.venv\Scripts\python.exe).Path
 powershell -NoProfile -ExecutionPolicy Bypass -File packaging/build_windows.ps1 -NoInstall -SkipSmoke
 ```
@@ -34,19 +35,39 @@ powershell -NoProfile -ExecutionPolicy Bypass -File packaging/build_windows.ps1 
 
 当前未配置自动发布工作流，提交和打标签不会自动公开仓库或发布二进制。
 
-## 用户执行的离线回归
+`requirements-windows.lock` 固定本次构建的直接与传递依赖，不含本机路径或凭据。更新依赖时，在已安装目标版本的 Windows 环境运行 `python packaging/freeze_dependencies.py` 并复测；版本锁定不保证不同系统产生逐字节相同的 exe。构建明确排除未使用的 Qt Virtual Keyboard DLL 和输入插件，其许可与普通 Qt LGPL 模块不同。
 
-当前工作约定由用户执行测试。代理未在迁入后运行以下命令：
+## 隔离离线回归
+
+以下命令均只使用临时人工数据。执行结果与范围见 [验收记录](acceptance.md)：
 
 ```powershell
 # 临时 HOME、离线保护；日志保留在本地 artifacts，不入 Git
 powershell -NoProfile -ExecutionPolicy Bypass -File packaging/run_offline.ps1 -Suite core
 powershell -NoProfile -ExecutionPolicy Bypass -File packaging/run_offline.ps1 -Suite integrations
 powershell -NoProfile -ExecutionPolicy Bypass -File packaging/run_offline.ps1 -Suite plugins
+powershell -NoProfile -ExecutionPolicy Bypass -File packaging/run_offline.ps1 -Suite security
 ```
 
 使用与运行源码相同的 Python；可通过 `PYTHON` 指定 venv 解释器。Qt 用例使用离屏软件模式，SDK 相关用例使用模拟对象；不代表原生画面实测。
 新环境、空模型选择和 Windows 图标需另按 [验收步骤](acceptance.md) 人工确认。
 历史真实模型观察脚本及其固定人工档案未迁入；没有继承任何维护者的测试调用额度。
 
+GitHub 的 `Offline regressions (manual)` 工作流只有 `workflow_dispatch` 入口，由维护者明确启动；push、PR 和标签不自动触发，也不执行模型或聊天平台请求。
+
 不要直接对真实个体运行调试、测试、示例写入或并行写会话。分享问题时只提供人工复现。
+
+## 检查实际 Windows 包
+
+```powershell
+# 只读取 exe 的归档和图标资源，不启动应用
+.\.venv\Scripts\python.exe packaging/verify_candidate.py dist/seedbank.exe
+# 启动当前 exe 的隔离界面、插件子进程和五页采集；无桌面输入操作
+.\.venv\Scripts\python.exe packaging/run_packaged_checks.py dist/seedbank.exe artifacts/package-check
+# 若明确选定了获准使用的本地模型，可追加 --model "完整路径.model3.json"
+# 这会增加两轮原生渲染、动作、重载与休眠恢复检查，不修改模型文件
+```
+
+每次使用新的输出目录。入口创建临时偏好和人工生命包，不读取个人连接设置；不调用真实模型或聊天平台。原生检查仍不等于各种显卡、所有 Live2D 模型、真实渠道或长期稳定性均已验收。
+
+仓库内容检查：`python tools/repository_check.py --history` 检查本地文档链接、JSON、排除路径与历史对象中的常见凭据模式，输出仅含文件名，不显示匹配值；它不是覆盖所有密钥类型的安全认证。只采集文档画面可用 `packaging/capture_pages.ps1`，见[截图说明](screenshots.md)。

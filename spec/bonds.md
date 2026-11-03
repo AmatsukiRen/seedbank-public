@@ -1,8 +1,8 @@
 # 关系（bonds.json）
 
-> 2026-11-02 日历扩展（未测试）：新 relationships@2 agreement 使用 due_on，过期仍只表示待核对；review 保留原日期。旧 bonds 承诺和 relationships@1 的 due_day 不自动转换，见 [日历期限](../docs/37-calendar-deadlines.md)。
+> 2026-11-02 日历扩展（未测试）：新 relationships@2 agreement 使用 due_on，过期仍只表示待核对；review 保留原日期。旧 bonds 承诺和 relationships@1 的 due_day 不自动转换，见 [日历期限](../docs/protocol-guide.md#relationships)。
 
-2026-11-02 扩展（未测试）：新的相处、分歧、联系设置和有条件的约定使用 `mind/relationships.jsonl`，见 [相处与约定](../docs/26-relationships-and-commitments.md)。本文件保留旧记录兼容说明；旧承诺的 kept/broken 是历史状态，不等于当前已核实的履约。交流次数不推导亲密或信任。
+2026-11-02 扩展（未测试）：新的相处、分歧、联系设置和有条件的约定使用 `mind/relationships.jsonl`，见 [相处与约定](../docs/protocol-guide.md#relationships)。本文件保留旧记录兼容说明；旧承诺的 kept/broken 是历史状态，不等于当前已核实的履约。交流次数不推导亲密或信任。
 
 > 状态：v1.0（2026-10-31，Seedbank 1.12 起）。她不只是被照顾，也开始**记住和你的关系**。
 

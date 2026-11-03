@@ -22,6 +22,18 @@
 
 ## 共用设置
 
+### QQ HTTP 上报认证与去重
+
+QQ 设置页新增“上报签名密钥环境变量”，默认 `SEEDBANK_ONEBOT_SECRET`。将随机密钥放在这个环境变量中，并在 OneBot 的 HTTP 上报配置 `secret` 填入相同值；重新启动 SeedBank 后生效。界面和普通配置只记录变量名。调用 OneBot API 的 `SEEDBANK_ONEBOT_TOKEN` 是另一项发送凭据，不能替代上报签名。
+
+Windows 可搜索“编辑账户的环境变量”，在当前用户变量中新增 `SEEDBANK_ONEBOT_SECRET`，值填写自行生成的随机密钥；把同一值填入 OneBot 的 HTTP 上报 `secret`。保存后关闭并重新打开 SeedBank。不要把密钥值发到 Issue 或填进“环境变量名”一栏。
+
+接收器按 [OneBot v11 HTTP POST 规范](https://github.com/botuniverse/onebot-11/blob/master/communication/http-post.md)校验原始正文的 `X-Signature: sha1=...`。未设置密钥时拒绝启动；缺少签名返回 401，无效签名返回 403。第三方实现必须支持该签名配置，不提供关闭认证的开关。命令行可用 `--secret-env VARIABLE_NAME` 指定变量名，不要在命令行粘贴实际密钥。
+
+同一账号、会话、消息编号只领取一次，领取和投递状态保存在本机 `.seedbank/channels/` 的投递账本，不存正文或密钥。重开适配器仍去重。必须携带 `self_id` 与 `message_id`；缺失编号的消息不进入生成流程。明确失败、处理中断或投递结果未知的事件不自动重新生成/发送；可在桌面查看未完成请求。人工处理后应发送一条新消息，不能依靠重报旧事件补发。
+
+HTTP 接收最多同时处理 8 个请求，待处理事件最多排队 32 条、按顺序处理；满载返回 503，拒绝的事件尚未领取，可由桥接端稍后重报。停止连接后丢弃待处理事件；已经交给平台的消息无法撤回。仅本机监听，不建议将接收端口映射到公网。
+
 新增渠道位于 **设置 → 聊天渠道**；QQ / SnowLuma 使用原 **QQ** 页。
 
 1. 在对应平台创建自己的机器人，取得下表所需凭据。
@@ -70,7 +82,7 @@
 
 在已有 OneBot 实现里启用 HTTP API，将消息上报到 QQ 页填写的本机端口，例如 `http://127.0.0.1:8790/`。SeedBank 的 OneBot HTTP 地址应填写桥端实际 API 地址；常见端口并不统一，不必照抄示例。主人 QQ 号、群白名单、机器人 QQ 号分别填写。
 
-设置 `SEEDBANK_ONEBOT_TOKEN` 并使桥端的访问令牌/上报鉴权配置匹配。OneBot 的登录、平台权限及协议兼容仍由所选实现负责。不要同时把相同 QQ 事件经 OneBot 和 AstrBot 两条路径交给同一个体。
+设置 `SEEDBANK_ONEBOT_TOKEN` 与桥端 HTTP API 的访问令牌匹配；另外设置 `SEEDBANK_ONEBOT_SECRET` 与 HTTP 上报的签名密钥匹配。两者用途不同。OneBot 的登录、平台权限及协议兼容仍由所选实现负责。不要同时把相同 QQ 事件经 OneBot 和 AstrBot 两条路径交给同一个体。
 
 ### AstrBot
 

@@ -1,42 +1,42 @@
 # 生命包格式（Life Pack）· v0.20
 
-> 目标历史回查（2026-11-03）：已有 `development@1 goal` 按原事件只读投影为 `goal_history`，保留原始编号、时间和依据；最新可见状态是临时注释，不写回账本。派生索引 v11 从旧缓存重建，不改变正式档案或补写旧理由。引用与撤回规则见 [旧目标与修订理由](../docs/103-past-goals-and-revision-reasons.md)。
+> 目标历史回查（2026-11-03）：已有 `development@1 goal` 按原事件只读投影为 `goal_history`，保留原始编号、时间和依据；最新可见状态是临时注释，不写回账本。派生索引 v11 从旧缓存重建，不改变正式档案或补写旧理由。引用与撤回规则见 [旧目标与修订理由](../docs/protocol-guide.md#agency)。
 
-> 行动理由回查（2026-11-03）：原 `development@1 outcome.data.proposal` 可只读投影为可引用的档案候选；不新增正式账本、不修改原回执。`mind/search.sqlite3` 缓存升级 v10 并可重建，人生回顾引用原 `d_` 编号及账本锚点，来源撤回继续约束派生内容。见[全档案回查](../docs/101-action-reason-archive-recall.md)。
+> 行动理由回查（2026-11-03）：原 `development@1 outcome.data.proposal` 可只读投影为可引用的档案候选；不新增正式账本、不修改原回执。`mind/search.sqlite3` 缓存升级 v10 并可重建，人生回顾引用原 `d_` 编号及账本锚点，来源撤回继续约束派生内容。见[全档案回查](../docs/protocol-guide.md#agency)。
 
-> 行动说明扩展（2026-11-03）：`development@1 outcome.data.proposal` 增加可选 `seedbank/action-proposal@1`，保存提出时的理由、时间、来源、依据与生成信息；具体字段及保护规则见 [成长协议](development.md) 和 [本轮证据](../docs/100-action-reasons-and-sources.md)。不迁移、回填旧行，原备份包含完整记录；旧运行器没有新增说明的来源投影规则，请使用当前版本。
+> 行动说明扩展（2026-11-03）：`development@1 outcome.data.proposal` 增加可选 `seedbank/action-proposal@1`，保存提出时的理由、时间、来源、依据与生成信息；具体字段及保护规则见 [成长协议](development.md) 和 [本轮证据](../docs/protocol-guide.md#agency)。不迁移、回填旧行，原备份包含完整记录；旧运行器没有新增说明的来源投影规则，请使用当前版本。
 
-> 经验取舍扩展（2026-11-02，未测试）：development@1 的 outcome.practice.strategy_choices 和 creation.metadata.strategy_choices 增加相同的可选 strategy-choices@1 数据块，包含候选、模型自述、经验摘要、未说明/拒收状态。不迁移旧行，不改变既有学习格式。读取核对实际提供、源事件、经验版本和作品；旧运行器可能忽略字段，见 [创作取舍](../docs/40-strategy-choices.md)。
+> 经验取舍扩展（2026-11-02，未测试）：development@1 的 outcome.practice.strategy_choices 和 creation.metadata.strategy_choices 增加相同的可选 strategy-choices@1 数据块，包含候选、模型自述、经验摘要、未说明/拒收状态。不迁移旧行，不改变既有学习格式。读取核对实际提供、源事件、经验版本和作品；旧运行器可能忽略字段，见 [创作取舍](../docs/protocol-guide.md#agency)。
 
-> 提醒修订扩展（2026-11-02，未测试）：首次修改/取消待提醒事项将 hands.json 保存为 hands@3，新增 cancelled 及逐条 history（revision/action/reason/request_id/day/on/at/before/after）。历史衔接与当前内容不符时停止写入；reminder_change 输入与完成回执随原请求机制持久化，提醒发出事件注明 reminder_revision。旧日页不自动换成日历，旧版本读取不迁移。兼容和恢复见 [提醒修订](../docs/39-reminder-revisions.md)。
+> 提醒修订扩展（2026-11-02，未测试）：首次修改/取消待提醒事项将 hands.json 保存为 hands@3，新增 cancelled 及逐条 history（revision/action/reason/request_id/day/on/at/before/after）。历史衔接与当前内容不符时停止写入；reminder_change 输入与完成回执随原请求机制持久化，提醒发出事件注明 reminder_revision。旧日页不自动换成日历，旧版本读取不迁移。兼容和恢复见 [提醒修订](../docs/protocol-guide.md#relationships)。
 
-> 纠错读取扩展（2026-11-02，未测试）：已有 facts@1 resolve/correction 参与旧生成内容退出计算，保留原始文件；fact_notes 是当前、按范围计算的投影，不信任存档或缓存自带的旧标注。没有格式迁移，但旧运行器不具备新读取规则。运行器固定回查说明的生成来源增加 runtime_guard，见 [纠错贯通](../docs/38-corrections-through-recall.md)。
+> 纠错读取扩展（2026-11-02，未测试）：已有 facts@1 resolve/correction 参与旧生成内容退出计算，保留原始文件；fact_notes 是当前、按范围计算的投影，不信任存档或缓存自带的旧标注。没有格式迁移，但旧运行器不具备新读取规则。运行器固定回查说明的生成来源增加 runtime_guard，见 [纠错贯通](../docs/protocol-guide.md#memory)。
 
-> 日历期限扩展（2026-11-02，未测试）：hands@2 日历提醒使用 due_on/created_on/said_on/said_via，due_day=null，允许混合旧日页行；relationships@2 agreement 使用可空 due_on。request.kind=reminder_edit 支持恢复和明确取消未完成输入；本地提醒经历标记 runtime 与 local_transcript。旧运行器不安全兼容，新格式、事务、备份与限制见 [日历期限](../docs/37-calendar-deadlines.md)。
+> 日历期限扩展（2026-11-02，未测试）：hands@2 日历提醒使用 due_on/created_on/said_on/said_via，due_day=null，允许混合旧日页行；relationships@2 agreement 使用可空 due_on。request.kind=reminder_edit 支持恢复和明确取消未完成输入；本地提醒经历标记 runtime 与 local_transcript。旧运行器不安全兼容，新格式、事务、备份与限制见 [日历期限](../docs/protocol-guide.md#relationships)。
 
-> 经验观察扩展（2026-11-02，未测试）：learning@3 feedback 增加 lesson_observations、lesson_hashes、input_hash，绑定实际提供的经验与用户输入。新回执 practice.lesson_observation_ids 记录随候选提供的反馈版本，scope 区分创作已提供与执行时可用。旧 @1/@2 继续读取，新写入需要新版运行器。见 [经验观察](../docs/36-experience-observations.md)。
+> 经验观察扩展（2026-11-02，未测试）：learning@3 feedback 增加 lesson_observations、lesson_hashes、input_hash，绑定实际提供的经验与用户输入。新回执 practice.lesson_observation_ids 记录随候选提供的反馈版本，scope 区分创作已提供与执行时可用。旧 @1/@2 继续读取，新写入需要新版运行器。见 [经验观察](../docs/protocol-guide.md#agency)。
 
-> 经验复用扩展（2026-11-02，未测试）：`mind/learning.jsonl` 新策略使用 learning@2 adjustment，含版本、transfer 边界、反馈/标准/输入摘要，与旧 @1 行共存。新增 learning_strategy 经历和 learning_edit.strategy；新创作回执 practice 含 lesson_ids、task，旧回执不补造。旧运行器不具备这些语义，见 [可复用经验](../docs/35-reusable-experience.md)。
+> 经验复用扩展（2026-11-02，未测试）：`mind/learning.jsonl` 新策略使用 learning@2 adjustment，含版本、transfer 边界、反馈/标准/输入摘要，与旧 @1 行共存。新增 learning_strategy 经历和 learning_edit.strategy；新创作回执 practice 含 lesson_ids、task，旧回执不补造。旧运行器不具备这些语义，见 [可复用经验](../docs/protocol-guide.md#agency)。
 
-> 提取撤回扩展（2026-11-02，未测试）：`mind/facts.jsonl` 可追加 facts@3 的 retract 行，绑定当前模型 claim 和私人 fact_retraction 用户事件的摘要；request.kind=fact_edit、action=retract。新提取将同轮回复编号另存为 generation.extraction_reply_ids，不把同轮输出视为输入证据；旧行读取时兼容处理，不重写。旧运行器不具备这些语义，完整备份保留记录与待完成请求，见 [撤回误读](../docs/34-mistaken-extractions.md)。
+> 提取撤回扩展（2026-11-02，未测试）：`mind/facts.jsonl` 可追加 facts@3 的 retract 行，绑定当前模型 claim 和私人 fact_retraction 用户事件的摘要；request.kind=fact_edit、action=retract。新提取将同轮回复编号另存为 generation.extraction_reply_ids，不把同轮输出视为输入证据；旧行读取时兼容处理，不重写。旧运行器不具备这些语义，完整备份保留记录与待完成请求，见 [撤回误读](../docs/protocol-guide.md#memory)。
 
-> 日期修订扩展（2026-11-02，未测试）：`mind/facts.jsonl` 可追加 facts@2 的 timing 行，与原 facts@1 行共存，绑定原目标/用户输入摘要及日期版本链。新经历类型 fact_time_revision；request.kind=fact_time_edit。旧运行器不具备本轮语义，旧 Python 会拒绝未知格式。完整备份保留记录与请求，见 [日期修订](../docs/33-date-revisions-and-derived-memory.md)。
+> 日期修订扩展（2026-11-02，未测试）：`mind/facts.jsonl` 可追加 facts@2 的 timing 行，与原 facts@1 行共存，绑定原目标/用户输入摘要及日期版本链。新经历类型 fact_time_revision；request.kind=fact_time_edit。旧运行器不具备本轮语义，旧 Python 会拒绝未知格式。完整备份保留记录与请求，见 [日期修订](../docs/protocol-guide.md#memory)。
 
-> 单项日期扩展（2026-11-02，未测试）：facts@1 claim 可选 `starts_on`，仅表示有来源的明确生效起日，不取代记录时刻 `at`；现有 resolve.effective_on 提供变化边界。旧无日期记录不改写、不补齐。只读时间投影应用当前来源/放下/范围规则，备份继续保存原事实账本。见 [时间回查](../docs/32-memory-time-and-effective-dates.md)。
+> 单项日期扩展（2026-11-02，未测试）：facts@1 claim 可选 `starts_on`，仅表示有来源的明确生效起日，不取代记录时刻 `at`；现有 resolve.effective_on 提供变化边界。旧无日期记录不改写、不补齐。只读时间投影应用当前来源/放下/范围规则，备份继续保存原事实账本。见 [时间回查](../docs/protocol-guide.md#memory)。
 
-> 材料接收扩展（2026-11-02，未测试）：media@1 接收行可含 `intake_id`；request@1 的 `payload.kind=media_intake` 保存原件编号/摘要、随附说明事件、实际范围、接收时间及外部路径摘要。pending 请求与原件同次接收提交，完成回执与解释同次处理提交；停止处理保留原件，备份必须保留请求。见 [材料接收与恢复](../docs/31-media-intake-and-recovery.md)。
+> 材料接收扩展（2026-11-02，未测试）：media@1 接收行可含 `intake_id`；request@1 的 `payload.kind=media_intake` 保存原件编号/摘要、随附说明事件、实际范围、接收时间及外部路径摘要。pending 请求与原件同次接收提交，完成回执与解释同次处理提交；停止处理保留原件，备份必须保留请求。见 [材料接收与恢复](../docs/protocol-guide.md#media)。
 
-> 原始材料扩展（2026-11-02，未测试）：可选 `mind/media.jsonl`（`seedbank/media@1`）保存接收与放下记录，`media/<SHA前缀>/<SHA>.<扩展名>` 保存不可变原件，均属正式档案。`mind/media-cache.sqlite3` 及其旁文件是可重建缓存，备份排除。接收事件摘要绑定账本，原件状态参与回忆与连续性样本。见 [原始材料与后来的理解](../docs/30-original-media-and-reinterpretation.md)。
+> 原始材料扩展（2026-11-02，未测试）：可选 `mind/media.jsonl`（`seedbank/media@1`）保存接收与放下记录，`media/<SHA前缀>/<SHA>.<扩展名>` 保存不可变原件，均属正式档案。`mind/media-cache.sqlite3` 及其旁文件是可重建缓存，备份排除。接收事件摘要绑定账本，原件状态参与回忆与连续性样本。见 [原始材料与后来的理解](../docs/protocol-guide.md#media)。
 
-> 备份扩展（2026-11-02，未测试）：默认导出 `seedbank/backup@2`，ZIP 中增加 `seedbank-files.jsonl` 分行清单，头部保存清单摘要与总数，读取仍兼容 `backup@1`。生命包内部格式及出生身份不因此改写；恢复仅发布到新目录。见 [长期备份与恢复](../docs/29-long-term-backup-and-restore.md)。
+> 备份扩展（2026-11-02，未测试）：默认导出 `seedbank/backup@2`，ZIP 中增加 `seedbank-files.jsonl` 分行清单，头部保存清单摘要与总数，读取仍兼容 `backup@1`。生命包内部格式及出生身份不因此改写；恢复仅发布到新目录。见 [长期备份与恢复](../docs/protocol-guide.md#storage)。
 
-> 人生回顾与日期扩展（2026-11-02，未测试）：可选 `mind/life_story.jsonl` 为 `seedbank/life-story@1`，保存有来源、可修订的章节与转折解释，完整备份保留。日页逻辑编号仍连续；Python 支持带准确 `runtime_gap` 经历的前向日期间隔以及 `## 记录暂停`，旧运行器尚未接入。原日期与出生证不改写。[实现与限制](../docs/28-life-chapters-and-time.md)。
+> 人生回顾与日期扩展（2026-11-02，未测试）：可选 `mind/life_story.jsonl` 为 `seedbank/life-story@1`，保存有来源、可修订的章节与转折解释，完整备份保留。日页逻辑编号仍连续；Python 支持带准确 `runtime_gap` 经历的前向日期间隔以及 `## 记录暂停`，旧运行器尚未接入。原日期与出生证不改写。[实现与限制](../docs/protocol-guide.md#storage)。
 
-> 披露扩展（2026-11-02，未测试）：可选 `mind/disclosure.jsonl` 保存明确摘录、对外介绍及撤回的版本历史，属于档案而非缓存。新经历/生成记录使用 audience_id / disclosure_version / context_dependencies；旧无范围记录保持私人。完整备份保留这些数据，派生搜索索引可重建。见 [分享范围](../docs/27-disclosure-and-private-memory.md)。
+> 披露扩展（2026-11-02，未测试）：可选 `mind/disclosure.jsonl` 保存明确摘录、对外介绍及撤回的版本历史，属于档案而非缓存。新经历/生成记录使用 audience_id / disclosure_version / context_dependencies；旧无范围记录保持私人。完整备份保留这些数据，派生搜索索引可重建。见 [分享范围](../docs/protocol-guide.md#memory)。
 
-> 长期存储扩展（2026-11-02，未测试）：天数至少四位，可超过 9999；Python 的主要 JSONL 日志使用 `transaction@2` 追加恢复，同时支持旧 `@1` 待恢复事务。缓存可重建，旧档案不迁移。见 [长期存储说明](../docs/20-lifetime-storage.md)。
+> 长期存储扩展（2026-11-02，未测试）：天数至少四位，可超过 9999；Python 的主要 JSONL 日志使用 `transaction@2` 追加恢复，同时支持旧 `@1` 待恢复事务。缓存可重建，旧档案不迁移。见 [长期存储说明](../docs/protocol-guide.md#storage)。
 
-> 恢复扩展（2026-11-02，未测试）：可选 `mind/.transactions/` 保存活动事务的旧内容与意图；`mind/requests/pending/` 保存未完成输入，`mind/requests/completed/` 保存分目录的完成回执。事务恢复前不得将当前文件视作完整快照；这些输入/回执属于档案，不能当作缓存清理。搜索索引可重建。协议与限制见 [恢复说明](../docs/19-recovery-and-backup.md)。
+> 恢复扩展（2026-11-02，未测试）：可选 `mind/.transactions/` 保存活动事务的旧内容与意图；`mind/requests/pending/` 保存未完成输入，`mind/requests/completed/` 保存分目录的完成回执。事务恢复前不得将当前文件视作完整快照；这些输入/回执属于档案，不能当作缓存清理。搜索索引可重建。协议与限制见 [恢复说明](../docs/protocol-guide.md#storage)。
 
 > 当前扩展见 [development.md](development.md)：可选出生档案、成长事件与数字精力；旧包不重写出生数据。
 

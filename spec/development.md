@@ -1,42 +1,42 @@
 # 开放出生与经历驱动的成长 · v0.1
 
-目标历史回查扩展（2026-11-03）：每个 goal 事件只读投影为 `goal_history/goal_archive`，引用物理事件编号与原时间，不把逻辑目标编号当作某一版本。检索旧版本时附上最新可见记录的状态、理由、时间和场景；最新来源不可用不回退旧 active 状态。原目标限主人范围，分享使用明确引用副本；后续来源、预算裁剪和人生回顾均保持原版本关联。原账本格式不变，派生索引 v11、提示 v39，详见 [旧目标与修订理由](../docs/103-past-goals-and-revision-reasons.md)。
+目标历史回查扩展（2026-11-03）：每个 goal 事件只读投影为 `goal_history/goal_archive`，引用物理事件编号与原时间，不把逻辑目标编号当作某一版本。检索旧版本时附上最新可见记录的状态、理由、时间和场景；最新来源不可用不回退旧 active 状态。原目标限主人范围，分享使用明确引用副本；后续来源、预算裁剪和人生回顾均保持原版本关联。原账本格式不变，派生索引 v11、提示 v39，详见 [旧目标与修订理由](../docs/protocol-guide.md#agency)。
 
-行动理由回查扩展（2026-11-03）：有原始理由的 outcome 只读投影为 `kind=action_proposal/origin=action_archive`，沿用原 `d_` 回执编号与账本锚点。全档案检索、语义候选及人生回顾可引用；可见性与后续依赖按原提议和执行来源共同检查，模型纠错不能重写回执。v10 搜索索引为可重建缓存，账本无新格式、不回填旧行。v38 完整核心 343 项通过，见[行动理由全档案回查](../docs/101-action-reason-archive-recall.md)。下条未接入检索是 07:18 历史状态。
+行动理由回查扩展（2026-11-03）：有原始理由的 outcome 只读投影为 `kind=action_proposal/origin=action_archive`，沿用原 `d_` 回执编号与账本锚点。全档案检索、语义候选及人生回顾可引用；可见性与后续依赖按原提议和执行来源共同检查，模型纠错不能重写回执。v10 搜索索引为可重建缓存，账本无新格式、不回填旧行。v38 完整核心 343 项通过，见[行动理由全档案回查](../docs/protocol-guide.md#agency)。下条未接入检索是 07:18 历史状态。
 
-行动说明扩展（2026-11-03）：`development@1` 的 `outcome.data.proposal` 可选保存 `seedbank/action-proposal@1`，字段为 `at/reason/reason_truncated/source/evidence/generation`。理由最多 1000 字，超长明确标记；提议的生成信息与执行/创作的生成信息分开，成功、失败和未开始均保存原提议。旧回执和直接请求创作不补写理由。来源与接收范围独立检查，未来引用继承提议依赖，裁减整条回执时同步移除。329 项核心与相关专项已通过，范围及更早理由尚未接入检索的限制见 [行动理由与来源](../docs/100-action-reasons-and-sources.md)。下方各轮“未测试”是对应历史时点，当前证据见 [总表](../CURRENT_STATUS.md)。
+行动说明扩展（2026-11-03）：`development@1` 的 `outcome.data.proposal` 可选保存 `seedbank/action-proposal@1`，字段为 `at/reason/reason_truncated/source/evidence/generation`。理由最多 1000 字，超长明确标记；提议的生成信息与执行/创作的生成信息分开，成功、失败和未开始均保存原提议。旧回执和直接请求创作不补写理由。来源与接收范围独立检查，未来引用继承提议依赖，裁减整条回执时同步移除。329 项核心与相关专项已通过，范围及更早理由尚未接入检索的限制见 [行动理由与来源](../docs/protocol-guide.md#agency)。下方各轮“未测试”是对应历史时点，当前证据见 [总表](../docs/acceptance.md)。
 
-解释关联扩展（2026-11-02，未测试）：story_lineage 追溯旧 life_story 版本对看法/偏好/目标、对话及记忆的来源影响；读取投影 interpretation_updates 最多展开三项，保留总数，不自动改写状态。受限范围不透露后续私人版本，无效当前解释不恢复旧版。实际输入裁剪、来源依赖及回退提议限制同步，提示词 v28，无新账本。见 [旧理解与当前选择](../docs/57-interpretation-lineage.md)。
+解释关联扩展（2026-11-02，未测试）：story_lineage 追溯旧 life_story 版本对看法/偏好/目标、对话及记忆的来源影响；读取投影 interpretation_updates 最多展开三项，保留总数，不自动改写状态。受限范围不透露后续私人版本，无效当前解释不恢复旧版。实际输入裁剪、来源依赖及回退提议限制同步，提示词 v28，无新账本。见 [旧理解与当前选择](../docs/protocol-guide.md#agency)。
 
-分阶段提议扩展（2026-11-02，未测试）：私人 development.project 整组创建二到四个新目标，依据实际提供的输入、已有完整条件及局部阶段引用排序保存。goal_project 经历绑定原提议与真实编号，初始阶段条件使用 learning@5 并核对对应关系；不覆盖旧条件、不自动执行或完成。聊天回执与学习总览接入，提示词 v27。见 [分阶段安排](../docs/56-model-staged-goals.md)。
+分阶段提议扩展（2026-11-02，未测试）：私人 development.project 整组创建二到四个新目标，依据实际提供的输入、已有完整条件及局部阶段引用排序保存。goal_project 经历绑定原提议与真实编号，初始阶段条件使用 learning@5 并核对对应关系；不覆盖旧条件、不自动执行或完成。聊天回执与学习总览接入，提示词 v27。见 [分阶段安排](../docs/protocol-guide.md#agency)。
 
-经验检索扩展（2026-11-02，未测试）：learning.for_goal 可接收本次 task，在当前可见且有效的同方向经验中做本地文字检索；retrieval 仅为读取投影。观察兼顾相关性与相反判断，预算裁剪保留高相关候选；实际提供编号与来源依赖沿用原协议。无新账本格式，提示词 v26。见 [按任务找回经验](../docs/55-task-relevant-experience.md)。
+经验检索扩展（2026-11-02，未测试）：learning.for_goal 可接收本次 task，在当前可见且有效的同方向经验中做本地文字检索；retrieval 仅为读取投影。观察兼顾相关性与相反判断，预算裁剪保留高相关候选；实际提供编号与来源依赖沿用原协议。无新账本格式，提示词 v26。见 [按任务找回经验](../docs/protocol-guide.md#agency)。
 
-前置目标扩展（2026-11-02，未测试）：用户可设置版本固定的前置目标，learning@4 保存关系；readiness 递进核对当前完成依据，创作/反思的来源事件保存执行前版本，完成时不倒推旧成果。见 [目标之间的先后关系](../docs/54-goal-prerequisites.md)。
+前置目标扩展（2026-11-02，未测试）：用户可设置版本固定的前置目标，learning@4 保存关系；readiness 递进核对当前完成依据，创作/反思的来源事件保存执行前版本，完成时不倒推旧成果。见 [目标之间的先后关系](../docs/protocol-guide.md#agency)。
 
-跨日选择扩展（2026-11-02，未测试）：development.prior_choices 展示完整历史中仍可回应的旧专注意图、回执与条件核对，并传播实际提供来源。新的 continue/revise/release 关联使用 plans@4，目标完成状态不自动改变。见 [跨日的打算](../docs/53-cross-day-intentions.md)。
+跨日选择扩展（2026-11-02，未测试）：development.prior_choices 展示完整历史中仍可回应的旧专注意图、回执与条件核对，并传播实际提供来源。新的 continue/revise/release 关联使用 plans@4，目标完成状态不自动改变。见 [跨日的打算](../docs/protocol-guide.md#agency)。
 
-计划结束条件扩展（2026-11-02，未测试）：可选 checkpoint 固定一份完整目标条件，核对同计划版本下的成果及当前反馈；复用目标的内容指纹、条件与成果组规则，不自动完成长期目标。plan_review 可带当前 checkpoint 投影及来源依赖，新选择记录使用 plans@3，详见 [计划结束条件](../docs/50-plan-checkpoints.md)。
+计划结束条件扩展（2026-11-02，未测试）：可选 checkpoint 固定一份完整目标条件，核对同计划版本下的成果及当前反馈；复用目标的内容指纹、条件与成果组规则，不自动完成长期目标。plan_review 可带当前 checkpoint 投影及来源依赖，新选择记录使用 plans@3，详见 [计划结束条件](../docs/protocol-guide.md#agency)。
 
-用户创作失败扩展（2026-11-02，未测试）：直接 compose 的可识别适配器失败、空输出与回退模板保存 runtime action_attempt 经历及 failed/started 回执，无作品引用；practice.scope=available_at_execution 不表示材料已发送或采用。持久练习请求的 complete 表示处理完成，需另看 succeeded；同编号失败重放不重新执行。准备、保存与恢复错误仍传播。见 [用户创作与失败记录](../docs/49-requested-attempts.md)。
+用户创作失败扩展（2026-11-02，未测试）：直接 compose 的可识别适配器失败、空输出与回退模板保存 runtime action_attempt 经历及 failed/started 回执，无作品引用；practice.scope=available_at_execution 不表示材料已发送或采用。持久练习请求的 complete 表示处理完成，需另看 succeeded；同编号失败重放不重新执行。准备、保存与恢复错误仍传播。见 [用户创作与失败记录](../docs/protocol-guide.md#agency)。
 
-行动阶段扩展（2026-11-02，未测试）：outcome 可选 attempt_state=started/not_started/unknown；新自动动作区分准备与执行，旧 failed 缺信息时为 unknown。skills.attempts 只计已进入流程，unknown_attempts 单列未知，completed 仍仅指动作成功；skill_dependencies 覆盖实际统计来源。见 [行动阶段与统计](../docs/48-action-attempt-states.md)。
+行动阶段扩展（2026-11-02，未测试）：outcome 可选 attempt_state=started/not_started/unknown；新自动动作区分准备与执行，旧 failed 缺信息时为 unknown。skills.attempts 只计已进入流程，unknown_attempts 单列未知，completed 仍仅指动作成功；skill_dependencies 覆盖实际统计来源。见 [行动阶段与统计](../docs/protocol-guide.md#agency)。
 
-跨渠道结果扩展（2026-11-02，未测试）：动作统一遵守日程，但目标/证据仍按接收范围过滤。聊天 reply 附运行器回执，actionReportEventIds 保留独立来源，外部重放逐一核对。等待重新选择不被当天刷新覆盖，外部错误不携带私人诊断。见 [跨渠道选择与结果](../docs/47-cross-channel-choices.md)。
+跨渠道结果扩展（2026-11-02，未测试）：动作统一遵守日程，但目标/证据仍按接收范围过滤。聊天 reply 附运行器回执，actionReportEventIds 保留独立来源，外部重放逐一核对。等待重新选择不被当天刷新覆盖，外部错误不携带私人诊断。见 [跨渠道选择与结果](../docs/protocol-guide.md#agency)。
 
-计划回顾扩展（2026-11-02，未测试）：development@1 outcome 可选 plan_reference（seedbank/plan-link@1）关联单条计划事件及执行来源。摘要 plan_review 区分模型提议与用户直接要求，进入私人生活页与有预算的上下文，不自动完成计划。详见 [计划版本与实际行动](../docs/46-plans-and-action-links.md)。
+计划回顾扩展（2026-11-02，未测试）：development@1 outcome 可选 plan_reference（seedbank/plan-link@1）关联单条计划事件及执行来源。摘要 plan_review 区分模型提议与用户直接要求，进入私人生活页与有预算的上下文，不自动完成计划。详见 [计划版本与实际行动](../docs/protocol-guide.md#agency)。
 
-每日选择扩展（2026-11-02，未测试）：daily_plan 独立于目标修订与 actions，允许选择已提供 active 目标、休息或留白。运行器记录模型意图及来源，依当前选择约束私人自动创作/反思；未执行的 blocked 回执不计作练习。具体字段、plans@2 与用户验收见 [每日选择](../docs/45-daily-choices.md)。
+每日选择扩展（2026-11-02，未测试）：daily_plan 独立于目标修订与 actions，允许选择已提供 active 目标、休息或留白。运行器记录模型意图及来源，依当前选择约束私人自动创作/反思；未执行的 blocked 回执不计作练习。具体字段、plans@2 与用户验收见 [每日选择](../docs/protocol-guide.md#agency)。
 
-计划历史扩展（2026-11-02，未测试）：当天安排追加保存原选择、来源、目标版本及后续替代关系。用户目标建立/编辑/完成与重新安排同次事务，旧计划不被覆盖。计划依据失效不进入普通上下文，旧目标版本提示重新安排，见 [计划历史](../docs/44-plan-history.md)。
+计划历史扩展（2026-11-02，未测试）：当天安排追加保存原选择、来源、目标版本及后续替代关系。用户目标建立/编辑/完成与重新安排同次事务，旧计划不被覆盖。计划依据失效不进入普通上下文，旧目标版本提示重新安排，见 [计划历史](../docs/protocol-guide.md#agency)。
 
-行动扩展（2026-11-02，未测试）：四类自主动作的写入及成功回执同次事务；普通失败回退动作后记录失败，恢复冲突向上抛出。每日文字计划不再因关联动作成功自动完成，旧完成标记待核对，见 [行动回执与计划](../docs/43-action-outcomes-and-plans.md)。生命周期按用户明确选择，由经历与明确选择逐渐决定，暂不设固定寿命；具体终点尚未实现。
+行动扩展（2026-11-02，未测试）：四类自主动作的写入及成功回执同次事务；普通失败回退动作后记录失败，恢复冲突向上抛出。每日文字计划不再因关联动作成功自动完成，旧完成标记待核对，见 [行动回执与计划](../docs/protocol-guide.md#agency)。生命周期按用户明确选择，由经历与明确选择逐渐决定，暂不设固定寿命；具体终点尚未实现。
 
-经验取舍扩展（2026-11-02，未测试）：创作回执 practice.strategy_choices 为可选 strategy-choices@1 数据，与 creation metadata 同存；基于实际裁剪后候选接受 adopt/adapt/skip/uncertain 和简短说明，绑定经验版本与作品。它是同次响应中的模型自述，不是内部思考、独立规划或能力证明。后续反馈/观察可以对照相反评价，来源不可用时不继续引用。见 [创作取舍](../docs/40-strategy-choices.md)。
+经验取舍扩展（2026-11-02，未测试）：创作回执 practice.strategy_choices 为可选 strategy-choices@1 数据，与 creation metadata 同存；基于实际裁剪后候选接受 adopt/adapt/skip/uncertain 和简短说明，绑定经验版本与作品。它是同次响应中的模型自述，不是内部思考、独立规划或能力证明。后续反馈/观察可以对照相反评价，来源不可用时不继续引用。见 [创作取舍](../docs/protocol-guide.md#agency)。
 
-纠错读取扩展（2026-11-02，未测试）：成长提案的证据保留 fact_notes，用户明确的单项 correction 停用已知旧派生依据；新输出追踪从当天对话注释取得的核对来源。原话和独立事项保留，尚无精细语义失效保证，见 [纠错贯通](../docs/38-corrections-through-recall.md)。
+纠错读取扩展（2026-11-02，未测试）：成长提案的证据保留 fact_notes，用户明确的单项 correction 停用已知旧派生依据；新输出追踪从当天对话注释取得的核对来源。原话和独立事项保留，尚无精细语义失效保证，见 [纠错贯通](../docs/protocol-guide.md#memory)。
 
-关系扩展（2026-11-02，未测试）：相处理解与用户报告追加保存于 relationships.jsonl；约定绑定本目标当前条件版本，履行需具体成果和有效反馈。期限经过不自动判失约，交流次数不再增加熟悉度。明确暂停自主开口优先于 force，提醒另行管理。详见 [相处与约定](../docs/26-relationships-and-commitments.md)。
+关系扩展（2026-11-02，未测试）：相处理解与用户报告追加保存于 relationships.jsonl；约定绑定本目标当前条件版本，履行需具体成果和有效反馈。期限经过不自动判失约，交流次数不再增加熟悉度。明确暂停自主开口优先于 force，提醒另行管理。详见 [相处与约定](../docs/protocol-guide.md#relationships)。
 
 本扩展覆盖旧协议中“默认小鲸鱼”“词频直接生成兴趣”“逢三天做梦／四天作诗”“开口即完成计划”的规则。既有生命包不迁移出生身份，不改写出生证、基因组或历史日记。
 
@@ -110,7 +110,7 @@
 
 主动说话和目标行动的成功回执都不自动完成当天文字计划。回执只表明动作实际结果，关联关系不证明动作满足文字计划；旧 done 标记只显示为依据待核对。长期目标还需满足 `mind/learning.jsonl` 中当前版本的逐项条件。`completion_evidence` 将每项条件关联到本目标成功回执：同成果名称必须使用同一次尝试，不同成果名称不能复用同一回执。作品需匹配原保存指纹；feedback 条件需当前版本的明确用户好评，artifact 条件只检查指定类型已保存。模型不能降低既有条件或改写目标含义。条件及评价仍非客观质量认证。新目标 ID 到下一轮才可由模型引用。
 
-可选追加文件 `mind/learning.jsonl` 保存 criteria / feedback / adjustment。反馈修订不重写历史完成事件，但重新计算 `completion_current`。旧完成目标没有条件依据时显示历史未核实，不再把它当作能力证明。模型 `learning_updates` 仅可引用本次提供的当前反馈，形成下一次策略；创作可携带相同条件的历史反馈，不能用另一目标的成果完成自己。Qt / CLI / 桥操作、版本保护和请求恢复见 [目标与反馈](../docs/25-goals-and-feedback.md)。
+可选追加文件 `mind/learning.jsonl` 保存 criteria / feedback / adjustment。反馈修订不重写历史完成事件，但重新计算 `completion_current`。旧完成目标没有条件依据时显示历史未核实，不再把它当作能力证明。模型 `learning_updates` 仅可引用本次提供的当前反馈，形成下一次策略；创作可携带相同条件的历史反馈，不能用另一目标的成果完成自己。Qt / CLI / 桥操作、版本保护和请求恢复见 [目标与反馈](../docs/protocol-guide.md#agency)。
 
 主动决策允许空回复，仍可行动；选择什么都不做也计入本轮决策节流，避免每次心跳重复请求模型。梦和自我叙事由日记的 `inner_activity` 选择，不按天数取模触发。
 
@@ -143,10 +143,10 @@
 
 2026-11-03 扩展，尚未执行测试：`learning@3` 观察的 `lesson_id` 可指向成果回执实际提供的 `practice.adjustment_ids` 或 `practice.lesson_ids` 中的策略，仍需 `scope=provided_to_creator`、当前来源和原作品可核对。两个提供列表保留其原含义，不把同标准重复尝试写成跨任务迁移。
 
-`adjustments` 与 `lessons` 均可附只读 `observations/observation_count/observation_evidence`。历史字段 `lesson_observation_ids` 记录本任务实际提供的这两类观察，生成依赖沿用其来源；裁剪和来源失效不补写原回执。列表投影 `offered_lessons` 兼容原界面字段名，展示两类已记录策略。模型取舍与用户观察仍分开，不自动升级为掌握或因果结论。见 [同目标观察](../docs/106-same-goal-strategy-observations.md)。
+`adjustments` 与 `lessons` 均可附只读 `observations/observation_count/observation_evidence`。历史字段 `lesson_observation_ids` 记录本任务实际提供的这两类观察，生成依赖沿用其来源；裁剪和来源失效不补写原回执。列表投影 `offered_lessons` 兼容原界面字段名，展示两类已记录策略。模型取舍与用户观察仍分开，不自动升级为掌握或因果结论。见 [同目标观察](../docs/protocol-guide.md#agency)。
 
 ## 看法与偏好的历史引用
 
 2026-11-03 扩展，尚未执行测试：每条原 belief/preference 事件可投影为 `belief_history` / `preference_history`，`origin=judgment_archive`，沿用原 `d_…` 事件编号；`judgment_id` 与 `judgment_kind` 指明逻辑记录。来源为 `mind/development.jsonl#事件编号`，正文明确是当时表达。该投影只读取原账本。
 
-`judgment_version` 是动态的最新可见说明，记录当前可用性、最新事件、时间、理由与依赖。最新版本不可用时不回退旧态度；不把当前说明存入旧事件。历史来源遵循原撤回与主人范围，明确分享仅形成片段副本。人生回顾可引用历史表达；最终提示保留当前说明及其依赖，普通记忆纠错不覆写成长事件。索引 v12、提示 v41；见 [看法与偏好历史](../docs/107-past-beliefs-and-preferences.md)。
+`judgment_version` 是动态的最新可见说明，记录当前可用性、最新事件、时间、理由与依赖。最新版本不可用时不回退旧态度；不把当前说明存入旧事件。历史来源遵循原撤回与主人范围，明确分享仅形成片段副本。人生回顾可引用历史表达；最终提示保留当前说明及其依赖，普通记忆纠错不覆写成长事件。索引 v12、提示 v41；见 [看法与偏好历史](../docs/protocol-guide.md#agency)。

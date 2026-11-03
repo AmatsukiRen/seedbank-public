@@ -66,9 +66,27 @@
 <a name="screens"></a>
 <h2><img src="assets/readme/section-screens-ja.svg" width="100%" alt="画面ガイド"></h2>
 
-陪伴、日記、記憶、生活、設定。五つの入口が、それぞれ日常の一部を受け持ちます。現在の開発版でできることを紹介します。
+現在の 0.0.1 候補版から撮影した五つの画面です。独立した架空の個体とオフライン応答を使用し、日記の表示用に日付を明示的に進めています。実際の利用者の記録は含みません。
 
+<a href="assets/screenshots/companion.png"><img src="assets/screenshots/companion.png" width="100%" alt="SeedBank 0.0.1 · 陪伴"></a>
 
+**陪伴** · 1280 × 840 · キャラクター、会話例、キャラクター変更の入口
+
+<a href="assets/screenshots/diary.png"><img src="assets/screenshots/diary.png" width="100%" alt="SeedBank 0.0.1 · 日記"></a>
+
+**日記** · 1280 × 840 · 日付を選び、日記本文を読む
+
+<a href="assets/screenshots/memories.png"><img src="assets/screenshots/memories.png" width="100%" alt="SeedBank 0.0.1 · 記憶"></a>
+
+**記憶** · 1280 × 840 · 詳細・修正・手放す操作を見分けやすく
+
+<a href="assets/screenshots/life.png"><img src="assets/screenshots/life.png" width="100%" alt="SeedBank 0.0.1 · 生活"></a>
+
+**生活** · 1280 × 840 · 成長と行動の画面。この例では目標はまだありません
+
+<a href="assets/screenshots/settings.png"><img src="assets/screenshots/settings.png" width="100%" alt="SeedBank 0.0.1 · 設定"></a>
+
+**設定** · 1280 × 840 · 対応サービスと自分の API Key の設定
 
 ### 日常の五つの入口
 
@@ -82,7 +100,7 @@
 
 記憶を読み返し、訂正し、次の対話につなげる。継続した成長は、時間をかけて見守っていく課題です。
 
-五画面の新しい実機画像は、撮影と確認が終わり次第追加します。 [撮影の状況と要件](docs/screenshots.md)
+すべて同じ検査済み Windows 実行ファイルの画面です。ハッシュと撮影範囲は撮影記録に記載しています。 [撮影の状況と要件](docs/screenshots.md)
 
 <a name="extend"></a>
 <h2><img src="assets/readme/section-extend-ja.svg" width="100%" alt="この一生に、新しい可能性を。"></h2>
@@ -102,7 +120,7 @@
 {"id":"hello-1","op":"hello"}
 ```
 
-Python、QML、フロントエンド、モデル連携、キャラクター制作、アクセシビリティ、翻訳。接続ガイドには操作、リクエスト ID、記憶の出所、休眠、架空サンプルの扱いをまとめています。 ローカルテキストプラグインの管理画面を追加し、ユーザー検証を待っています。[仕様とメモのサンプル（中文）](docs/plugins.md)から始められます。権限サンドボックスとツール自動実行はありません。
+Python、QML、フロントエンド、モデル連携、キャラクター制作、アクセシビリティ、翻訳。接続ガイドには操作、リクエスト ID、記憶の出所、休眠、架空サンプルの扱いをまとめています。 ローカルテキストプラグインの管理画面を実装し、今回の隔離環境での検査を完了しました。[仕様とメモのサンプル（中文）](docs/plugins.md)から始められます。権限サンドボックスとツール自動実行はありません。
 
 **[接続ガイドと拡張計画（中文） →](docs/extensions.md)** · **[参加方法 →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 

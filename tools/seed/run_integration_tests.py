@@ -46,5 +46,9 @@ if __name__ == "__main__":
             names = ["test_presentation.PresentationTest.test_reply_cue_survives_carrier_and_request_replay_without_another_call",
                      "test_quick.QuickTest.test_loading_expression_only_lasts_for_an_accepted_conversation",
                      "test_quick.QuickTest.test_reply_animation_stops_on_hide_reduced_motion_dormancy_or_next_message"]
+        else:
+            # Include all UI flows, including the complete locale/size matrix,
+            # instead of repeatedly testing a hand-picked subset of QuickTest.
+            names = [name for name in names if not name.startswith("test_quick.")] + ["test_quick"]
         result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromNames(names))
         raise SystemExit(0 if result.wasSuccessful() else 1)

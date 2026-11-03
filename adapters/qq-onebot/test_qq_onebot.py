@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+import itertools
 import tempfile
 import unittest
 from pathlib import Path
@@ -10,6 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import qq_onebot as adapter  # noqa: E402
+EVENT_IDS = itertools.count(1)
 
 
 class FakeBridge:
@@ -29,13 +31,16 @@ class FakeSender:
 
     def send_private(self, user_id, text):
         self.sent.append(("private", str(user_id), text))
+        return {"status": "ok", "retcode": 0}
 
     def send_group(self, group_id, text, at_user=""):
         self.sent.append(("group", str(group_id), text, str(at_user)))
+        return {"status": "ok", "retcode": 0}
 
 
 def private_event(user_id=123, text="你好呀"):
     return {
+        "message_id": next(EVENT_IDS),
         "post_type": "message",
         "message_type": "private",
         "user_id": user_id,
@@ -50,6 +55,7 @@ def group_event(group_id=456, user_id=123, mentioned=True, text="在吗"):
         segments.append({"type": "at", "data": {"qq": "999"}})
     segments.append({"type": "text", "data": {"text": " " + text}})
     return {
+        "message_id": next(EVENT_IDS),
         "post_type": "message",
         "message_type": "group",
         "group_id": group_id,
@@ -160,8 +166,10 @@ class HandleTest(unittest.TestCase):
         event["message"].append({"type": "image", "data": {"url": "http://x/1.png"}})
         result = instance.handle(event)
         self.assertTrue(result["ok"])
-        self.assertEqual(bridge.calls[0][0], "image")
-        self.assertTrue(bridge.calls[0][1]["path"].endswith(".png"))
+        self.assertEqual(bridge.calls[0][0], "media")
+        image_calls = [fields for op, fields in bridge.calls if op == "image"]
+        self.assertEqual(len(image_calls), 1)
+        self.assertTrue(image_calls[0]["path"].endswith(".png"))
 
 
 if __name__ == "__main__":

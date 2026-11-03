@@ -35,12 +35,12 @@ python adapters/qq-onebot/qq_onebot.py --pack ~/fish/小蓝.life --owner 1234567
 
 配置也可以走环境变量：`SEEDBANK_PACK`、`SEEDBANK_OWNER`、`SEEDBANK_GROUPS`、
 `SEEDBANK_ONEBOT_HTTP`、`SEEDBANK_ONEBOT_TOKEN`、`SEEDBANK_QQ_PORT`、`SEEDBANK_QQ_SELF_ID`。
-Token 只从环境变量读，不写进任何文件。
+Token 不写进配置。HTTP 上报另需设置 `SEEDBANK_ONEBOT_SECRET`，并在 OneBot 上报配置的 `secret` 填入同一个随机值；设置后重新启动程序。接收端拒绝没有签名或签名错误的事件，不能用发送 API 的 Token 替代上报密钥。界面只填写变量名；详见[认证与去重](../../docs/channels.md#qq-http-上报认证与去重)。
 
 ## 想接别的 IM？
 
 不需要改这个文件。任何语言、任何工具都可以直接接载体桥协议（见
-[spec/channel.md](../../spec/channel.md)），或者参考 [docs/03-extending.md](../../docs/03-extending.md)
+[spec/channel.md](../../spec/channel.md)），或者参考 [docs/03-extending.md](../../docs/extensions.md)
 写一个新的适配器。桥的规则很短：一行 JSON 进，一行 JSON 出。
 
 ## 测试

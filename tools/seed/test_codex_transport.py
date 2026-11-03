@@ -185,7 +185,9 @@ class CodexBrainTest(unittest.TestCase):
     def test_new_adapter_is_optional_and_birth_configuration_is_unchanged(self):
         self.assertEqual(brain.default_brain_config()["adapter"], "stub")
         self.assertNotIn("codex_max_calls", brain.birth_brain_config())
-        self.assertEqual(settings.PRESETS[-1]["adapter"], "codex")
+        presets = [item for item in settings.PRESETS if item.get("provider") == "codex"]
+        self.assertEqual(len(presets), 1)
+        self.assertEqual(presets[0]["adapter"], "codex")
         self.assertEqual(settings._clean_brain_patch({"adapter": "codex", "codex_max_calls": "2"})["codex_max_calls"], 2)
         for value in (0, 4, "bad"):
             with self.assertRaises(ValueError):

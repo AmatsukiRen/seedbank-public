@@ -127,7 +127,7 @@ class Session:
         adapter = qq.QQAdapter(self.pack, owner, qq.parse_groups(config.get("groups")),
                                bridge=self, sender=sender, self_id=str(config.get("self_id") or ""),
                                log=lambda message: None)
-        server = qq._IMServer(("127.0.0.1", port), adapter)
+        server = qq._IMServer(("127.0.0.1", port), adapter, secret=qq.inbound_secret(config))
         worker = threading.Thread(target=server.serve_forever, name="seedbank-desktop-qq", daemon=True)
         try:
             worker.start()

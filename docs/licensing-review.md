@@ -19,6 +19,12 @@
 
 **模型和头像分开处理。** 本库和 Windows 候选不包含完整模型、纹理、动作或 PSD，用户自己从作者渠道取得。随包须知推荐 VTube Studio，也提到可按其他 Live2D 软件说明导入，因此不能说它只能用于 VTube Studio；但不随包模型也不能替代页面宣传用途的确认。作者预告入口见[素材来源](assets.md)，没有将无法核验的下载链接当作授权证据。
 
-**Qt 的后续工作是具体的发行义务。** 根据 [Qt 官方 LGPL 说明](https://www.qt.io/licensing/open-source-lgpl-obligations)，需保留相应权利、许可与通知、提供适用的源码取得方式及替换/重新链接路径。当前已经提供应用源码、构建方法和收集的原始通知；不能仅凭开源自身代码就宣布单文件包全部合规。本次没有执行用户验收或替换库试验。
+**Qt 的后续工作是具体的发行义务。** 根据 [Qt 官方 LGPL 说明](https://www.qt.io/licensing/open-source-lgpl-obligations)，需保留相应权利、许可与通知、提供适用的源码取得方式及替换/重新链接路径。当前已经提供应用源码、构建方法和收集的原始通知；不能仅凭开源自身代码就宣布单文件包全部合规。本轮已执行隔离程序验收，但没有进行 Qt 库替换与重新链接试验。
 
 这份记录描述查到的事实和项目判断，不改变根目录许可，不为作者作授权承诺，也不授权发布仓库、Release 或向任何第三方发信。
+
+## 打包依赖修正
+
+本次静态审查发现旧候选收进了 `qtvirtualkeyboardplugin.dll` 与 `Qt6VirtualKeyboard.dll`。它们对应的 [Qt Virtual Keyboard](https://doc.qt.io/qt-6/qtvirtualkeyboard-index.html) 提供商业许可或 GPLv3，不能按一般的 LGPL 模块处理。应用没有直接使用该模块，现已在 PyInstaller 最终二进制与数据清单中明确排除；实际打包检查结果见 [验收记录](acceptance.md)。
+
+此修正不改变其他 Qt、Live2D、角色或模板的许可义务。运行测试通过也不是素材作者授权或 SDK 发行协议；Live2D 类别与品牌用途仍需维护者取得外部确认。已有询问草稿可以使用，本轮没有代为发信或作授权承诺。

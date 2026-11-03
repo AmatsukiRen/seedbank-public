@@ -159,6 +159,7 @@ class LifecycleTest(unittest.TestCase):
         fake_bridge.call.side_effect = reply
         adapter = QQAdapter(self.pack, "123", [], bridge=fake_bridge, sender=sender)
         event = {"post_type": "message", "message_type": "private", "user_id": 123,
+                 "self_id": 999, "message_id": 1,
                  "message": [{"type": "text", "data": {"text": "之前的消息"}}]}
         self.assertEqual(adapter.handle(event)["reason"], "dormant")
         sender.send_private.assert_not_called()

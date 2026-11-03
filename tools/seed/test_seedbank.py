@@ -3495,7 +3495,7 @@ class Audit121Test(unittest.TestCase):
             def close(self):
                 return None
 
-        server = qq._IMServer(("127.0.0.1", 0), FakeAdapter())
+        server = qq._IMServer(("127.0.0.1", 0), FakeAdapter(), secret="artificial-test-secret")
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
         port = server.server_address[1]
@@ -3503,6 +3503,7 @@ class Audit121Test(unittest.TestCase):
             connection = http.client.HTTPConnection("127.0.0.1", port, timeout=5)
             connection.putrequest("POST", "/")
             connection.putheader("Content-Length", str(qq.MAX_EVENT_BYTES + 1))
+            connection.putheader("X-Signature", "sha1=oversize-rejected-before-body")
             connection.endheaders()
             response = connection.getresponse()
             self.assertEqual(response.status, 413)

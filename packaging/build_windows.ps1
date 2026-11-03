@@ -9,7 +9,7 @@ Push-Location $repoRoot
 try {
     $ErrorActionPreference = 'Continue'
     if (-not $NoInstall) {
-        & $pythonExe -m pip install -e './tools/seed[desktop,channels]' 'PyInstaller==6.22.3'
+        & $pythonExe -m pip install -r packaging/requirements-windows.lock
         if ($LASTEXITCODE -ne 0) { throw 'Dependency installation failed.' }
     }
     & $pythonExe -m PyInstaller packaging/seedbank.spec --noconfirm --clean

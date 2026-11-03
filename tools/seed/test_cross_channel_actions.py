@@ -244,6 +244,7 @@ class CrossChannelActionsTest(unittest.TestCase):
     def test_qq_receives_the_report_with_mocked_sender_only(self):
         selected = self.choose(self.proposal("rest", next_step="PRIVATE_QQ_PLAN"))["plan"]
         brain, sender, bridge = self.brain(), Mock(), Mock()
+        sender.send_group.return_value = sender.send_private.return_value = {"status": "ok", "retcode": 0}
         bridge.call.side_effect = lambda op, **kw: cognition.chat_turn(self.pack, kw["text"], brain, kw["speaker"],
             person_id=kw["person_id"], audience_id=kw["audience_id"])
         adapter = QQAdapter(str(self.pack), "7", ["123"], bridge=bridge, sender=sender, log=lambda value: None)

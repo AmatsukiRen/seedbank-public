@@ -83,9 +83,46 @@
   ],
   "storyTitle": "Suppose it began on a rainy day.",
   "storyIntro": "Giving AI a full life is SeedBank’s vision. These six everyday scenes imagine the life we hope to make possible: meeting, remembering, correcting, trying, choosing and returning after a farewell. Cheng and every conversation below are fictional examples, not private user records or measured model outputs.",
-  "shots": [],
-  "shotAlt": [],
-  "galleryIntro": "Companion, Diary, Memories, Life and Settings each hold a different part of everyday life. Here is what the development application currently provides.",
+  "shots": [
+    [
+      "companion",
+      "Companion",
+      "1280 × 840",
+      "Character, example conversation and character selection"
+    ],
+    [
+      "diary",
+      "Diary",
+      "1280 × 840",
+      "Select a completed date and read its contents"
+    ],
+    [
+      "memories",
+      "Memories",
+      "1280 × 840",
+      "Visible controls for details, revisions and letting go"
+    ],
+    [
+      "life",
+      "Life",
+      "1280 × 840",
+      "Growth and actions; this example has no established goals yet"
+    ],
+    [
+      "settings",
+      "Settings",
+      "1280 × 840",
+      "Supported services and your own API Key settings"
+    ]
+  ],
+  "shotAlt": [
+    "SeedBank 0.0.1 · Companion",
+    "SeedBank 0.0.1 · Diary",
+    "SeedBank 0.0.1 · Memories",
+    "SeedBank 0.0.1 · Life",
+    "SeedBank 0.0.1 · Settings"
+  ],
+  "galleryIntro": "Five distinct pages from the current 0.0.1 candidate. Captured with an isolated artificial life and offline replies; the date was explicitly advanced for the diary. No real user data is shown.",
   "screenshotSource": "Capture status and requirements",
   "features": [
     [
@@ -208,7 +245,7 @@
       ]
     ],
     "protocol": "The existing bridge exchanges newline-delimited JSON over stdin/stdout, using seedbank/bridge@1. A client sends this line to request the handshake. This is not a public HTTP endpoint:",
-    "invite": "There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples. A local text-plugin manager is now implemented and awaits user testing. Start with the [plugin contract and note example (中文)](docs/plugins.md). There is no permission sandbox or automatic tool invocation.",
+    "invite": "There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples. The local text-plugin manager has passed the isolated checks recorded for this candidate. Start with the [plugin contract and note example (中文)](docs/plugins.md). There is no permission sandbox or automatic tool invocation.",
     "guide": "Integration guide and roadmap (中文)",
     "contribute": "Contributing"
   },
@@ -218,7 +255,7 @@
     "App tour",
     "Getting started"
   ],
-  "galleryHint": "New captures of all five pages will be added after capture and review.",
+  "galleryHint": "All pages come from the same checked Windows executable. See the capture record for its hash and scope.",
   "startNotice": "Application source, desktop UI and build scripts are now in this repository for version 0.0.1. Start with the [setup guide (中文)](docs/getting-started.md). Collaborators can review the private candidate; public downloads will follow publication.",
   "licenseLink": "License",
   "api": {

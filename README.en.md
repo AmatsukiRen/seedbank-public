@@ -66,9 +66,27 @@ We wrote a story about an individual named Cheng: a name left undecided, a remem
 <a name="screens"></a>
 <h2><img src="assets/readme/section-screens-en.svg" width="100%" alt="App tour"></h2>
 
-Companion, Diary, Memories, Life and Settings each hold a different part of everyday life. Here is what the development application currently provides.
+Five distinct pages from the current 0.0.1 candidate. Captured with an isolated artificial life and offline replies; the date was explicitly advanced for the diary. No real user data is shown.
 
+<a href="assets/screenshots/companion.png"><img src="assets/screenshots/companion.png" width="100%" alt="SeedBank 0.0.1 · Companion"></a>
 
+**Companion** · 1280 × 840 · Character, example conversation and character selection
+
+<a href="assets/screenshots/diary.png"><img src="assets/screenshots/diary.png" width="100%" alt="SeedBank 0.0.1 · Diary"></a>
+
+**Diary** · 1280 × 840 · Select a completed date and read its contents
+
+<a href="assets/screenshots/memories.png"><img src="assets/screenshots/memories.png" width="100%" alt="SeedBank 0.0.1 · Memories"></a>
+
+**Memories** · 1280 × 840 · Visible controls for details, revisions and letting go
+
+<a href="assets/screenshots/life.png"><img src="assets/screenshots/life.png" width="100%" alt="SeedBank 0.0.1 · Life"></a>
+
+**Life** · 1280 × 840 · Growth and actions; this example has no established goals yet
+
+<a href="assets/screenshots/settings.png"><img src="assets/screenshots/settings.png" width="100%" alt="SeedBank 0.0.1 · Settings"></a>
+
+**Settings** · 1280 × 840 · Supported services and your own API Key settings
 
 ### Five parts of everyday life
 
@@ -82,7 +100,7 @@ Companion, Diary, Memories, Life and Settings each hold a different part of ever
 
 Revisit and correct memories, and let past experiences inform later conversations. Continued growth takes time and observation.
 
-New captures of all five pages will be added after capture and review. [Capture status and requirements](docs/screenshots.md)
+All pages come from the same checked Windows executable. See the capture record for its hash and scope. [Capture status and requirements](docs/screenshots.md)
 
 <a name="extend"></a>
 <h2><img src="assets/readme/section-extend-en.svg" width="100%" alt="Help this life find new possibilities."></h2>
@@ -102,7 +120,7 @@ The existing bridge exchanges newline-delimited JSON over stdin/stdout, using se
 {"id":"hello-1","op":"hello"}
 ```
 
-There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples. A local text-plugin manager is now implemented and awaits user testing. Start with the [plugin contract and note example (中文)](docs/plugins.md). There is no permission sandbox or automatic tool invocation.
+There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples. The local text-plugin manager has passed the isolated checks recorded for this candidate. Start with the [plugin contract and note example (中文)](docs/plugins.md). There is no permission sandbox or automatic tool invocation.
 
 **[Integration guide and roadmap (中文) →](docs/extensions.md)** · **[Contributing →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 

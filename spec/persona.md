@@ -75,4 +75,4 @@ python tools/seed/seed.py persona status "D:\体验\初.life"
 
 该流程是受控资料读取检查，不是端到端回忆评测。广泛的情境改写、长期检索、人物关系、价值判断、行动决策与实际履约，需要另建来源明确的场景和持续观察。有限样本全部符合也不能推导整个个体没有变化。旧版字符相似度通过的历史结果不作为新版有效证据。
 
-用户验收见 [本轮说明](../docs/22-continuity-assessment.md)。
+用户验收见 [本轮说明](../docs/protocol-guide.md#inner)。

@@ -141,6 +141,12 @@ a = Analysis(
     optimize=0,
 )
 
+# PySide's QtGui hook also collects optional input-context plugins. This unused
+# module has GPLv3/commercial terms, not Qt's usual LGPL option. Exclude both
+# plugin and library, including any QML/data copies, from the final archive.
+a.binaries = [entry for entry in a.binaries if "virtualkeyboard" not in entry[0].lower()]
+a.datas = [entry for entry in a.datas if "virtualkeyboard" not in entry[0].lower()]
+
 pyz = PYZ(a.pure)
 
 exe = EXE(

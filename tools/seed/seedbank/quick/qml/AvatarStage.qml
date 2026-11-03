@@ -16,7 +16,7 @@ Rectangle {
         spacing: stage.condensed ? 6 : 12
         LabelText { visible: !stage.condensed; text: bridge.ready ? Style.tr("此刻，一起") : Style.tr("等待一次初见"); color: Style.accent; font.pixelSize: 12 * Style.scale; Layout.fillWidth: true }
         LabelText {
-            text: bridge.ready ? bridge.name : "SEEDbank"
+            text: bridge.ready ? bridge.name : "SeedBank"
             font.pixelSize: (stage.condensed ? 20 : stage.width < 300 ? 23 : 30) * Style.scale
             font.weight: Font.DemiBold
             Layout.fillWidth: true
@@ -37,6 +37,12 @@ Rectangle {
                 Layout.fillWidth: true
                 color: Style.muted; font.pixelSize: 11 * Style.scale
                 visible: pet.loadStatus === "ready"
+            }
+            AppButton {
+                objectName: "changeAvatarModel"
+                text: Style.tr("更换角色"); compact: true
+                Accessible.name: Style.tr("选择角色模型")
+                onClicked: modelFile.open()
             }
             AppButton {
                 objectName: "resetAvatarView"

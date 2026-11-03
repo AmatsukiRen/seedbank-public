@@ -219,6 +219,7 @@ class MediaIntakeTest(unittest.TestCase):
                 return result
 
         adapter = QQAdapter(str(self.pack), "7", ["123"], bridge=LocalBridge(), sender=Mock(), log=lambda message: None)
+        adapter.sender.send_group.return_value = adapter.sender.send_private.return_value = {"status": "ok", "retcode": 0}
         count = []
 
         def download(url):
@@ -257,7 +258,8 @@ class MediaIntakeTest(unittest.TestCase):
         with patch("seedbank.cognition.analyze_image", side_effect=AssertionError("No automatic retry")):
             result = adapter.handle(self.qq_image())
         self.assertTrue(result["ok"], result)
-        self.assertIn("等待", result["reply"])
+        self.assertEqual(result["reason"], "duplicate")
+        adapter.sender.send_private.assert_not_called()
         self.assertEqual(len(downloads), 1)
         self.assertEqual(len(requests.pending(self.pack)), 1)
 

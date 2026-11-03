@@ -1,0 +1,18 @@
+name: Feature proposal / 功能提案
+description: Describe a concrete use case or integration.
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Who needs what, and when? / 谁在什么情况下需要什么？
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Proposed behavior / 预期行为
+      description: For plugins, describe data access, networking, failure handling and dormancy behavior.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Artificial example and acceptance criteria / 人工示例与验收标准

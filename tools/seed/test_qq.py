@@ -6,6 +6,7 @@ BridgeClient 用临时孵化的生命包，连接测试用一个假 OneBot HTTP 
 from __future__ import annotations
 
 import json
+import itertools
 import sys
 import tempfile
 import threading
@@ -21,10 +22,12 @@ from seedbank import qq  # noqa: E402
 from seedbank.pack import hatch  # noqa: E402
 
 EGG = ROOT / "eggs" / "dafeiyu.egg"
+EVENT_IDS = itertools.count(1)
 
 
 def private_event(user_id, text="你好呀", self_id=999):
     return {
+        "message_id": next(EVENT_IDS),
         "post_type": "message",
         "message_type": "private",
         "user_id": int(user_id),
@@ -40,6 +43,7 @@ def group_event(group_id, user_id, text="你好呀", self_id=999, at=True):
         message.append({"type": "text", "data": {"text": " "}})
     message.append({"type": "text", "data": {"text": text}})
     return {
+        "message_id": next(EVENT_IDS),
         "post_type": "message",
         "message_type": "group",
         "group_id": int(group_id),

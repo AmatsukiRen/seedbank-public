@@ -15,7 +15,10 @@ LLOneBot / Lagrange …）负责，我们只对接 OneBot v11 的 HTTP API 与 H
 from __future__ import annotations
 
 import json
+import hmac
 import os
+import queue
+import re
 import sys
 import tempfile
 import threading
@@ -32,6 +35,21 @@ MAX_EVENT_BYTES = 2 * 1024 * 1024
 MAX_IMAGE_BYTES = 40 * 1024 * 1024
 DEFAULT_ONEBOT_HTTP = "http://127.0.0.1:3001"
 DEFAULT_QQ_PORT = 8790
+DEFAULT_SECRET_ENV = "SEEDBANK_ONEBOT_SECRET"
+
+
+def secret_env(config) -> str:
+    name = str(config.get("secret_env") or DEFAULT_SECRET_ENV).strip()
+    if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,99}", name):
+        raise ValueError(t("请填写上报签名密钥的环境变量名，不要填写密钥本身。"))
+    return name
+
+
+def inbound_secret(config) -> str:
+    value = os.environ.get(secret_env(config), "")
+    if not value:
+        raise ValueError(t("未设置 QQ 上报签名密钥。请设置对应环境变量，并在 OneBot HTTP 上报中填写相同的 secret。"))
+    return value
 
 
 # —— 消息解析（纯函数，方便测试） ——
@@ -296,6 +314,8 @@ class QQAdapter:
         self.sender = sender
         self.log = log or (lambda message: print(f"[qq] {message}", flush=True))
         self._owns_bridge = bridge is None
+        self._stopped = threading.Event()
+        self._delivery_lock = threading.RLock()
 
     def _get_bridge(self):
         if self.bridge is None:
@@ -324,57 +344,82 @@ class QQAdapter:
 
     def handle(self, event: dict) -> dict:
         from .lifecycle import active
-        if not active(self.pack_dir):
+        if self._stopped.is_set() or not active(self.pack_dir):
             return {"ok": True, "action": "ignore", "reason": "dormant"}
+        if self.self_id and str(event.get("self_id") or "") != self.self_id:
+            return {"ok": True, "action": "ignore", "reason": "different_account"}
         decision = decide(event, owner=self.owner, groups=self.groups,
                           self_id=self.self_id or str(event.get("self_id") or ""))
         if decision["action"] == "ignore":
             self.log(t("忽略：{reason}", reason=decision.get("reason")))
             return {"ok": True, **decision}
-        bridge = self._get_bridge()
-        sender = self._get_sender()
+        message_id = event.get("message_id")
+        account = self.self_id or str(event.get("self_id") or "")
+        if (not account or not isinstance(message_id, (int, str)) or
+                isinstance(message_id, bool) or not str(message_id).strip()):
+            return {"ok": True, "action": "ignore", "reason": "missing_message_id"}
+        identity = sha256(canonical_json({
+            "account": account, "target": decision["target"],
+            "group": decision.get("group_id", ""), "user": decision["user_id"], "message": str(message_id)}))
+        request_id = "qq_event_" + identity
+        from .channels import Journal
+        journal = Journal(self.pack_dir)
+        if not journal.claim(request_id):
+            return {"ok": True, "action": "ignore", "reason": "duplicate"}
+        sending = False
         try:
+            bridge = self._get_bridge()
+            sender = self._get_sender()
             delivery = {"person_id": "owner" if decision["target"] == "private" else "",
                         "audience_id": "owner" if decision["target"] == "private" else "qq-group:" + decision["group_id"]}
-            message_id = event.get("message_id")
-            account = self.self_id or str(event.get("self_id") or "")
-            request_id = ("qq_media_" + sha256(canonical_json({
-                "account": account, "target": decision["target"],
-                "group": decision.get("group_id", ""), "user": decision["user_id"], "message": str(message_id)}))) if account and message_id is not None and str(message_id).strip() else ""
             if decision["images"]:
-                result = bridge.call("media", action="probe_intake", request_id=request_id,
-                    expected={"slots": ["image"], "note": decision["text"] or "", "vision": None, **delivery}) if request_id else {"found": False}
+                # Preserve pre-upgrade media receipt identifiers.
+                media_id = "qq_media_" + identity
+                result = bridge.call("media", action="probe_intake", request_id=media_id,
+                    expected={"slots": ["image"], "note": decision["text"] or "", "vision": None, **delivery})
                 if not result.get("found"):
                     image_url = decision["images"][0]
                     path = self._download(image_url)
                     try:
-                        result = bridge.call("image", path=str(path), note=decision["text"] or None, request_id=request_id, **delivery)
+                        result = bridge.call("image", path=str(path), note=decision["text"] or None, request_id=media_id, **delivery)
                     finally:
                         for leftover in path.parent.glob("*"):
                             leftover.unlink(missing_ok=True)
                         path.parent.rmdir()
                 reply = "；".join(result.get("lines") or []) or t("（她感觉到了什么，但说不出来）")
             else:
-                result = bridge.call("message", text=decision["text"], speaker=decision["speaker"], **delivery)
+                result = bridge.call("message", text=decision["text"], speaker=decision["speaker"], request_id=request_id, **delivery)
                 reply = str(result.get("reply") or "")
             from .pack_lock import writer
-            with writer(self.pack_dir):
+            with self._delivery_lock, writer(self.pack_dir):
                 # A pause may have been confirmed while an earlier reply was
                 # being prepared. Do not send that reply after dormancy begins.
-                if not active(self.pack_dir):
+                if self._stopped.is_set() or not active(self.pack_dir):
+                    journal.finish(request_id, "cancelled")
                     return {"ok": True, "action": "ignore", "reason": "dormant"}
+                journal.finish(request_id, "sending")
+                sending = True
                 if decision["target"] == "private":
-                    sender.send_private(decision["user_id"], reply)
+                    receipt = sender.send_private(decision["user_id"], reply)
                 else:
-                    sender.send_group(decision["group_id"], reply, at_user=decision["user_id"])
+                    receipt = sender.send_group(decision["group_id"], reply, at_user=decision["user_id"])
+                if not isinstance(receipt, dict) or receipt.get("retcode") != 0 or receipt.get("status") != "ok":
+                    journal.finish(request_id, "delivery_failed")
+                    return {"ok": False, "action": decision["action"], "error": t("QQ 回复发送失败；未自动重试。")}
+                journal.finish(request_id, "delivered")
             self.log(t("回复 {target} {who}：{reply}", target=decision["target"],
                        who=decision.get("group_id") or decision["user_id"], reply=reply[:40]))
             return {"ok": True, "action": decision["action"], "reply": reply}
         except (RuntimeError, OSError, ValueError, KeyError, SeedError) as exc:
+            journal.finish(request_id, "delivery_unknown" if sending else "failed")
             self.log(t("这一条没能处理：{error}", error=exc))
             return {"ok": False, "action": decision["action"], "error": str(exc)}
 
     def close(self) -> None:
+        # A confirmed stop waits for an already-started send, and prevents any
+        # new send after it returns. Generation does not hold this lock.
+        with self._delivery_lock:
+            self._stopped.set()
         if self._owns_bridge and self.bridge is not None and hasattr(self.bridge, "close"):
             self.bridge.close()
 
@@ -395,15 +440,98 @@ def _image_suffix(data: bytes) -> str:
 
 # —— 接收 OneBot 上行事件的 HTTP 服务 ——
 
+class _EventDispatcher:
+    """One ordered daemon worker and a bounded queue; no thread per event."""
+    def __init__(self, adapter, capacity=32):
+        self.adapter = adapter
+        self.pending = queue.Queue(maxsize=capacity)
+        self.stopped = threading.Event()
+        self.worker = threading.Thread(target=self._run, name="seedbank-qq-events", daemon=True)
+        self.worker.start()
+
+    def submit(self, event):
+        if self.stopped.is_set():
+            return False
+        try:
+            self.pending.put_nowait(event)
+            return True
+        except queue.Full:
+            return False
+
+    def _run(self):
+        while not self.stopped.is_set():
+            try:
+                event = self.pending.get(timeout=.1)
+            except queue.Empty:
+                continue
+            try:
+                if not self.stopped.is_set():
+                    self.adapter.handle(event)
+            except Exception:
+                self.adapter.log(t("QQ 消息处理失败；未自动重试。"))
+            finally:
+                self.pending.task_done()
+
+    def close(self):
+        self.stopped.set()
+        self.adapter.close()
+        while True:
+            try:
+                self.pending.get_nowait()
+                self.pending.task_done()
+            except queue.Empty:
+                break
+
+
 class _IMServer(ThreadingHTTPServer):
     daemon_threads = True
     # Windows 的 SO_REUSEADDR 允许同端口二次 bind（会静默起两个写者），
     # 所以这里在 Windows 上关掉，让端口占用真的报错。
     allow_reuse_address = os.name != "nt"
 
-    def __init__(self, address, adapter: QQAdapter):
-        super().__init__(address, _IMHandler)
+    def __init__(self, address, adapter: QQAdapter, *, secret=None):
+        value = inbound_secret({}) if secret is None else secret
+        if not value:
+            raise ValueError(t("QQ 上报签名密钥不能为空。"))
+        self.secret = str(value).encode("utf-8")
         self.adapter = adapter
+        self.dispatcher = None
+        self._http_slots = threading.BoundedSemaphore(8)
+        super().__init__(address, _IMHandler)
+        try:
+            self.dispatcher = _EventDispatcher(adapter)
+        except Exception:
+            self.server_close()
+            raise
+
+    def submit_event(self, event):
+        return self.dispatcher.submit(event)
+
+    def process_request(self, request, client_address):
+        if not self._http_slots.acquire(blocking=False):
+            try:
+                request.sendall(b"HTTP/1.1 503 Service Unavailable\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
+            except OSError:
+                pass
+            finally:
+                self.shutdown_request(request)
+            return
+        try:
+            super().process_request(request, client_address)
+        except Exception:
+            self._http_slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address):
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self._http_slots.release()
+
+    def server_close(self):
+        if self.dispatcher is not None:
+            self.dispatcher.close()
+        super().server_close()
 
 
 class _IMHandler(BaseHTTPRequestHandler):
@@ -428,6 +556,15 @@ class _IMHandler(BaseHTTPRequestHandler):
             self._ok(404)
 
     def do_POST(self):
+        signature = self.headers.get("X-Signature", "")
+        if not signature:
+            self._ok(401)
+            self.close_connection = True
+            return
+        if self.headers.get("Transfer-Encoding"):
+            self._ok(400)
+            self.close_connection = True
+            return
         try:
             length = int(self.headers.get("Content-Length") or 0)
         except (TypeError, ValueError):
@@ -439,23 +576,31 @@ class _IMHandler(BaseHTTPRequestHandler):
             return
         try:
             raw = self.rfile.read(length) if length else b""
+            expected = "sha1=" + hmac.new(self.server.secret, raw, "sha1").hexdigest()
+            if len(raw) != length or not hmac.compare_digest(signature.encode("utf-8"), expected.encode("ascii")):
+                self._ok(403)
+                self.close_connection = True
+                return
             payload = json.loads(raw.decode("utf-8") or "{}")
         except (OSError, ValueError, UnicodeDecodeError):
             self._ok(400)
             self.close_connection = True
             return
         event = payload.get("event") if isinstance(payload, dict) and "event" in payload else payload
-        if isinstance(event, dict):
-            adapter = self.server.adapter
-            threading.Thread(target=adapter.handle, args=(event,), daemon=True).start()
+        if not isinstance(event, dict):
+            self._ok(400)
+            return
+        if not self.server.submit_event(event):
+            self._ok(503)
+            return
         self._ok(204)
 
     def log_message(self, fmt, *args):
         return
 
 
-def serve(adapter: QQAdapter, host: str = "127.0.0.1", port: int = DEFAULT_QQ_PORT) -> int:
-    server = _IMServer((host, port), adapter)
+def serve(adapter: QQAdapter, host: str = "127.0.0.1", port: int = DEFAULT_QQ_PORT, *, secret=None) -> int:
+    server = _IMServer((host, port), adapter, secret=secret)
     print(t("[qq] 她的 QQ 窗口起来了：{host}:{port}", host=host, port=port))
     print(t("[qq] 在 OneBot 实现（SnowLuma / NapCat / LLOneBot / Lagrange 等）里配置「HTTP 上报」到：http://{host}:{port}/", host=host, port=port))
     print(t("[qq] 只有主人在私聊里说话；群聊必须 @ 她，且要在白名单里。"))
@@ -482,29 +627,31 @@ def config_defaults() -> dict:
         from .onboarding import load_config
 
         qq = load_config().get("qq")
-        return qq if isinstance(qq, dict) else {}
+        return {k: v for k, v in qq.items() if k not in ("token", "secret")} if isinstance(qq, dict) else {}
     except Exception:  # noqa: BLE001
         return {}
 
 
 def save_config(patch: dict) -> dict:
-    """把 QQ 配置并存进 ~/.seedbank/config.json（token 永不落盘）。
+    """把 QQ 配置并存进 ~/.seedbank/config.json（凭据永不落盘）。
 
     token 是凭据，只能来自 `--token` 或环境变量 `SEEDBANK_ONEBOT_TOKEN`；
-    这里显式丢弃 token，避免有人把秘密写进普通配置文件。
+    上报密钥来自配置指定的环境变量。这里只保存允许的设置与变量名。
     """
     from .onboarding import load_config, save_config as _save
 
     current = load_config().get("qq")
     merged = dict(current) if isinstance(current, dict) else {}
     for key, value in (patch or {}).items():
-        if key == "token":
+        if key not in {"pack", "owner", "groups", "self_id", "onebot_http", "port", "secret_env"}:
             continue
         if value in (None, ""):
             merged.pop(key, None)
         else:
             merged[key] = value
     merged.pop("token", None)
+    merged.pop("secret", None)
+    merged["secret_env"] = secret_env(merged)
     _save({"qq": merged})
     return merged
 
@@ -516,9 +663,10 @@ def run_from_args(args) -> int:
     owner = str(args.owner or defaults.get("owner") or "")
     groups = parse_groups(args.groups if args.groups is not None else defaults.get("groups"))
     onebot_http = args.onebot_http or defaults.get("onebot_http") or DEFAULT_ONEBOT_HTTP
-    token = args.token or os.environ.get("SEEDBANK_ONEBOT_TOKEN", "") or str(defaults.get("token") or "")
+    token = args.token or os.environ.get("SEEDBANK_ONEBOT_TOKEN", "")
     port = int(args.port if args.port is not None else (defaults.get("port") or DEFAULT_QQ_PORT))
     self_id = str(args.self_id or defaults.get("self_id") or "")
+    signing_config = {"secret_env": getattr(args, "secret_env", "") or defaults.get("secret_env")}
 
     if args.test:
         result = test_connection(onebot_http, token)
@@ -543,14 +691,15 @@ def run_from_args(args) -> int:
             "post_type": "message",
             "message_type": "private",
             "user_id": int(owner) if owner.isdigit() else 0,
-            "self_id": 0,
+            "self_id": self_id or "offline",
+            "message_id": __import__("uuid").uuid4().hex,
             "message": [{"type": "text", "data": {"text": args.once}}],
         })
         print(json.dumps(result, ensure_ascii=False, indent=2))
         adapter.close()
         return 0 if result.get("ok") else 1
     try:
-        return serve(adapter, args.host, port)
+        return serve(adapter, args.host, port, secret=inbound_secret(signing_config))
     finally:
         adapter.close()
 
@@ -572,6 +721,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--onebot-http", default=os.environ.get("SEEDBANK_ONEBOT_HTTP", DEFAULT_ONEBOT_HTTP))
     parser.add_argument("--token", default=os.environ.get("SEEDBANK_ONEBOT_TOKEN", ""))
+    parser.add_argument("--secret-env", default="", help=t("上报签名密钥的环境变量名（默认 SEEDBANK_ONEBOT_SECRET）"))
     parser.add_argument("--self-id", default=os.environ.get("SEEDBANK_QQ_SELF_ID", ""))
     parser.add_argument("--once", default="", help=t("只处理一句话就退出（用于测试）"))
     parser.add_argument("--test", action="store_true", help=t("只测试 OneBot 连接"))

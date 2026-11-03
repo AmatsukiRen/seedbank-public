@@ -85,7 +85,7 @@ python examples/bridge_client.py --pack <独立人工包.life> --exe <seedbank.e
 
 ## 5. 开始编写本地插件
 
-[插件指南](plugins.md)包含 `plugin.json` 清单、`handle(request)` 约定、便签示例、配置和启停方式。文本插件采用初版 `seedbank/plugin@1` 协议，新增实现与用例尚待用户执行验收。独立工作进程不代表系统权限沙箱。
+[插件指南](plugins.md)包含 `plugin.json` 清单、`handle(request)` 约定、便签示例、配置和启停方式。文本插件采用初版 `seedbank/plugin@1` 协议；源码及实际 exe 的检查范围见[验收记录](acceptance.md)。独立工作进程不代表系统权限沙箱。
 
 更大的扩展可先提交小型提案：谁使用、输入与输出、接入哪一层、是否写生命包或联网、失败如何恢复，以及人工验收方法。自动工具选择、行动回执、插件商店与稳定 SDK 仍需继续设计。
 
