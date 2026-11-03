@@ -187,9 +187,17 @@
     "截图中使用的模型"
   ],
   "modelSource": "DeepSeek-chan（大肥鱼） · 神宫凉子免费配布模型",
-  "creditsLink": "模型作者原始预告",
+  "creditsLink": "作者发布视频",
+  "modelDownloadLink": "模型获取（哔哩哔哩工房）",
   "assetsLink": "完整素材来源与使用说明",
-  "creditsNote": "本库不分发 Live2D 模型本体。品牌头像是依据维护者提供的角色参考生成的衍生图，不能因此声称角色原创。角色与模型素材不随程序适用 MIT 许可，公开品牌使用范围还需确认。",
+  "creditsNote": "展示形象是社区二创的 DeepSeek「大肥鱼／鲸鱼娘」，非 DeepSeek 官方形象。原型「溟月」来自上善无形，DeepSeek 女仆版由 ZipZipPipe 二次设计。品牌头像是基于维护者提供的角色参考通过 AI 生成、再修正圆角透明的衍生图；不是上述作者绘制的 SeedBank 图标，也不代表作者背书。",
+  "licenseItems": [
+    "**代码与自撰文档：** [MIT](LICENSE)。复制或分发时保留版权声明与许可正文；第三方素材不随代码转为 MIT。",
+    "**角色形象：** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans)，依据 [ZipZipPipe 本人声明](https://www.bilibili.com/opus/1247156596114456581)。保留署名与来源、非商业使用，公开改编须注明改动并按相同许可共享。",
+    "**衍生头像：** SeedBank 自有改编贡献沿用 CC BY-NC-SA 4.0；原角色及参考图权利仍归各自作者。具体文件、改动和待补全的参考来源见[头像说明](assets/brand/NOTICE.md)。",
+    "**Live2D 资源：** 原画及拆分 **神宫凉子**，建模 **霓虹猫_NeonNeko**。使用须遵守模型随包须知；本库不附模型、不提供镜像，也不授权转售或擅自重新分发。产品推广等用途须按作者要求另行确认。",
+    "**其他独立许可：** 文字出生模板为 CC BY-SA 4.0；Qt、Live2D SDK 等运行库分别适用各自条款，见[第三方说明](THIRD_PARTY_NOTICES.md)。"
+  ],
   "footer": "把今天留下来，明天再继续。",
   "readmeStory": "读这段故事",
   "readmeIntro": "我们的愿景，是给 AI 完整的一生。SeedBank 希望让每个个体从初次相遇开始，积累自己的经历、形成记忆、作出选择，在时间里慢慢成为自己。",

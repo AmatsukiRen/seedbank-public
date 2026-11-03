@@ -185,17 +185,23 @@ Windows 设置支持隐藏输入并使用当前系统用户加密保存 Key；�
 | | |
 | :--- | :--- |
 | 人设 | [@ZipZipPipe](https://space.bilibili.com/4168597) · [@上善无形](https://www.bilibili.com/opus/1253873972180680713) |
-| Live2D 原画及拆分 | **神宫凉子** |
+| Live2D 原画及拆分 | [**神宫凉子**](https://space.bilibili.com/13737731) |
 | Live2D 建模 | **霓虹猫_NeonNeko** |
 | 截图中使用的模型 | DeepSeek-chan（大肥鱼） · 神宫凉子免费配布模型 |
 
-[模型作者原始预告](https://www.bilibili.com/video/BV1ALnw6YEGK) · [完整素材来源与使用说明](docs/assets.md)
+[作者发布视频](https://www.bilibili.com/video/BV1KmxY66EZ3/) · [模型获取（哔哩哔哩工房）](https://gf.bilibili.com/item/detail/1109618072) · [完整素材来源与使用说明](docs/assets.md)
 
-本库不分发 Live2D 模型本体。品牌头像是依据维护者提供的角色参考生成的衍生图，不能因此声称角色原创。角色与模型素材不随程序适用 MIT 许可，公开品牌使用范围还需确认。
+展示形象是社区二创的 DeepSeek「大肥鱼／鲸鱼娘」，非 DeepSeek 官方形象。原型「溟月」来自上善无形，DeepSeek 女仆版由 ZipZipPipe 二次设计。品牌头像是基于维护者提供的角色参考通过 AI 生成、再修正圆角透明的衍生图；不是上述作者绘制的 SeedBank 图标，也不代表作者背书。
 
 ### 参与与许可
 
 欢迎用一个小而完整的扩展开始：一种新的入口、一项可追溯的工具能力，或者更好读懂的记忆界面。具体方向和提交方式见 CONTRIBUTING.md；接入范围与示例见 docs/extensions.md。反馈使用人工样例，不附私人生命包或密钥。代码与自撰文档使用 MIT；第三方角色和模型权利另行记录。
+
+- **代码与自撰文档：** [MIT](LICENSE)。复制或分发时保留版权声明与许可正文；第三方素材不随代码转为 MIT。
+- **角色形象：** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans)，依据 [ZipZipPipe 本人声明](https://www.bilibili.com/opus/1247156596114456581)。保留署名与来源、非商业使用，公开改编须注明改动并按相同许可共享。
+- **衍生头像：** SeedBank 自有改编贡献沿用 CC BY-NC-SA 4.0；原角色及参考图权利仍归各自作者。具体文件、改动和待补全的参考来源见[头像说明](assets/brand/NOTICE.md)。
+- **Live2D 资源：** 原画及拆分 **神宫凉子**，建模 **霓虹猫_NeonNeko**。使用须遵守模型随包须知；本库不附模型、不提供镜像，也不授权转售或擅自重新分发。产品推广等用途须按作者要求另行确认。
+- **其他独立许可：** 文字出生模板为 CC BY-SA 4.0；Qt、Live2D SDK 等运行库分别适用各自条款，见[第三方说明](THIRD_PARTY_NOTICES.md)。
 
 [许可: MIT](LICENSE) · [如何参与](CONTRIBUTING.md)
 

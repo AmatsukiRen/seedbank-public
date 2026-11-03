@@ -187,9 +187,17 @@
     "Model shown in captures"
   ],
   "modelSource": "DeepSeek-chan (大肥鱼) · Free model distributed by 神宫凉子",
-  "creditsLink": "Model creator’s original preview",
+  "creditsLink": "Creator’s model release video",
+  "modelDownloadLink": "Get the model (Bilibili Workshop)",
   "assetsLink": "Full asset sources and usage notes",
-  "creditsNote": "This repository does not redistribute the Live2D model files. The mascot portrait is an AI-generated derivative based on character references supplied by the maintainer, not an original character claim. Character and model rights are separate from the software’s MIT license; public branding usage still needs confirmation.",
+  "creditsNote": "The displayed DeepSeek “大肥鱼 / whale girl” is a community fan character, not an official DeepSeek character. 上善无形 created the original “溟月”; ZipZipPipe created the DeepSeek maid redesign. SeedBank’s portrait was AI-generated from a maintainer-supplied reference, then given transparent rounded corners. It is not an icon drawn for SeedBank by those artists and does not imply their endorsement.",
+  "licenseItems": [
+    "**Code and original documentation:** [MIT](LICENSE). Retain the copyright notice and license text when copying or distributing; third-party artwork is not relicensed under MIT.",
+    "**Character design:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), as stated in [ZipZipPipe’s own notice](https://www.bilibili.com/opus/1247156596114456581). Keep attribution and source links, use noncommercially, identify changes and share adaptations under the same license.",
+    "**Derivative portrait:** SeedBank’s own adaptation contributions use CC BY-NC-SA 4.0; underlying character and reference rights remain with their creators. File scope, changes and unresolved reference provenance are recorded in the [portrait notice](assets/brand/NOTICE.md).",
+    "**Live2D assets:** Illustration and separation by **神宫凉子**; rigging by **霓虹猫_NeonNeko**. Follow the terms supplied with the model. This repository includes no model or download mirror and grants no permission to resell or redistribute it. Product promotion requires confirmation under the creator’s terms.",
+    "**Separate licenses:** Textual birth templates use CC BY-SA 4.0. Qt, the Live2D SDK and other runtimes retain their own terms; see [third-party notices](THIRD_PARTY_NOTICES.md)."
+  ],
   "footer": "Keep today. Continue tomorrow.",
   "readmeStory": "Read the story",
   "readmeIntro": "Our vision is to give AI a full life. SeedBank aims to let each individual gather experiences, form memories and make choices from the first meeting onward, gradually becoming itself over time.",

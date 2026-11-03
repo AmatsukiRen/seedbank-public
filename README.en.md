@@ -185,17 +185,23 @@ Thank you to the creators. Character design, Live2D production and SeedBank’s 
 | | |
 | :--- | :--- |
 | Character design | [@ZipZipPipe](https://space.bilibili.com/4168597) · [@上善无形](https://www.bilibili.com/opus/1253873972180680713) |
-| Live2D illustration & separation | **神宫凉子** |
+| Live2D illustration & separation | [**神宫凉子**](https://space.bilibili.com/13737731) |
 | Live2D rigging | **霓虹猫_NeonNeko** |
 | Model shown in captures | DeepSeek-chan (大肥鱼) · Free model distributed by 神宫凉子 |
 
-[Model creator’s original preview](https://www.bilibili.com/video/BV1ALnw6YEGK) · [Full asset sources and usage notes](docs/assets.md)
+[Creator’s model release video](https://www.bilibili.com/video/BV1KmxY66EZ3/) · [Get the model (Bilibili Workshop)](https://gf.bilibili.com/item/detail/1109618072) · [Full asset sources and usage notes](docs/assets.md)
 
-This repository does not redistribute the Live2D model files. The mascot portrait is an AI-generated derivative based on character references supplied by the maintainer, not an original character claim. Character and model rights are separate from the software’s MIT license; public branding usage still needs confirmation.
+The displayed DeepSeek “大肥鱼 / whale girl” is a community fan character, not an official DeepSeek character. 上善无形 created the original “溟月”; ZipZipPipe created the DeepSeek maid redesign. SeedBank’s portrait was AI-generated from a maintainer-supplied reference, then given transparent rounded corners. It is not an icon drawn for SeedBank by those artists and does not imply their endorsement.
 
 ### Contributing and licensing
 
 Start with one focused extension: a new entry point, a tool action with provenance, or a clearer memory interface. See CONTRIBUTING.md and docs/extensions.md for scope and examples. Use artificial examples in reports; omit private life packs and secrets. Code and original documentation use MIT. Third-party character and model rights are separate.
+
+- **Code and original documentation:** [MIT](LICENSE). Retain the copyright notice and license text when copying or distributing; third-party artwork is not relicensed under MIT.
+- **Character design:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), as stated in [ZipZipPipe’s own notice](https://www.bilibili.com/opus/1247156596114456581). Keep attribution and source links, use noncommercially, identify changes and share adaptations under the same license.
+- **Derivative portrait:** SeedBank’s own adaptation contributions use CC BY-NC-SA 4.0; underlying character and reference rights remain with their creators. File scope, changes and unresolved reference provenance are recorded in the [portrait notice](assets/brand/NOTICE.md).
+- **Live2D assets:** Illustration and separation by **神宫凉子**; rigging by **霓虹猫_NeonNeko**. Follow the terms supplied with the model. This repository includes no model or download mirror and grants no permission to resell or redistribute it. Product promotion requires confirmation under the creator’s terms.
+- **Separate licenses:** Textual birth templates use CC BY-SA 4.0. Qt, the Live2D SDK and other runtimes retain their own terms; see [third-party notices](THIRD_PARTY_NOTICES.md).
 
 [License: MIT](LICENSE) · [Contributing](CONTRIBUTING.md)
 

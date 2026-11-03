@@ -173,17 +173,19 @@ ${d.creditsIntro}
 | | |
 | :--- | :--- |
 | ${d.creditRoles[0]} | [@ZipZipPipe](https://space.bilibili.com/4168597) · [@上善无形](https://www.bilibili.com/opus/1253873972180680713) |
-| ${d.creditRoles[1]} | **神宫凉子** |
+| ${d.creditRoles[1]} | [**神宫凉子**](https://space.bilibili.com/13737731) |
 | ${d.creditRoles[2]} | **霓虹猫_NeonNeko** |
 | ${d.creditRoles[3]} | ${d.modelSource} |
 
-[${d.creditsLink}](https://www.bilibili.com/video/BV1ALnw6YEGK) · [${d.assetsLink}](docs/assets.md)
+[${d.creditsLink}](https://www.bilibili.com/video/BV1KmxY66EZ3/) · [${d.modelDownloadLink}](https://gf.bilibili.com/item/detail/1109618072) · [${d.assetsLink}](docs/assets.md)
 
 ${d.creditsNote}
 
 ### ${s[7]}
 
 ${d.readmeContribute}
+
+${d.licenseItems.map(item=>`- ${item}`).join("\n")}
 
 [${d.licenseLink}: MIT](LICENSE) · [${d.extensions.contribute}](CONTRIBUTING.md)
 

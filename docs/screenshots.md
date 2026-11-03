@@ -32,7 +32,7 @@
 
 DeepSeek-chan（大肥鱼），神宫凉子免费配布模型。**人设：ZipZipPipe、上善无形；原画及拆分：神宫凉子；Live2D 建模：霓虹猫_NeonNeko。**
 
-[完整出处与使用边界](assets.md) · [作者原始预告](https://www.bilibili.com/video/BV1ALnw6YEGK)
+[完整出处与使用边界](assets.md) · [作者发布视频](https://www.bilibili.com/video/BV1KmxY66EZ3/) · [模型获取页](https://gf.bilibili.com/item/detail/1109618072)
 
 **English:** These are five actual pages from one checked 0.0.1 executable, captured with an artificial offline life. The diary date was explicitly advanced. They are not real conversations or evidence of autonomous growth. The local model is not bundled; credits and usage conditions remain applicable.
 

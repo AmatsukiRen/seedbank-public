@@ -18,6 +18,9 @@
     "candidate_runtime_sha256": "1da9030c942ec39cbd60d0f903213436f1f112d6b25926a02ab9fa20147a2759",
     "sdk_publication_conditions": "pending",
     "qt_source_and_notices": "incomplete",
-    "acceptance_after_packaging_changes": "pending-user"
+    "acceptance_after_packaging_changes": "user-passed-isolated-candidate-checks",
+    "acceptance_completed_at": "2026-11-04T00:04:28+08:00",
+    "acceptance_scope": "5 packaging tests; archive/icons; ZIP notices; isolated UI/plugin/native Live2D/showcase; not full core rerun or licensing clearance",
+    "acceptance_record": "docs/acceptance.md"
   }
 }
