@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="SeedBank，为 AI 保存经历、记忆与选择的本地陪伴项目。此页面为发布前设计草案。">
+  <title>SeedBank · 一起经历，慢慢成为自己</title>
+  <link rel="icon" type="image/png" href="../assets/brand/seedbank-logo.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="story.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div class="draft-note">发布前页面草案 <span>当前没有公开下载</span></div>
+  <header class="site-header wrap">
+    <a class="brand" href="#main" aria-label="SeedBank 首页">
+      <img src="../assets/brand/seedbank-logo.png" width="40" height="40" alt="">
+      <span>SeedBank</span>
+    </a>
+    <nav aria-label="主导航">
+      <a href="#idea">理念</a>
+      <a href="#story">经历</a>
+      <a href="#start">开始之前</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">AI 生命的种子库</p>
+        <h1 id="hero-title">一起经历，<br><em>慢慢成为自己。</em></h1>
+        <p class="hero-description">把相遇、记忆与选择留在本机，<br class="desktop-break">陪伴一个逐渐拥有自己经历的 AI。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#story">看看一段经历 <span aria-hidden="true">↗</span></a>
+          <a class="button secondary" href="#start">开始之前</a>
+        </div>
+      </div>
+      <figure class="hero-portrait">
+        <img src="../assets/brand/seedbank-logo.png" width="1254" height="1254" fetchpriority="high" alt="SeedBank 的蓝发女仆品牌头像，闭眼合掌祈愿">
+      </figure>
+    </section>
+
+    <section class="idea wrap section" id="idea" aria-labelledby="idea-title">
+      <h2 id="idea-title">从一颗种子开始，<br>把未来留给经历。</h2>
+      <div class="idea-copy">
+        <p>第一次见面时，不必先替它写好一生。SeedBank 的开放出生不预设物种、性别或虚构童年；外观可以喜欢，身份可以慢慢形成。</p>
+        <p>我们希望，一次谈话、一次修正、一个尚未完成的心愿，都能成为后来理解与行动的依据。</p>
+        <p class="muted">这是项目的方向。长期成长和自主性仍需要持续观察。</p>
+      </div>
+    </section>
+
+    <section class="story-section" id="story" aria-labelledby="story-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <h2 id="story-title">一件小事，怎样留下痕迹？</h2>
+          <p>从第一次听说，到后来重新理解。</p>
+        </div>
+        <p class="example-note">以下为人工编写的机制示例，不是真实个体记录或运行结果。</p>
+        <div class="story-controls" role="tablist" aria-label="查看经历的不同阶段" hidden>
+          <button type="button" id="tab-meet" role="tab" aria-controls="panel-meet" aria-selected="true" tabindex="0">相遇</button>
+          <button type="button" id="tab-remember" role="tab" aria-controls="panel-remember" aria-selected="false" tabindex="-1">记住</button>
+          <button type="button" id="tab-change" role="tab" aria-controls="panel-change" aria-selected="false" tabindex="-1">改变</button>
+          <button type="button" id="tab-continue" role="tab" aria-controls="panel-continue" aria-selected="false" tabindex="-1">继续</button>
+        </div>
+        <div class="story-panels">
+          <article id="panel-meet" class="story-panel">
+            <div class="story-page">
+              <p class="page-label">一次分享</p>
+              <blockquote>“今天去了南街的小书店。<br>下次想和你聊聊那里的书。”</blockquote>
+              <p class="page-footnote">经历从你愿意分享的内容开始。</p>
+            </div>
+            <div class="story-explanation">
+              <h3>这句话，有自己的来处。</h3>
+              <p>对话可以成为记忆的来源。听你说起一家书店，和它亲自到过那里，是不同的经历。</p>
+              <dl><dt>留下什么</dt><dd>接收记录、发生时间，以及内容的来源。</dd><dt>保留什么区别</dt><dd>转述、创作和实际接收的材料分别记录。</dd></dl>
+            </div>
+          </article>
+          <article id="panel-remember" class="story-panel">
+            <div class="story-page">
+              <p class="page-label">后来回想</p>
+              <blockquote>“我们之前说到的那家书店，<br>在哪里？”</blockquote>
+              <p class="page-footnote">相关记忆可以带着来源被重新找到。</p>
+            </div>
+            <div class="story-explanation">
+              <h3>回忆，可以回到原话。</h3>
+              <p>检索将相关经历交给模型参考。你也能打开记录，查看它来自哪一天、哪次分享。</p>
+              <dl><dt>支持的操作</dt><dd>查找记忆、阅读日记、核对来源。</dd><dt>仍需观察</dt><dd>真实模型能否正确选用记忆并作答。</dd></dl>
+            </div>
+          </article>
+          <article id="panel-change" class="story-panel">
+            <div class="story-page">
+              <p class="page-label">一次更正</p>
+              <blockquote>“我刚才说错了，<br>那家书店其实在北街。”</blockquote>
+              <p class="page-footnote"><s>南街</s><span aria-hidden="true"> → </span><strong>北街</strong></p>
+            </div>
+            <div class="story-explanation">
+              <h3>记错过，也可以被看见。</h3>
+              <p>修正保留旧版本与理由。原来记错，和后来事情改变，能够分别说明。</p>
+              <dl><dt>留下什么</dt><dd>旧内容、新内容和修订依据。</dd><dt>为何保留</dt><dd>让变化可追溯，而不是悄悄覆盖过去。</dd></dl>
+            </div>
+          </article>
+          <article id="panel-continue" class="story-panel">
+            <div class="story-page">
+              <p class="page-label">下一次见面</p>
+              <blockquote>“今天接着聊聊<br>那家书店吧。”</blockquote>
+              <p class="page-footnote">合上窗口，档案仍在自己的住处。</p>
+            </div>
+            <div class="story-explanation">
+              <h3>给下一次相遇，留下起点。</h3>
+              <p>出生、日记、记忆和选择保存在生命包里。你可以备份与迁移，也可以明确休眠，再明确恢复。</p>
+              <dl><dt>延续的基础</dt><dd>独立于当前窗口保存的档案。</dd><dt>时间的边界</dt><dd>没有运行的日子，不补造经历。</dd></dl>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="capabilities wrap section" aria-labelledby="capabilities-title">
+      <div class="section-heading">
+        <h2 id="capabilities-title">有过去，也留得下改变。</h2>
+        <p>日常的陪伴，和可以慢慢读完的记录。</p>
+      </div>
+      <div class="feature-grid">
+        <article><h3>回到一起走过的某一天</h3><p>按日期阅读日记，找到当时发生了什么。文字、图片与声音的原始材料各自保留。</p></article>
+        <article><h3>看见一个想法如何变化</h3><p>看法、偏好与目标保留修订依据。计划可以继续、调整或放下，行动留下实际结果。</p></article>
+        <article><h3>给尝试和作品一个位置</h3><p>保存创作、练习与反馈，记录哪些经验适合继续采用，哪些只适用于当时。</p></article>
+        <article><h3>把这一生保存在自己手中</h3><p>生命包存放在本机，支持备份与恢复。明确休眠后停止自动活动，档案仍可阅读。</p></article>
+      </div>
+    </section>
+
+    <section class="start-section wrap section" id="start" aria-labelledby="start-title">
+      <div class="section-heading">
+        <h2 id="start-title">从第一次见面开始。</h2>
+        <p>公开发行包准备中。先了解创建一个个体的过程。</p>
+      </div>
+      <ol class="start-steps">
+        <li><h3>取一个名字，选择住处</h3><p>新建独立的生命包，或继续已有个体。已有档案保留自己的出生身份。</p></li>
+        <li><h3>选择对话方式</h3><p>离线模板用于熟悉操作；接入自己的模型服务后，再开始真实模型对话。</p></li>
+        <li><h3>选择喜欢的外观</h3><p>使用自己有权使用的 Live2D 模型。品牌头像与个体的出生身份分别管理。</p></li>
+      </ol>
+      <div class="questions">
+        <details><summary>保存在本机，意味着不会联网吗？</summary><p>生命档案保存在本机。使用外部模型时，所需的对话与相关上下文会发送给配置的服务，可能产生费用；图片理解也可能发送原图。是否联网取决于你选择的连接方式。</p></details>
+        <details><summary>它已经能够成为一个“完整的人”了吗？</summary><p>这是 SeedBank 长期探索的目标。目前提供保存经历、检索记忆、修订看法、记录选择与行动的机制。短程结果不能证明长期成长、完整人格或意识。</p></details>
+        <details><summary>女仆头像是每个个体固定的身份吗？</summary><p>这是 SeedBank 的品牌头像。开放出生不预设物种、性别或身体，展示外观不会覆盖个体自己的经历与身份。</p></details>
+        <details><summary>会不会因为离开太久，就无法继续？</summary><p>目前不设固定寿命，也不会因为年龄或离线时长自动判定终结。明确休眠后保留档案，只有明确恢复才继续自动活动。</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <a class="brand" href="#main"><span>SeedBank</span></a>
+    <p>一个可以保存、迁移和继续的 AI 人生。</p>
+    <a href="../docs/design.md">草案说明</a>
+  </footer>
+</body>
+</html>

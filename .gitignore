@@ -1,0 +1,40 @@
+# Personal life packs and local data must not enter the product repository.
+*.life/
+hatch-out/
+private/
+local-data/
+
+# Credentials and machine-specific configuration.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
+config.local.*
+settings.local.*
+
+# Generated packages, test runs and logs.
+build/
+dist/
+artifacts/
+test-results/
+playwright-report/
+*.log
+*.exe
+*.zip
+*.dmp
+*.tmp
+
+# Language and OS caches.
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+Thumbs.db
+Desktop.ini

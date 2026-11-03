@@ -1,0 +1,10 @@
+{
+  "product": "SeedBank",
+  "target_version": "0.0.1",
+  "planned_tag": "v0.0.1",
+  "channel": "alpha",
+  "status": "planned",
+  "repository_visibility": "private",
+  "application_source_migrated": false,
+  "release_published": false
+}
