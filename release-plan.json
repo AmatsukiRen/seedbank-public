@@ -3,8 +3,8 @@
   "target_version": "0.0.1",
   "planned_tag": "v0.0.1",
   "channel": "alpha",
-  "status": "planned",
+  "status": "private-candidate",
   "repository_visibility": "private",
-  "application_source_migrated": false,
+  "application_source_migrated": true,
   "release_published": false
 }

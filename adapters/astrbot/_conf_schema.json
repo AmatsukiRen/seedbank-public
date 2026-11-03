@@ -1,0 +1,4 @@
+{
+  "port": {"description": "SeedBank 本机上报端口", "type": "int", "default": 8791},
+  "token_env": {"description": "本机桥接令牌环境变量名（不是令牌本身）", "type": "string", "default": "SEEDBANK_ASTRBOT_TOKEN"}
+}

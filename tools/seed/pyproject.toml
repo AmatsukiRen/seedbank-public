@@ -1,0 +1,37 @@
+[project]
+name = "seedbank"
+dynamic = ["version"]
+description = "SeedBank — give AI a full life, with local memory, choices and continuity"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "AmatsukiRen" }]
+keywords = ["seedbank", "digital-life", "local-first", "life-pack"]
+
+[project.optional-dependencies]
+desktop = ["Pillow>=10.4,<14", "PySide6>=6.8,<7", "live2d-py==1.0.0", "PyOpenGL==3.1.10"]
+channels = ["discord.py==2.7.1", "lark-oapi==1.7.5", "dingtalk-stream==0.24.3"]
+
+[project.urls]
+Homepage = "https://github.com/AmatsukiRen/seedbank-public"
+
+[project.scripts]
+seed = "seedbank.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "." }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["seedbank*"]
+
+[tool.setuptools.package-data]
+"seedbank" = ["locales/*.json"]
+"seedbank.quick" = ["qml/*.qml", "qml/qmldir", "qml/brand/*.png"]
+
+[tool.setuptools.dynamic]
+version = {attr = "seedbank.__version__"}
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"

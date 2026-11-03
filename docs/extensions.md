@@ -4,7 +4,7 @@
 
 桌面窗口只是一个入口。我们希望一个个体可以换用不同的模型、声音和身体，也可以来到新的平台；经历、记忆的来源和明确作出的选择继续留在生命包里。欢迎把自己擅长的部分接进来。
 
-**当前状态：** 以下接口来自原研发实现，按 2026-11-03 源码整理，应用核心尚未迁入本库。这些接口尚未作为稳定插件 SDK 发布。现在没有插件商店、统一安装器、热加载、权限沙箱或公开 HTTP 服务。新增 AstrBot 转接只监听本机、使用独立令牌、只接收消息，不是通用核心 HTTP API。
+**当前状态：** 应用核心、桌面界面和适配器已迁入本库，接口对应 0.0.1 候选源码。这些接口尚未作为稳定插件 SDK 发布。现在没有插件商店、统一安装器、热加载、权限沙箱或公开 HTTP 服务。新增 AstrBot 转接只监听本机、使用独立令牌、只接收消息，不是通用核心 HTTP API。
 
 ## 1. 选择一条接入路线
 
@@ -24,8 +24,8 @@
 启动方式，二选一；路径由开发者指定：
 
 ```powershell
-# 原研发源码环境；本库尚无 tools/seed/seed.py
-python <原研发目录>/tools/seed/seed.py bridge <独立人工包.life> --brain stub
+# 在本仓库根目录
+python tools/seed/seed.py bridge <独立人工包.life> --brain stub
 
 # 含命令行入口的 Windows 研发交付
 seedbank.exe bridge <独立人工包.life> --brain stub
@@ -53,7 +53,7 @@ seedbank.exe bridge <独立人工包.life> --brain stub
 
 ```powershell
 python examples/bridge_client.py --pack <独立人工包.life> --exe <seedbank.exe路径>
-# 或：--seed-script <原研发目录>/tools/seed/seed.py
+# 或：--seed-script tools/seed/seed.py
 ```
 
 ## 3. 第一批值得理解的操作
@@ -87,8 +87,8 @@ python examples/bridge_client.py --pack <独立人工包.life> --exe <seedbank.e
 
 下一步值得共同设计的是：插件 ID 和版本、核心协议兼容范围、入口命令、请求能力、允许访问的数据、离线/联网声明、停止与卸载行为，以及可撤回的用户授权。
 
-这些仍是设计任务，暂不提供看似能用的 `manifest.json` 或安装命令。可先提交小型提案，说明：谁使用、输入与输出、接入哪一层、是否写生命包或联网、失败如何恢复，以及人工验收方法。等协议和核心迁入后，再把提案变成可运行的示例插件。
+这些仍是设计任务，暂不提供看似能用的 `manifest.json` 或安装命令。可先提交小型提案，说明：谁使用、输入与输出、接入哪一层、是否写生命包或联网、失败如何恢复，以及人工验收方法。核心与协议已在本库，可围绕实际接口提交示例；统一插件运行时仍需另行设计。
 
-**English:** Existing R&D integrations use a local JSON Lines bridge (`seedbank/bridge@1`), provider adapters and Qt Quick/Live2D presentation. App source has not migrated to this repository. A plugin manager, permission manifest, hot reload and a stable SDK are future work. The offline Python example below is a reference client, not a tested release.
+**English:** The source in this repository includes a local JSON Lines bridge (`seedbank/bridge@1`), provider adapters and Qt Quick/Live2D presentation. See [development instructions](development.md). A plugin manager, permission manifest, hot reload and a stable SDK are future work. The offline Python example is a reference client, not a tested release.
 
-**日本語:** 元の開発版には JSON Lines ブリッジ、モデルアダプター、Qt Quick / Live2D の仕組みがあります。本庫へのアプリ移行は未完了です。統一プラグイン管理、権限宣言、ホットリロード、安定 SDK は今後の設計課題です。Python のオフライン例は参考実装で、検証済みリリースではありません。
+**日本語:** 本リポジトリに JSON Lines ブリッジ、モデルアダプター、Qt Quick / Live2D のソースを収録しました。[開発手順](development.md)をご覧ください。統一プラグイン管理、権限宣言、ホットリロード、安定 SDK は今後の設計課題です。Python のオフライン例は参考実装で、検証済みリリースではありません。

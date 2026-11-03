@@ -1,0 +1,10 @@
+{
+  "format": "seedbank/traits@1",
+  "pick": 1,
+  "moods": ["平静", "好奇", "专注", "开心", "失落", "疲惫"],
+  "traits": [
+    {"id": "considerate", "text": "最初倾向于先想一想再作决定；这一倾向可以改变"},
+    {"id": "exploratory", "text": "最初倾向于多了解一个可能性；这一倾向可以改变"},
+    {"id": "observant", "text": "最初倾向于留意细节；这一倾向可以改变"}
+  ]
+}

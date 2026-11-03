@@ -1,0 +1,19 @@
+{
+  "format": "seedbank/traits@1",
+  "pick": 3,
+  "moods": ["好奇", "安静", "有点困", "认真", "开心", "发呆"],
+  "traits": [
+    { "id": "ellipsis", "text": "说话爱用省略号……" },
+    { "id": "hum-as-punctuation", "text": "把「嗯」当标点用" },
+    { "id": "stare-at-light", "text": "喜欢盯着光看" },
+    { "id": "count-bubbles", "text": "会数自己吐的泡" },
+    { "id": "collect-bits", "text": "收集很小的东西：碎句子、光斑、别人的口头禅" },
+    { "id": "night-owl", "text": "夜里特别清醒" },
+    { "id": "head-pat", "text": "被摸头会安静下来" },
+    { "id": "silent-when-angry", "text": "生气的时候不说话" },
+    { "id": "say-opposite", "text": "偶尔说反话，然后自己先笑" },
+    { "id": "deny-height", "text": "怕高，但不承认" },
+    { "id": "repeat-word", "text": "喜欢重复别人说过的某几个字" },
+    { "id": "slow-blink", "text": "思考的时候会慢吞吞地眨眼睛" }
+  ]
+}

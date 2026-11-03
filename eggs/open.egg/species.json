@@ -1,0 +1,10 @@
+{
+  "format": "seedbank/seed@1",
+  "id": "open",
+  "name": "开放生命种子",
+  "version": "0.1.0",
+  "locale": "zh-CN",
+  "summary": "个人经历从出生开始；形态、表达方式与成长方向保持开放。",
+  "brain": {"adapter": "any", "required_capabilities": ["chat", "structured-output"]},
+  "license": "CC-BY-SA-4.0"
+}

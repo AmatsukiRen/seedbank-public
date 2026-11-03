@@ -1,0 +1,6 @@
+name: seedbank_bridge
+display_name: SeedBank Bridge
+desc: 使用 /seed 将文字交给本机 SeedBank，共用个体经历与记忆。
+version: v0.0.1
+author: AmatsukiRen
+support_platforms: []

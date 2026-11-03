@@ -1,0 +1,59 @@
+{
+  "format": "seedbank/vector@1",
+  "description": "跨实现验算向量：用同一颗蛋、同一熵、同一出生时间孵化，出生证必须逐字段一致。蛋内内容变更时需重新生成。",
+  "egg": "eggs/dafeiyu.egg",
+  "input": {
+    "seed": "conformance-v1",
+    "time": "2026-01-01T00:00:00Z",
+    "name": "alpha"
+  },
+  "expected_birth": {
+    "format": "seedbank/life@1",
+    "name": "alpha",
+    "born_at": "2026-01-01T00:00:00Z",
+    "local_date": "2026-01-01",
+    "seed": "f51c0bbe70604cf6cdeac64fec77cdca2e8bb3b85cecd23201ed4a3fd4f464e3",
+    "species": {
+      "id": "dafeiyu",
+      "name": "大肥鱼",
+      "version": "0.1.0"
+    },
+    "egg": {
+      "id": "dafeiyu",
+      "version": "0.1.0",
+      "sha256": "f43ea89113302141f541d6acead4da681a2e1cf6161100c1e89eed1e52575997"
+    },
+    "deps": {
+      "format": "seedbank/deps@1",
+      "runtime": {
+        "name": "python",
+        "version": ">=3.10"
+      },
+      "dependencies": [],
+      "network_required": false
+    },
+    "requires": {
+      "name": "python",
+      "version": ">=3.10",
+      "python": ">=3.10"
+    },
+    "genome": {
+      "identity": "genome/identity.md",
+      "values": "genome/values.md",
+      "quirks": "genome/quirks.md",
+      "traits": "genome/traits.json"
+    },
+    "genesis": {
+      "file": "life/0001-2026-01-01.md",
+      "day": 1
+    },
+    "clock": "on-demand",
+    "hashes": {
+      "pack": "114a0ab30734a46b7af60e350648079ec3f0c57c6222de3e35dc4619bef89769",
+      "genome": "bba8b8f1fb288f85ae59dd98c992afae101e7a54e4ac64142187e691bcda40d4",
+      "deps": "81be591bd13ffb1b139dcc67720a4c0bb890061312d324472007164218f470be"
+    },
+    "birth_hash": "9d88962c36345eae1b5f2dd8a74cb4d3a54fca7f955965c7b389f73ce4d5cabc"
+  },
+  "egg_sha256": "f43ea89113302141f541d6acead4da681a2e1cf6161100c1e89eed1e52575997"
+}

@@ -1,0 +1,62 @@
+"""Assemble dependency license texts for a private candidate; no app imports."""
+from importlib import metadata
+import json
+from pathlib import Path
+import shutil
+import sys
+
+from packaging.requirements import Requirement
+from packaging.utils import canonicalize_name
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def assemble(destination: Path):
+    destination.mkdir(parents=True, exist_ok=True)
+    queue = ['PyInstaller', 'PySide6', 'shiboken6', 'live2d-py', 'PyOpenGL',
+             'Pillow', 'numpy', 'discord.py', 'lark-oapi', 'dingtalk-stream']
+    seen, inventory = set(), []
+    while queue:
+        name = canonicalize_name(queue.pop())
+        if name in seen:
+            continue
+        seen.add(name)
+        dist = metadata.distribution(name)
+        copied = []
+        for file in dist.files or ():
+            # Preserve original notices only: no direct_url.json or environment data.
+            leaf = file.name.lower()
+            if not (leaf.startswith(('license', 'copying', 'notice', 'copyright')) or '/licenses/' in str(file).lower()):
+                continue
+            source = Path(dist.locate_file(file))
+            if not source.is_file():
+                continue
+            safe_parts = [part for part in file.parts if part not in ('..', '.', '/')]
+            target = destination / name / Path(*safe_parts)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
+            copied.append(target.relative_to(destination).as_posix())
+        inventory.append({'name': dist.metadata['Name'], 'version': dist.version,
+                          'license_expression': dist.metadata.get('License-Expression', ''),
+                          'homepage': dist.metadata.get('Home-page', ''),
+                          'project_urls': dist.metadata.get_all('Project-URL') or [],
+                          'license_files': sorted(copied)})
+        for value in dist.requires or ():
+            requirement = Requirement(value)
+            if requirement.marker is None or requirement.marker.evaluate({'extra': ''}):
+                queue.append(requirement.name)
+    for folder in (Path(sys.base_prefix), Path(sys.executable).parent):
+        source = folder / 'LICENSE.txt'
+        if source.is_file():
+            shutil.copyfile(source, destination / 'PYTHON-LICENSE.txt')
+            break
+    inventory.sort(key=lambda row: row['name'].lower())
+    (destination / 'inventory.json').write_text(json.dumps({
+        'python': sys.version.split()[0], 'dependencies': inventory,
+        'scope': 'Build dependency metadata and original notices; publication clearance pending.'
+    }, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    return inventory
+
+
+if __name__ == '__main__':
+    assemble(ROOT / 'build' / 'third-party')

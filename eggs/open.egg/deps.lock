@@ -1,0 +1,6 @@
+{
+  "format": "seedbank/deps@1",
+  "runtime": {"name": "python", "version": ">=3.10"},
+  "dependencies": [],
+  "network_required": false
+}

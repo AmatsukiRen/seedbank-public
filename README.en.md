@@ -109,7 +109,7 @@ There is room for Python, QML, frontend and model engineering, character product
 <a name="start"></a>
 <h2><img src="assets/readme/section-start-en.svg" width="100%" alt="Getting started"></h2>
 
-The first release, 0.0.1, is in preparation. Application source, downloads and setup instructions will be provided together at release.
+Application source, desktop UI and build scripts are now in this repository for version 0.0.1. Start with the [setup guide (中文)](docs/getting-started.md). Collaborators can review the private candidate; public downloads will follow publication.
 
 1. **A place to live** Name a new individual and choose where its life package lives on your computer. Existing archives can be continued.
 2. **A way to talk** Explore the interface with offline templates, then configure your own model service and budget if you wish.
@@ -131,7 +131,7 @@ Choose a provider, endpoint and model, then enter your own API key. The key sele
 | Ollama / LM Studio | Local OpenAI-compatible | Usually no key required |
 | Codex login (optional) | Uses this computer’s signed-in Codex account | No API key |
 
-Windows settings offer masked entry and encryption under the current OS user. Life packs store only a credential reference; re-enter the key on another computer. Environment variables remain an advanced option: the variable name identifies where to read a key, not an account. Model names are editable; access and charges depend on the provider and key. Only the separate Codex login option uses the local Codex session. The application implementation remains in the development repository.
+Windows settings offer masked entry and encryption under the current OS user. Life packs store only a credential reference; re-enter the key on another computer. Environment variables remain an advanced option: the variable name identifies where to read a key, not an account. Model names are editable; access and charges depend on the provider and key. Only the separate Codex login option uses the local Codex session. Application implementation is in tools/seed/seedbank in this repository.
 
 New presets leave model IDs for you to fill from your account. Match region and workspace endpoints. Implemented presets are not live-service acceptance. See the [full service and setup guide](docs/model-services.md).
 
@@ -146,7 +146,7 @@ Model services handle understanding and expression; chat channels bring the same
 | Feishu · DingTalk | Persistent bot connection / Stream | New text channels; your app credentials |
 | AstrBot | Local bridge plugin · /seed | Reuse platform inputs with separate identity checks |
 
-These additions are in the development implementation and await offline and live acceptance. Attachments, voice and proactive notifications are outside the new channels. AstrBot's platform list is not a list of verified SeedBank integrations.
+Implementations and offline cases are included here. Prior offline results are version-specific; live platform acceptance remains pending. Attachments, voice and proactive notifications are outside the new channels. AstrBot’s platform list is not a list of verified SeedBank integrations.
 
 **[Platform credentials and AstrBot plugin setup (中文) →](docs/channels.md)**
 
