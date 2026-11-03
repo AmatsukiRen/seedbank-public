@@ -6,5 +6,16 @@
   "status": "private-candidate",
   "repository_visibility": "private",
   "application_source_migrated": true,
-  "release_published": false
+  "release_published": false,
+  "source_publication": {
+    "status": "private-preparation",
+    "proprietary_runtime_binaries_in_git": false,
+    "artwork_clearance": "pending"
+  },
+  "windows_distribution": {
+    "status": "private-preparation",
+    "sdk_publication_conditions": "pending",
+    "qt_source_and_notices": "incomplete",
+    "acceptance_after_packaging_changes": "pending-user"
+  }
 }

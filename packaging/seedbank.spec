@@ -147,6 +147,7 @@ a = Analysis(
 # Optional input methods and QML debugging plugins are not used by this app.
 # qmldbg_quick3dprofiler also pulls in GPLv3/commercial Qt6Quick3DUtils.
 # Remove the consumer as well as the library; retain ordinary Qt Quick 2D.
+# The photo picker does not accept PDF; omit its unused image reader and library.
 # This policy must also be checked against the produced executable.
 a.binaries = [entry for entry in a.binaries if not excluded_qt_entry(entry[0])]
 a.datas = [entry for entry in a.datas if not excluded_qt_entry(entry[0])]

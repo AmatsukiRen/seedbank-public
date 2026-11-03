@@ -30,14 +30,23 @@ powershell -NoProfile -ExecutionPolicy Bypass -File packaging/build_windows.ps1 
 
 输出 `dist/seedbank.exe`，从已认可 PNG 转换应用图标。此流程只生产打包，默认不启动产物、不运行测试。
 依赖的原始许可证与版本清单由 `packaging/collect_notices.py` 整理；`packaging/package_candidate.py`
-将程序、使用说明与许可证组装成 ZIP，并生成 SHA256。
+将程序、使用说明与许可证组装成 ZIP，另导出对应提交的 Source ZIP，并生成两者的 SHA256。先提交实际源码，再生产和组包：`runtime-build.json` 记录 exe 对应的干净源码提交，组包必须使用该提交，不能把旧 exe 与新 HEAD 混合交付。
 生产包会包含 Python、Qt 和 Live2D 运行库，**不含第三方模型**；公开分发前按 [THIRD_PARTY_NOTICES](../THIRD_PARTY_NOTICES.md) 确认许可。
 
 当前未配置自动发布工作流，提交和打标签不会自动公开仓库或发布二进制。
 
 `requirements-windows.lock` 固定本次构建的直接与传递依赖，不含本机路径或凭据。更新依赖时，在已安装目标版本的 Windows 环境运行 `python packaging/freeze_dependencies.py` 并复测；版本锁定不保证不同系统产生逐字节相同的 exe。构建明确排除未使用的 Qt Virtual Keyboard DLL 和输入插件，其许可与普通 Qt LGPL 模块不同。
 
-2026-11-03 后续许可核对又补充了 QML 调试插件及其 Qt Quick 3D 依赖的排除，保留 Qt Quick 2D；通知收集器补入 LGPLv3/GPLv3 正文。这些新修改尚未构建或测试。Qt 源码来源、替换重建步骤及待办见 [Qt 发行材料](qt-redistribution.md)，不把普通界面测试视为许可认证。
+2026-11-03 后续许可核对补充了 QML 调试插件及其 Qt Quick 3D 依赖的排除，保留 Qt Quick 2D；照片入口不接收 PDF，也排除闲置 qpdf/Qt6Pdf。通知收集器补入 LGPLv3/GPLv3 正文。新包的生产记录以相邻 `runtime-build.json` 为准，测试结果独立记录。Qt 源码来源、替换重建步骤及待办见 [Qt 发行材料](qt-redistribution.md)，不把普通界面测试视为许可认证。
+
+单独准备候选而不覆盖当前 `dist/seedbank.exe`：
+
+```powershell
+& packaging/build_windows.ps1 -NoInstall -SkipSmoke -OutputDirectory dist/candidate-preparation
+& $env:PYTHON packaging/package_candidate.py --executable dist/candidate-preparation/seedbank.exe --output-dir dist/candidate-preparation
+```
+
+以上是生产流程，不运行验收；没有验收报告的 ZIP 会明确标为未测试。源码、文档和程序从同一干净提交产生，`package_candidate.py` 不上传、发布或自动替换用户正在使用的程序。
 
 ## 隔离离线回归
 
@@ -60,6 +69,15 @@ GitHub 的 `Offline regressions (manual)` 工作流只有 `workflow_dispatch` �
 不要直接对真实个体运行调试、测试、示例写入或并行写会话。分享问题时只提供人工复现。
 
 ## 检查实际 Windows 包
+
+用户执行的完整入口：
+
+```powershell
+& packaging/run_candidate_checks.ps1 -Executable dist/candidate-preparation/seedbank.exe
+# 可追加 -Model "获准使用的完整路径.model3.json" 来覆盖原生 Live2D
+```
+
+它依次运行打包专项、实际归档/图标与 ZIP 通知检查、隔离应用检查；任何一步失败立即停止。控制台与结果位置保存到 `artifacts/candidate-check-*.log`，不会自动部署或联网。ZIP 必须已在同目录生产。以下是各独立入口：
 
 ```powershell
 # 只读取 exe 的归档和图标资源，不启动应用

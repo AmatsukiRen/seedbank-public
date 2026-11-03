@@ -8,7 +8,7 @@
 
 归档及 DLL 导入记录表明：`PySide6/plugins/qmltooling/qmldbg_quick3dprofiler.dll` 引用 `Qt6Quick3DUtils.dll`。这是未使用的开发调试依赖，不是 Live2D 本身，也不是普通 Qt Quick 2D 控件。Qt 的 [Quick 3D 6.12 文档](https://doc.qt.io/qt-6.12/qtquick3d-index.html)说明其商业/GPLv3 许可；对应 [utils 源码](https://github.com/qt/qtquick3d/blob/v6.12.0/src/utils/qssgutils_p.h)同样标注 GPL-3.0-only 或商业许可，[构建文件](https://github.com/qt/qtquick3d/blob/v6.12.0/src/utils/CMakeLists.txt)将其编入 Quick3DUtils。
 
-已在最终 PyInstaller 清单排除整组 QML 调试插件和 Quick 3D 组件，并保留 Qt Quick 2D、控件、OpenGL 与原生 Live2D 依赖。实际包检查器使用同一排除规则。之前的 Virtual Keyboard 排除保留。**只是源码修改，尚未证明新包清单和运行通过。**
+已在最终 PyInstaller 清单排除整组 QML 调试插件和 Quick 3D 组件，并保留 Qt Quick 2D、控件、OpenGL 与原生 Live2D 依赖。照片选择只接受 PNG/JPEG/WebP/BMP，因此也排除闲置 qpdf 与 Qt6Pdf；它们本身具有 LGPL 选项，不因本次删除而称其为 GPL-only。实际包检查器使用同一排除规则。之前的 Virtual Keyboard 排除保留。**生产记录与测试分开，尚未证明新包内容和运行通过。**
 
 已安装的 PySide6/shiboken6 6.12.0 wheel 许可证目录只提供商业许可引用，元数据则列 LGPL/GPL 选项，不能靠复制该目录完成开源许可通知。现已从 Qt `v6.12.0` 原库补入 LGPLv3 及它引用的 GPLv3 全文，保留来源 Git blob 标识；候选通知收集器将两份正文及说明放入 `third-party/qt/`，并在相关依赖索引中列出。
 
@@ -33,7 +33,7 @@ LGPL 库适用的修改及为调试这些修改而进行逆向工程的权利应
 | LGPL/GPL 正文与显著通知 | 原文已入源码；待通知收集与 ZIP 检查 |
 | Qt/PySide 对应源码、构建修改和安装信息 | 官方源包位置已记录；尚未整理完整对应源码附件和等同可取得方式 |
 | Qt 内嵌第三方组件声明 | 尚未按 wheel 构建配置/SBOM 完整匹配，不能以 Python 包元数据代替 |
-| PDF 插件 | 当前仍有 qpdf / Qt6Pdf；Qt PDF 有 LGPL 选项，不误列为 GPL-only，但 PDFium 等依赖需单独对应源码与通知 |
+| PDF 插件 | 打包规则已排除未使用的 qpdf / Qt6Pdf，待实际归档确认；若未来重新加入，须补齐其 PDFium 等依赖材料 |
 | 修改库重建后运行 | 步骤已准备，尚未执行 |
 
 依据：[Qt LGPL 义务说明](https://www.qt.io/development/open-source-lgpl-obligations)、[Qt 组件许可与第三方清单说明](https://doc.qt.io/qt-6/licensing.html)。不需要仅因使用 Qt 就默认购买商业许可；应先完成所选开源许可路线的实际义务。
@@ -43,13 +43,8 @@ LGPL 库适用的修改及为调试这些修改而进行逆向工程的权利应
 本轮没有运行以下命令。使用专门构建环境，不操作真实生命包；每次输出目录须新建：
 
 ```powershell
-$env:PYTHON = (Resolve-Path build/release-env/Scripts/python.exe).Path
-& $env:PYTHON packaging/test_qt_distribution.py
-& packaging/build_windows.ps1 -NoInstall -SkipSmoke
-& $env:PYTHON packaging/verify_candidate.py dist/seedbank.exe
-& $env:PYTHON packaging/run_packaged_checks.py dist/seedbank.exe artifacts/qt-license-package-check
-# 原生渲染需在上一命令追加 --model "获准使用的完整模型路径.model3.json"
-& $env:PYTHON packaging/package_candidate.py --acceptance artifacts/qt-license-package-check/report.json
+& packaging/run_candidate_checks.ps1 -Executable dist/candidate-preparation/seedbank.exe
+# 原生渲染需追加 -Model "获准使用的完整模型路径.model3.json"
 ```
 
-每步只有成功才继续，若报错应保留输出。新增四个离线方法针对误收调试依赖、保留 2D 依赖、通知正文和版本升级保护；并非完整许可审计。最后还需查看 ZIP 的 `third-party/qt/` 及 inventory，不能因为旧 exe 自检通过而跳过新包复测。这里不自动替换测试目录的固定入口，也不上传或公开发行。
+该入口不构建，须先按[开发说明](development.md)生产相邻的 exe 和 ZIP；执行时每步成功才继续，失败保留日志。新增五个离线方法针对误收调试/PDF 依赖、保留 2D/照片依赖、通知正文和版本升级保护；并非完整许可审计。实际归档与 ZIP 检查分别核对禁入组件及 `third-party/qt/`，随后才启动隔离程序。未传模型路径时不宣称原生 Live2D 已验收，不自动替换固定入口、上传或公开发行。

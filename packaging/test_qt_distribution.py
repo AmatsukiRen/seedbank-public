@@ -32,6 +32,12 @@ class QtDistributionTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertFalse(excluded_qt_entry(name))
 
+    def test_unused_pdf_reader_is_removed_but_photo_formats_remain(self):
+        self.assertTrue(excluded_qt_entry('PySide6/plugins/imageformats/qpdf.dll'))
+        self.assertTrue(excluded_qt_entry('PySide6/Qt6Pdf.dll'))
+        for plugin in ('qjpeg.dll', 'qwebp.dll', 'qsvg.dll'):
+            self.assertFalse(excluded_qt_entry('PySide6/plugins/imageformats/' + plugin))
+
     def test_shared_notices_include_both_license_texts_and_provenance(self):
         with tempfile.TemporaryDirectory() as directory:
             destination = Path(directory)

@@ -15,6 +15,10 @@
 
 ## 当前具体待确认项
 
+**公开自有源码与发行程序分别核对。** 支持 Live2D 不等于项目不能开源。AIRI 的[构建插件](https://github.com/proj-airi/unplugin-live2d-sdk/blob/main/src/vite/index.ts)会取得 Cubism Web SDK；它的 [Nix 文件](https://github.com/moeru-ai/airi/blob/main/nix/common.nix)则将自身 MIT 代码与非自由 Cubism 依赖区别记录，并对再分发提出疑问。本次只依据这些公开实现说明，未推断 AIRI 是否另有协议，也不把另一项目的公开状态当成 SeedBank 的授权。
+
+SeedBank 继续保留 Live2D：自有源码与构建说明可以独立准备，Windows 包的 SDK 条件另行落实。当前 Git 中仍有头像和模型截图，其用途许可也适用于源码仓库公开，不能因不附模型本体就跳过。两类交付的内容与待办见[迁入和分发说明](repository-plan.md#源码公开与-windows-发行分别推进)。
+
 **Live2D 是最明确的一项。** 官方定义涵盖通过添加文件加载不定数量模型的应用，也专门让 AI / chatbot 产品核对该类别。SeedBank 可以选择用户本机任意模型，因此**根据功能推断很可能属于可扩展应用**，这还不是 Live2D 对本项目作出的正式分类。该类别要求发行前审查与专门协议，适用于个人和小企业；完全免费的应用在特定条件下也可能获批，不能因此推定一定收费或自动豁免。开发插件界面并不是这一问题的唯一原因。
 
 须向 Live2D 说明实际功能并确认分类、免费开源条件、二进制与源码发行边界和所需声明。[询问草稿](licensing-inquiry.md)已准备，**尚未发送**。仅把 SDK 拆成一个下载插件并不能自动解决其发行条件，本轮没有采用这种假设。

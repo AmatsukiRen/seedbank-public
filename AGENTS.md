@@ -2,6 +2,7 @@
 
 ## 仓库与发行
 
+- 2026-11-03 用户在 AIRI 对照说明后要求“继续”：保留 Live2D，分别准备源码公开与含 SDK 的 Windows 包；本轮可生产独立未测试候选、对应源码和用户验收入口，仍不公开、不发送许可询问、不自行执行测试。固定测试入口和用户现有人物/配置保持原样。
 - 本库是产品开发与发行准备仓库，当前保持 PRIVATE。用户于 2026-11-03 要求再次检查并将主程序等上传 Git，准备公开库；已按清单迁入源码、适配器和构建材料，允许本轮生产与上传私有候选附件。
 - 首个版本为 0.0.1；允许准备 GitHub draft release，不能擅自改 PUBLIC、发布 Release、部署 Pages 或发布正式标签。公开需用户后续明确指令。
 - 迁移清单见 docs/source-files.txt，范围与历史结果见 docs/repository-plan.md、docs/acceptance.md。本库继续维护产品源码；原研发目录保留历史，不做双向同步。
@@ -28,7 +29,7 @@
 - 本地 JSON Lines、模型和渠道适配已经有实现；没有稳定插件 SDK、插件商店、热加载或权限沙箱，不混写为已完成。
 - 2026-11-03 新增本地手动文本插件：设置 → 插件与扩展，导入默认停用，确认信任才启用，每次手动执行，进程不是沙箱，不自动读写生命包或向模型提交结果。协议 `seedbank/plugin@1`；示例与说明见 docs/plugins.md。专项入口 packaging/run_offline.ps1 -Suite plugins；本轮已测源码及实际冻结工作进程。取消须处理 Windows 单文件启动器与工作进程树。
 - 已读取模型随包使用须知、上善无形非商业二创声明及 Live2D 官方 SDK/可扩展应用条款。加载任意本地模型很可能属于需官方审查的可扩展应用，不得宣称个人、免费或开源自动豁免。docs/licensing-review.md 记录依据，docs/licensing-inquiry.md 只是未发送草稿；不代用户发信、签约或改 PUBLIC。
-- 后续许可核对发现旧候选还包含调试插件带入的 Qt6Quick3DUtils，并缺少 Qt LGPL/GPL 正文。打包源码已补排除和通知，尚未重新构建或测试；旧 exe/Release 附件未替换，不能作为许可完成的候选。Qt 源码对应、内嵌第三方通知与重链接路径仍待完成，见 docs/qt-redistribution.md。
+- 后续许可核对发现旧候选还包含调试插件带入的 Qt6Quick3DUtils，并缺少 Qt LGPL/GPL 正文。打包源码已补排除和通知，另排除未使用 PDF 插件；独立候选生产状态见 runtime-build.json，未经过用户测试前不替换固定入口或引用旧通过结果。Qt 源码对应、内嵌第三方通知与重链接路径仍待完成，见 docs/qt-redistribution.md。
 
 ## 版本
 

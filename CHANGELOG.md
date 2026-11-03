@@ -15,6 +15,7 @@ Initial SeedBank candidate: local life archives, diary and memory views, explici
 
 ### Documentation and maintenance
 
+- Separate application source publication from Windows runtime distribution, retaining Live2D. Produce commit-bound runtime receipts and matching Source ZIPs, and provide a user-run entry for packaging, notice and isolated UI checks. Remove the unused Qt PDF image reader from the packaging recipe; acceptance remains pending.
 - Follow-up licensing preparation: exclude unused QML debugging/Quick 3D dependencies in packaging source and supplement Qt LGPL/GPL texts. Not rebuilt or tested yet; existing candidate attachments are unchanged. Track corresponding source, third-party notices and author/SDK inquiries separately.
 - Add isolated QQ security regressions, a reproducible Windows dependency snapshot, manual-only CI, issue/PR templates and security reporting guidance.
 - Restore a runnable five-page capture entry using artificial offline data; screenshots record the actual runtime and scenario.
