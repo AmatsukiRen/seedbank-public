@@ -10,8 +10,8 @@
 
 | 想做什么 | 已有机制 | 贡献的切入点 |
 | --- | --- | --- |
-| 让个体来到聊天平台 | Python JSON Lines 载体桥；QQ / OneBot；新增 Discord、Telegram、飞书、钉钉及 AstrBot 转接 | [渠道配置与范围](channels.md)；继续完善附件、身份映射及投递恢复，新增项待验收 |
-| 使用新的模型服务 | `stub`、`openai-compatible`、`anthropic`、`codex`；新增实验性 `workbuddy`（同账号 CodeBuddy CLI） | [模型服务接入](model-services.md)和 [WorkBuddy 说明](workbuddy.md)；新增入口未验收，13 家云服务预设仍保留 |
+| 让个体来到聊天平台 | Python JSON Lines 载体桥；QQ / OneBot；Discord、Telegram、飞书、钉钉及 AstrBot 转接 | [渠道配置与范围](channels.md)；隔离离线检查通过，真实平台待验收；继续完善附件、身份映射及投递恢复 |
+| 使用新的模型服务 | `stub`、`openai-compatible`、`anthropic`、`codex`；实验性 `workbuddy`（同账号 CodeBuddy CLI） | [模型服务接入](model-services.md)和 [WorkBuddy 说明](workbuddy.md)；离线检查通过，WorkBuddy 真实账号待验收；保留 13 家云服务预设 |
 | 做另一种界面或身体 | Qt Quick / QML 桌面界面、Live2D 本地模型、独立载体桥 | 手机端、桌宠、无障碍界面或 VR 载体；这些新载体是贡献方向，并非已有成品 |
 | 加入新的工具能力 | 本地文本插件管理页与 `seedbank/plugin@1` | 从[便签示例](../examples/plugins/hello/)开始；添加、信任、配置后手动运行，不自动写入生命经历 |
 | 改进记忆和成长 | 来源、修订、放下、目标、作品与反馈的已有机制 | 更好的查看和解释、更可靠的检索、失败反馈及人工回归场景 |
@@ -89,6 +89,6 @@ python examples/bridge_client.py --pack <独立人工包.life> --exe <seedbank.e
 
 更大的扩展可先提交小型提案：谁使用、输入与输出、接入哪一层、是否写生命包或联网、失败如何恢复，以及人工验收方法。自动工具选择、行动回执、插件商店与稳定 SDK 仍需继续设计。
 
-**English:** Source includes the local JSON Lines bridge, provider adapters and Qt Quick/Live2D presentation. The new Settings → Plugins & extensions page manages trusted local, manual text plugins. See the [plugin contract and example](plugins.md). No store, hot reload, OS sandbox or stable SDK is claimed. The new implementation has not yet been tested.
+**English:** Source includes the local JSON Lines bridge, provider adapters and Qt Quick/Live2D presentation. Settings → Plugins & extensions manages trusted local, manual text plugins. See the [plugin contract and example](plugins.md). Isolated offline checks and the packaged plugin worker passed; see the dated [acceptance scope](acceptance.md). No store, hot reload, OS sandbox or stable SDK is claimed. Live platform delivery and WorkBuddy account calls were not tested in this revision.
 
-**日本語:** JSON Lines ブリッジ、モデルアダプター、Qt Quick / Live2D のソースを収録しています。設定の「プラグインと拡張」から、信頼できるローカルテキストプラグインを管理し、手動実行できます。[仕様とサンプル](plugins.md)をご覧ください。ストア、ホットリロード、OS サンドボックス、安定 SDK は未提供です。新実装は未検証です。
+**日本語:** JSON Lines ブリッジ、モデルアダプター、Qt Quick / Live2D のソースを収録しています。設定の「プラグインと拡張」から、信頼できるローカルテキストプラグインを管理し、手動実行できます。[仕様とサンプル](plugins.md)をご覧ください。隔離したオフライン検証と配布 exe のプラグイン実行は通過しました。範囲は[検証記録](acceptance.md)をご確認ください。実サービスへの送受信と WorkBuddy アカウントでの呼び出しは今回未検証です。ストア、ホットリロード、OS サンドボックス、安定 SDK は未提供です。

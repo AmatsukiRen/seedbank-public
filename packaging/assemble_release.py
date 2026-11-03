@@ -5,6 +5,7 @@ and upstream source archives are separate release assets, not application data.
 Absent acceptance requires an explicit maintainer reason, recorded as unverified.
 """
 import argparse
+from datetime import datetime, timezone
 import hashlib
 import json
 import re
@@ -49,7 +50,7 @@ def upstream_notices(path, group):
                         yield group + '/' + member.name, stream.read()
 
 
-def assemble(candidate, upstream, report, output, *, unverified_reason=None, revision='initial'):
+def assemble(candidate, upstream, report, output, *, unverified_reason=None, revision='initial', acceptance_actor='user'):
     candidate, upstream, output = map(lambda p: Path(p).resolve(), (candidate, upstream, output))
     if output == candidate or output in candidate.parents:
         raise ValueError('Use a separate release output directory.')
@@ -66,7 +67,11 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
     if evidence is None and not (unverified_reason and unverified_reason.strip()):
         raise ValueError('Acceptance is missing; an explicit maintainer-directed release reason is required.')
     checks = evidence['checks'] if evidence is not None else []
-    acceptance_status = 'user-passed' if evidence is not None else 'unverified-maintainer-directed'
+    if acceptance_actor not in ('user', 'agent'):
+        raise ValueError('Unknown acceptance actor.')
+    acceptance_status = acceptance_actor + '-passed' if evidence is not None else 'unverified-maintainer-directed'
+    acceptance_completed_at = (datetime.fromtimestamp(Path(report).stat().st_mtime, timezone.utc).isoformat()
+                               if evidence is not None else None)
     docs_commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     if subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip():
         raise ValueError('Commit release documentation before assembly.')
@@ -130,6 +135,8 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
                               release_stage='preview', release_revision=revision,
                               tests_executed_for_this_candidate=evidence is not None,
                               acceptance_status=acceptance_status,
+                              acceptance_actor=acceptance_actor if evidence is not None else None,
+                              acceptance_completed_at=acceptance_completed_at,
                               checks=checks, archive_after_document_update_tested=False)
             archive.writestr(prefix + 'build-info.json', json.dumps(build_info, indent=2) + '\n')
             publication = {
@@ -138,7 +145,10 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
                 'runtime_rebuilt': False, 'release_revision': revision,
                 'acceptance_status': acceptance_status,
                 'unverified_release_reason': unverified_reason,
-                'user_acceptance_date': '2026-11-04' if evidence is not None else None,
+                'acceptance_actor': acceptance_actor if evidence is not None else None,
+                'acceptance_completed_at': acceptance_completed_at,
+                'user_acceptance_date': (acceptance_completed_at[:10]
+                                         if evidence is not None and acceptance_actor == 'user' else None),
                 'checks': checks, 'original_windows_zip_sha256': digest(base_zip),
                 'application_executed_during_release_assembly': False,
                 'tests_executed_during_release_assembly': False,
@@ -169,7 +179,10 @@ if __name__ == '__main__':
     acceptance.add_argument('--report')
     acceptance.add_argument('--unverified-release-reason', help='Explicit maintainer instruction; does not assert acceptance')
     parser.add_argument('--revision', default='initial', help='Artifact revision within the existing release')
+    parser.add_argument('--acceptance-actor', choices=('user', 'agent'), default='user',
+                        help='Who executed the accepted checks; defaults to historical user-run workflow')
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
     assemble(args.candidate, args.upstream, args.report, args.output,
-             unverified_reason=args.unverified_release_reason, revision=args.revision)
+             unverified_reason=args.unverified_release_reason, revision=args.revision,
+             acceptance_actor=args.acceptance_actor)

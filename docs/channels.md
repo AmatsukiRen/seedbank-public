@@ -4,7 +4,7 @@
 
 你可以从桌面、私聊或群聊来见同一个体。平台负责收发消息；经历、记忆、选择与模型配置继续由 SeedBank 的同一个会话处理。聊天平台的机器人 Token 与模型 API Key 是两种凭据，请分别设置。
 
-以下描述当前源码实现。2026-11-04 的其他渠道修订尚未运行回归，真实平台连接也未验收；不能用此前版本的离线结果代替。版本与范围见[验收记录](acceptance.md)。
+以下描述当前源码实现。2026-11-04 的其他渠道修订已通过隔离离线集成及打包程序检查；真实平台连接尚未验收。版本与实际范围见[验收记录](acceptance.md)，不以模拟结果保证每个平台线上兼容。
 
 ## QQ 以外的同类问题
 
@@ -23,7 +23,7 @@
 
 设置 → 聊天渠道现在分别显示白名单／主人限制、正在生成、正在提交、发送成功、未生成文字、失败或结果未知。发送不明确时仍不重试，避免重复消息；AstrBot 显示“已转交插件”。这些信息也保留到连接断开时，不用一个笼统断开状态掩盖刚才的发送异常。
 
-本轮只做代码检查和修改，新增 14 项逻辑用例及 1 项四语界面用例，尚未运行。逻辑用例包括五渠道消息保存、重开桌面回忆、无摘要时的原始记录检索及群间隔离。用户运行入口仍为 `packaging/run_offline.ps1 -Suite integrations`；因为提示版本升级到 v44，另请使用 `-Suite core` 复查上下文预算。新 exe 需独立执行 `packaging/run_candidate_checks.ps1`，不能引用旧包的通过记录。
+新增 14 项逻辑用例及 1 项四语界面用例已随本轮集成回归通过。逻辑用例包括五渠道消息保存、重开桌面回忆、无摘要时的原始记录检索及群间隔离，使用假模型和假发送器。复跑入口为 `packaging/run_offline.ps1 -Suite integrations`；核心与预算为 `-Suite core`，打包程序为 `packaging/run_candidate_checks.ps1`。这些脚本不会验证真实账号收发。
 
 提及解析依据：[Telegram MessageEntity](https://core.telegram.org/bots/api#messageentity)、[Discord Message.mentions](https://discordpy.readthedocs.io/en/stable/api.html#discord.Message.mentions)。Telegram 的发送回执依据：[sendMessage](https://core.telegram.org/bots/api#sendmessage)。其余平台仍沿用已有 SDK 接口，本轮不声称完成线上兼容性验收。
 
@@ -125,6 +125,6 @@ AstrBot 和 SeedBank 必须运行在**同一台机器、同一网络命名空间
 
 休眠确认与直接渠道的当前消息处理、回复提交顺序执行，可能需等待当前模型请求或发送完成；已经提交到平台的消息不能撤回。AstrBot 的最终发信由框架完成，停止转接不能撤回已交给插件的回复。
 
-**English:** QQ uses OneBot. Telegram, Discord, Feishu and DingTalk use direct text adapters; AstrBot uses an explicit `/seed` local bridge. The 2026-11-04 revisions address bare mentions, preserve literal message text and distinguish bridge handoff from platform delivery. These latest revisions have not been tested or published; earlier offline results do not cover them.
+**English:** QQ uses OneBot. Telegram, Discord, Feishu and DingTalk use direct text adapters; AstrBot uses an explicit `/seed` local bridge. The 2026-11-04 revisions address bare mentions, preserve literal message text and distinguish bridge handoff from platform delivery. Current isolated integration and packaged UI checks passed; live platform connections remain unverified.
 
-**日本語:** QQ は OneBot、Telegram・Discord・Feishu・DingTalk は文字アダプター、AstrBot は `/seed` ローカルブリッジを使用します。2026-11-04 の修訂は、本文のないメンション、文字の保持、プラグインへの引き渡しと配信確認の区別を対象としています。この修訂は未検証・未公開で、過去の試験結果は適用できません。
+**日本語:** QQ は OneBot、Telegram・Discord・Feishu・DingTalk は文字アダプター、AstrBot は `/seed` ローカルブリッジを使用します。2026-11-04 の修訂は、本文のないメンション、文字の保持、プラグインへの引き渡しと配信確認の区別を対象としています。隔離した統合テストと配布プログラムの UI 検査は成功しましたが、実際のプラットフォーム接続は未検証です。
