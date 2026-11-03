@@ -14,6 +14,8 @@
 <p align="center">SeedBank 0.0.2 预览版 · Windows x64 · 约 106 MiB<br>完整解压 ZIP 后打开 seedbank.exe，无需下载源码包。</p>
 <p align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2">发行说明与全部附件</a> &nbsp; · &nbsp; <a href="docs/getting-started.md">使用说明</a></p>
 
+**0.0.2 新增指定群旁听：** 在设置中选择群，把实际收到的文字留成有来源的见闻，分批整理为可回顾的笔记。默认关闭，默认每日最多 4 次整理调用，可审阅或放下；旁听不自动发言，也不会读取历史群聊。[开启方式、平台范围与费用说明 →](docs/group-observation.md) 早期 0.0.2 用户请重新下载本次修订包。
+
 <p align="center">
 <a href="#story"><img src="assets/readme/nav-story-zh-CN.svg" width="150" alt="读这段故事"></a>
 <a href="#screens"><img src="assets/readme/nav-screens-zh-CN.svg" width="150" alt="界面导览"></a>

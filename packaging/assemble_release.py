@@ -79,10 +79,17 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
     runtime_source = receipt['source_commit']
     changed = subprocess.check_output(['git', 'diff', '--name-only', runtime_source, docs_commit],
                                       cwd=ROOT, text=True).splitlines()
-    if any(name.startswith(('tools/seed/', 'eggs/', 'examples/plugins/'))
+    # The executable imports seedbank, not its sibling unittest modules/runners.
+    # Keep corrected user-run tests separate from the frozen runtime source;
+    # application modules, fixtures and other runtime inputs still block reuse.
+    source_only_changes = [name for name in changed
+                           if PurePosixPath(name).parent == PurePosixPath('tools/seed')
+                           and (PurePosixPath(name).match('test_*.py')
+                                or PurePosixPath(name).match('run_*_tests.py'))]
+    if any(name not in source_only_changes and (name.startswith(('tools/seed/', 'eggs/', 'examples/plugins/'))
            or name in ('packaging/seedbank.spec', 'packaging/windows_entry.py',
                        'packaging/startup_hook.py', 'packaging/qt_distribution.py',
-                       'packaging/requirements-windows.lock') for name in changed):
+                       'packaging/requirements-windows.lock')) for name in changed):
         raise ValueError('Runtime inputs changed; produce and accept a new runtime instead.')
 
     provenance = json.loads((ROOT / 'packaging/licenses/qt/sources.json').read_text(encoding='utf-8'))
@@ -143,6 +150,7 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
             publication = {
                 'version': version, 'runtime_source_commit': runtime_source,
                 'documentation_commit': docs_commit, 'runtime_sha256': runtime_hash,
+                'source_only_test_changes_since_runtime': source_only_changes,
                 'runtime_rebuilt': False, 'release_revision': revision,
                 'acceptance_status': acceptance_status,
                 'unverified_release_reason': unverified_reason,

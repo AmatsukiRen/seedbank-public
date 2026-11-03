@@ -14,6 +14,8 @@
 <p align="center">SeedBank 0.0.2 プレビュー版 · Windows x64 · 約 106 MiB<br>ZIP 全体を展開して seedbank.exe を開いてください。ソースのダウンロードは不要です。</p>
 <p align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2">リリースノート・全ダウンロード</a> &nbsp; · &nbsp; <a href="docs/getting-started.md">導入ガイド（中文）</a></p>
 
+**0.0.2 更新：指定グループの会話を見守る機能。** 設定で選んだグループから実際に届いた文章を出典付きで保存し、まとめてメモに整理します。初期状態は無効、整理の呼び出しは既定で 1 日最大 4 回。記録を確認し、今後の想起から外すこともできます。自動発言や過去ログの取得は行いません。[設定・対応範囲・費用（中文）→](docs/group-observation.md) 以前の 0.0.2 をお使いの場合は更新された ZIP を再ダウンロードしてください。
+
 <p align="center">
 <a href="#story"><img src="assets/readme/nav-story-ja.svg" width="150" alt="物語を読む"></a>
 <a href="#screens"><img src="assets/readme/nav-screens-ja.svg" width="150" alt="画面ガイド"></a>

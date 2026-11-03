@@ -14,6 +14,8 @@
 <p align="center">SeedBank 0.0.2 preview · Windows x64 · About 106 MiB<br>Extract the complete ZIP, then open seedbank.exe. Source archives are optional.</p>
 <p align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2">Release notes and all downloads</a> &nbsp; · &nbsp; <a href="docs/getting-started.md">Setup guide (中文)</a></p>
 
+**New in the 0.0.2 revision: opt-in group observation.** Select groups in settings to retain received text with its sources and create reviewable notes in batches. Off by default, with a default limit of 4 summary calls per day; records can be reviewed or excluded from future recall. Observation does not send unsolicited replies or fetch chat history. [Setup, platform limits and costs (中文) →](docs/group-observation.md) If you downloaded an earlier 0.0.2 build, download the updated package.
+
 <p align="center">
 <a href="#story"><img src="assets/readme/nav-story-en.svg" width="150" alt="Read the story"></a>
 <a href="#screens"><img src="assets/readme/nav-screens-en.svg" width="150" alt="App tour"></a>
