@@ -10,6 +10,12 @@
   "published_at": "2026-11-03T16:30:36Z",
   "release_url": "https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1",
   "release_tag_commit": "8c1e4769ae8e3179c8455162eecfbf0328e5ff9f",
+  "pending_update": {
+    "revision": "lifecycle-close-20261104",
+    "runtime_source_commit": "b51bb5c94decaac75f295527a192a08fe8a34f69",
+    "runtime_sha256": "afde352b337edfb570eb4ac678444db357271a345444911f6693592ed018634a",
+    "acceptance_status": "unverified-maintainer-directed"
+  },
   "source_publication": {
     "status": "published",
     "proprietary_runtime_binaries_in_git": false,

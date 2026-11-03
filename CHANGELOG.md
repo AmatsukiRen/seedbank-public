@@ -1,8 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.0.1 — 2026-11-04 · Dialog-close artifact revision
 
-- Restore visible header and footer close buttons in the dormancy/recovery dialog and support Escape, including while status is loading. Dismissal never applies a lifecycle choice. Three new UI regressions and a user-run entry are prepared; not yet executed. See [repair and acceptance steps](docs/fix-lifecycle-dialog-close.md).
+- Restore visible header and footer close buttons in the dormancy/recovery dialog and support Escape, including while status is loading. Dismissal never applies a lifecycle choice. Runtime source: `b51bb5c`. The maintainer requested updating the existing preview assets; three new UI regressions and a user-run entry are prepared but have not been executed. See [repair and acceptance steps](docs/fix-lifecycle-dialog-close.md).
+- Preserve the initial Git tag. The attached source ZIP follows the repaired executable; artifact revision and current hashes are recorded separately. Original acceptance below remains historical.
 
 ## 0.0.1 — 2026-11-04 · Preview
 

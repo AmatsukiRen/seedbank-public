@@ -1,7 +1,8 @@
-"""Assemble release documents around an existing user-tested runtime; never run it.
+"""Assemble release documents around an existing runtime; never run it.
 
 The runtime source snapshot stays unchanged. Documentation has its own commit,
 and upstream source archives are separate release assets, not application data.
+Absent acceptance requires an explicit maintainer reason, recorded as unverified.
 """
 import argparse
 import hashlib
@@ -48,17 +49,24 @@ def upstream_notices(path, group):
                         yield group + '/' + member.name, stream.read()
 
 
-def assemble(candidate, upstream, report, output):
+def assemble(candidate, upstream, report, output, *, unverified_reason=None, revision='initial'):
     candidate, upstream, output = map(lambda p: Path(p).resolve(), (candidate, upstream, output))
     if output == candidate or output in candidate.parents:
         raise ValueError('Use a separate release output directory.')
     output.mkdir(parents=True, exist_ok=True)
     receipt = json.loads((candidate / 'runtime-build.json').read_text(encoding='utf-8'))
-    evidence = json.loads(Path(report).read_text(encoding='utf-8'))
+    evidence = json.loads(Path(report).read_text(encoding='utf-8')) if report else None
     runtime_hash = digest(candidate / 'seedbank.exe')
-    if not (receipt['runtime_sha256'] == evidence['runtime_sha256'] == runtime_hash
-            and evidence['ok'] is True and receipt['source_worktree_clean'] is True):
+    if receipt['runtime_sha256'] != runtime_hash or receipt['source_worktree_clean'] is not True:
+        raise ValueError('Use the exact runtime from a clean recorded source build.')
+    if evidence is not None and (evidence.get('runtime_sha256') != runtime_hash or evidence.get('ok') is not True):
         raise ValueError('Use the exact runtime recorded by the user acceptance report.')
+    if report and unverified_reason:
+        raise ValueError('Specify either an acceptance report or an unverified release reason, not both.')
+    if evidence is None and not (unverified_reason and unverified_reason.strip()):
+        raise ValueError('Acceptance is missing; an explicit maintainer-directed release reason is required.')
+    checks = evidence['checks'] if evidence is not None else []
+    acceptance_status = 'user-passed' if evidence is not None else 'unverified-maintainer-directed'
     docs_commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     if subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip():
         raise ValueError('Commit release documentation before assembly.')
@@ -119,14 +127,19 @@ def assemble(candidate, upstream, report, output):
                 archive.writestr(prefix + name, data)
             build_info = json.loads(source.read(prefix + 'build-info.json'))
             build_info.update(package_documents_commit=docs_commit, candidate=False,
-                              release_stage='preview', tests_executed_for_this_candidate=True,
-                              checks=evidence['checks'], archive_after_document_update_tested=False)
+                              release_stage='preview', release_revision=revision,
+                              tests_executed_for_this_candidate=evidence is not None,
+                              acceptance_status=acceptance_status,
+                              checks=checks, archive_after_document_update_tested=False)
             archive.writestr(prefix + 'build-info.json', json.dumps(build_info, indent=2) + '\n')
             publication = {
                 'version': '0.0.1', 'runtime_source_commit': runtime_source,
                 'documentation_commit': docs_commit, 'runtime_sha256': runtime_hash,
-                'runtime_rebuilt': False, 'user_acceptance_date': '2026-11-04',
-                'checks': evidence['checks'], 'original_windows_zip_sha256': digest(base_zip),
+                'runtime_rebuilt': False, 'release_revision': revision,
+                'acceptance_status': acceptance_status,
+                'unverified_release_reason': unverified_reason,
+                'user_acceptance_date': '2026-11-04' if evidence is not None else None,
+                'checks': checks, 'original_windows_zip_sha256': digest(base_zip),
                 'application_executed_during_release_assembly': False,
                 'tests_executed_during_release_assembly': False,
                 'third_party_model_bundled': False, 'upstream_sources': source_assets,
@@ -152,7 +165,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--candidate', required=True)
     parser.add_argument('--upstream', required=True)
-    parser.add_argument('--report', required=True)
+    acceptance = parser.add_mutually_exclusive_group(required=True)
+    acceptance.add_argument('--report')
+    acceptance.add_argument('--unverified-release-reason', help='Explicit maintainer instruction; does not assert acceptance')
+    parser.add_argument('--revision', default='initial', help='Artifact revision within the existing release')
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
-    assemble(args.candidate, args.upstream, args.report, args.output)
+    assemble(args.candidate, args.upstream, args.report, args.output,
+             unverified_reason=args.unverified_release_reason, revision=args.revision)

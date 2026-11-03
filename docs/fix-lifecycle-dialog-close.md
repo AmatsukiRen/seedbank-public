@@ -36,4 +36,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File packaging/run_dialog_close_c
 3. 缩小窗口、切换大字模式后重复；不用滚动到底就应能关闭。
 4. 填写说明并勾选确认，但不点休眠/恢复，只关闭弹窗；再次进入时状态和选择历史应保持原样。
 
-本轮修正版独立交付，不覆盖已发布的 v0.0.1 附件或移动标签。应用版本号保持 0.0.1，具体修复候选以相邻 `runtime-build.json` 的源码提交与摘要区分。
+独立候选交付后，维护者进一步要求「更新吧」，授权将该修复更新到公开仓库与现有 v0.0.1 附件。应用版本号保持 0.0.1，不移动首发标签；附加源码 ZIP 固定到修复提交 `b51bb5c94decaac75f295527a192a08fe8a34f69`。具体修订以相邻 `runtime-build.json`、`release-provenance.json` 和摘要区分。此更新授权不等于新增测试已经通过，当前证据见[验收记录](acceptance.md)。
