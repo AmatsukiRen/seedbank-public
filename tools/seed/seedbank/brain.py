@@ -55,9 +55,11 @@ DEFAULT_BRAIN = {
     "fallback": "stub",
     "input_budget": 16000,
     "codex_max_calls": 2,
+    "workbuddy_max_calls": 2,
 }
 
-ADAPTERS = ("stub", "openai-compatible", "anthropic", "codex")
+ADAPTERS = ("stub", "openai-compatible", "anthropic", "codex", "workbuddy")
+ACCOUNT_ADAPTERS = ("codex", "workbuddy")
 
 LOCAL_HOSTS = {"localhost", "127.0.0.1", "::1", "0.0.0.0"}
 
@@ -171,6 +173,8 @@ def describe_brain(cfg: dict) -> str:
         return "stub（离线、确定性、不需要 key）"
     if adapter == "codex":
         return t("GPT · 当前 Codex 账号 · 模型 {model} · 文字连接", model=_requested_model(cfg, adapter))
+    if adapter == "workbuddy":
+        return t("WorkBuddy · 同账号 CodeBuddy CLI · 模型 {model} · 文字连接", model=cfg.get("model") or "—")
     base_url = str(cfg.get("base_url") or "")
     key_note = ""
     if is_local_endpoint(base_url):
@@ -1185,12 +1189,19 @@ def codex_transport(cfg, system, user):
     return transport(cfg, system, user)
 
 
+def workbuddy_transport(cfg, system, user):
+    from .workbuddy_transport import transport
+    return transport(cfg, system, user)
+
+
 def _requested_model(cfg, adapter):
     if cfg.get("model"):
         return cfg["model"]
     if adapter == "codex":
         from .codex_transport import DEFAULT_MODEL
         return DEFAULT_MODEL
+    if adapter == "workbuddy":
+        return ""  # No invented default or assumed desktop model selection.
     return "claude-sonnet-4-5" if adapter == "anthropic" else "deepseek-chat"
 
 
@@ -1208,7 +1219,7 @@ class RemoteBrain(Brain):
         self.name = name
         self._transport = transport
         self._stub = StubBrain()
-        self._codex_failed = False
+        self._account_failed = False
 
     @model_budget.operation
     def _run(self, ctx: dict, kind: str) -> dict:
@@ -1218,18 +1229,18 @@ class RemoteBrain(Brain):
         responses = []
         cfg = ctx.get("_cfg", {})
         call_limit = 3
-        if self.name == "codex":
-            if self._codex_failed and (kind != "chat" or ctx.get("initiative")):
-                raise BrainConfigError(t("GPT 自动请求因上次错误暂停。请先成功发送一条消息，或检查连接后重新保存设置。"))
+        if self.name in ACCOUNT_ADAPTERS:
+            if self._account_failed and (kind != "chat" or ctx.get("initiative")):
+                raise BrainConfigError(t("账号模型自动请求因上次错误暂停。请先成功发送一条消息，或检查连接后重新保存设置。"))
             try:
-                call_limit = int(cfg.get("codex_max_calls", 2))
+                call_limit = int(cfg.get(self.name + "_max_calls", 2))
                 if not 1 <= call_limit <= 3:
                     raise ValueError()
             except (TypeError, ValueError, OverflowError):
-                raise BrainConfigError(t("每轮活动的 GPT 调用上限必须为 1–3。")) from None
+                raise BrainConfigError(t("每轮活动的账号模型调用上限必须为 1–3。")) from None
 
         def send_prompt(prompt):
-            if self.name == "codex":
+            if self.name in ACCOUNT_ADAPTERS:
                 model_budget.reserve(call_limit)
             raw = self._transport(ctx.get("_cfg", {}), prompt["system"], prompt["user"])
             responses.append(raw)
@@ -1267,8 +1278,8 @@ class RemoteBrain(Brain):
                               "basis": used_ctx.get("facts", {}).get("on_basis", "unspecified"),
                               "groups": len(used_ctx.get("facts", {}).get("groups", []))},
             }
-            if self.name == "codex":
-                self._codex_failed = False
+            if self.name in ACCOUNT_ADAPTERS:
+                self._account_failed = False
                 metadata.update(usage=_usage_metadata(responses), model_label_source="configuration",
                                 activity_budget=model_budget.snapshot())
             return {**result, "_generation": metadata, "_used_evidence": _citable_evidence(used_ctx),
@@ -1291,8 +1302,8 @@ class RemoteBrain(Brain):
                     request = parsed.get("memory_search") if isinstance(parsed, dict) else None
                     if not isinstance(request, dict) or parsed.get("reply"):
                         return finish(_validate_chat_result(parsed))
-                    if self.name == "codex" and model_budget.exhausted():
-                        return finish({"reply": t("本轮已达到 GPT 调用上限，还需要回查记录才能确认。"), "memory_writes": []}, runtime_guard="model_call_limit")
+                    if self.name in ACCOUNT_ADAPTERS and model_budget.exhausted():
+                        return finish({"reply": t("本轮已达到模型调用上限，还需要回查记录才能确认。"), "memory_writes": []}, runtime_guard="model_call_limit")
                     if attempt == 2:
                         return finish({"reply": "我还没有找到足够可靠的记录，暂时不能确定。", "memory_writes": []}, runtime_guard="search_limit")
                     from .retrieval import RecallRangeError, search
@@ -1353,13 +1364,13 @@ class RemoteBrain(Brain):
             # nor a reason to suspend future independent activities.
             raise
         except (BrainConfigError, ContextBudgetError, RecoveryRequired):
-            if self.name == "codex":
-                self._codex_failed = True
+            if self.name in ACCOUNT_ADAPTERS:
+                self._account_failed = True
             raise
         except Exception as error:  # noqa: BLE001 —— 网络/解析问题都退回 stub，但要喊出来
-            if self.name == "codex":
-                self._codex_failed = True
-                raise BrainConfigError(t("GPT 回复格式不符合要求，本轮未采用，也未自动重试。")) from None
+            if self.name in ACCOUNT_ADAPTERS:
+                self._account_failed = True
+                raise BrainConfigError(t("账号模型回复格式不符合要求，本轮未采用，也未自动重试。")) from None
             # 走 stderr：stdout 是给载体（bridge）的 JSONL 协议，不能被日志污染
             print(
                 f"[seed] 脑「{self.name}」暂时不可用（{error}），退回 stub 继续。",
@@ -1386,7 +1397,7 @@ class RemoteBrain(Brain):
             "runner": self.name, "model": model, "model_label_source": "configuration",
             "fallback": False, "prompt_version": ctx["prompt_version"],
             "operation": "continuity", "at": now_iso(),
-            **({"usage": _usage_metadata([raw])} if self.name == "codex" else {}),
+            **({"usage": _usage_metadata([raw])} if self.name in ACCOUNT_ADAPTERS else {}),
         }}
 
     def chat(self, ctx: dict) -> dict:
@@ -1420,6 +1431,8 @@ def create_brain(pack_dir, override: str = "") -> Brain:
         return _CfgBrain(cfg, brain)
     if adapter == "codex":
         return _CfgBrain(cfg, RemoteBrain(adapter, codex_transport))
+    if adapter == "workbuddy":
+        return _CfgBrain(cfg, RemoteBrain(adapter, workbuddy_transport))
     raise ValueError(f"不认识的脑适配器：{adapter}（可选：{' / '.join(ADAPTERS)}）")
 
 

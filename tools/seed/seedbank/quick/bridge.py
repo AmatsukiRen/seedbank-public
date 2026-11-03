@@ -30,6 +30,7 @@ class Bridge(QObject):
     preferencesChanged = Signal()
     formChanged = Signal()
     codexUsageChanged = Signal()
+    workbuddyUsageChanged = Signal()
     localeChanged = Signal()
     diaryChanged = Signal()
     memoryChanged = Signal()
@@ -76,6 +77,7 @@ class Bridge(QObject):
         self._closing = False
         self._closed = False
         self._codex_usage = ""
+        self._workbuddy_usage = ""
         self._notice = t("今天也一起慢慢来。")
         self._notice_revision = 0
         self._default_notice = True
@@ -1549,6 +1551,16 @@ class Bridge(QObject):
         self._codex_usage = usage_text()
         self.codexUsageChanged.emit()
 
+    @Property(str, notify=workbuddyUsageChanged)
+    def workbuddyUsage(self):
+        return self._workbuddy_usage
+
+    @Slot()
+    def refreshWorkBuddyUsage(self):
+        from ..workbuddy_transport import usage_text
+        self._workbuddy_usage = usage_text()
+        self.workbuddyUsageChanged.emit()
+
     def validated_form(self):
         patch = dict(self._form)
         for key, lower, upper, converter in (("temperature", 0, 2, float), ("daily_max", 1, 50, int)):
@@ -1558,11 +1570,12 @@ class Bridge(QObject):
                     raise ValueError()
             except (ValueError, TypeError, OverflowError):
                 raise ValueError(f"{key}: " + t("请输入 {lower} 到 {upper} 之间的数值。", lower=lower, upper=upper)) from None
-        if patch.get("adapter") == "codex":
+        if patch.get("adapter") in ("codex", "workbuddy"):
             from ..settings import _clean_brain_patch
-            patch.update(_clean_brain_patch({"codex_max_calls": patch.get("codex_max_calls", 2)}))
+            key = patch["adapter"] + "_max_calls"
+            patch.update(_clean_brain_patch({key: patch.get(key, 2)}))
         address = str(patch.get("base_url") or "").strip()
-        if patch.get("adapter") != "codex" and address and not address.startswith(("http://", "https://")):
+        if patch.get("adapter") not in ("codex", "workbuddy") and address and not address.startswith(("http://", "https://")):
             raise ValueError(t("接口地址需要以 http:// 或 https:// 开头。"))
         from ..providers import validate_connection
         validate_connection(patch)

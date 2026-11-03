@@ -11,7 +11,7 @@
 | 想做什么 | 已有机制 | 贡献的切入点 |
 | --- | --- | --- |
 | 让个体来到聊天平台 | Python JSON Lines 载体桥；QQ / OneBot；新增 Discord、Telegram、飞书、钉钉及 AstrBot 转接 | [渠道配置与范围](channels.md)；继续完善附件、身份映射及投递恢复，新增项待验收 |
-| 使用新的模型服务 | `stub`、`openai-compatible`、`anthropic`、`codex` 适配器；13 家云服务预设 | [模型服务接入](model-services.md)；服务适配、结构化输出、请求预算、超时和取消 |
+| 使用新的模型服务 | `stub`、`openai-compatible`、`anthropic`、`codex`；新增实验性 `workbuddy`（同账号 CodeBuddy CLI） | [模型服务接入](model-services.md)和 [WorkBuddy 说明](workbuddy.md)；新增入口未验收，13 家云服务预设仍保留 |
 | 做另一种界面或身体 | Qt Quick / QML 桌面界面、Live2D 本地模型、独立载体桥 | 手机端、桌宠、无障碍界面或 VR 载体；这些新载体是贡献方向，并非已有成品 |
 | 加入新的工具能力 | 本地文本插件管理页与 `seedbank/plugin@1` | 从[便签示例](../examples/plugins/hello/)开始；添加、信任、配置后手动运行，不自动写入生命经历 |
 | 改进记忆和成长 | 来源、修订、放下、目标、作品与反馈的已有机制 | 更好的查看和解释、更可靠的检索、失败反馈及人工回归场景 |

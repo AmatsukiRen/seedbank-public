@@ -1,5 +1,9 @@
 # SeedBank 工作约定
 
+## WorkBuddy 接入
+
+- 2026-11-04 用户明确选择「让 SeedBank 使用 WorkBuddy 当前账号／模型来生成回复」。本轮新增实验性 `workbuddy` 适配器，经官方 CodeBuddy CLI 登录同一账号、显式填写模型 ID；已向用户说明不自动同步 WorkBuddy 桌面凭据和模型选择。官方国内版同账号共享积分，不扩大为其他地区或套餐保证。实现设置、预算、独立回执和用户运行入口，未运行测试/验证/应用、未连接真实模型，未读取凭据或真实生命包。允许本机独立生产候选，不将旧发布授权自动用于本功能 Release 替换。详见 docs/workbuddy.md。
+
 ## 仓库与发行
 
 - 2026-11-04 01:34:52（UTC+8）关闭弹窗修订已公开：修复源码和发行文档已推送，v0.0.1 仍为非 Draft 的 Prerelease，标签未移动；六个变动附件已替换，原 Qt/PySide 源码附件保留，远端八项均 uploaded。Windows ZIP 111,508,862 字节，SHA256 d6c63c640fafd5bd83626a81a84937ef253cbe79b27dd18b16ae81e71b9cd766，程序源码 b51bb5c，组包文档 3725697。未运行测试或应用，明确标记 unverified-maintainer-directed；没有修改真实个体或本机固定启动入口。

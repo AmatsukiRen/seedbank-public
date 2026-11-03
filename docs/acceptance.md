@@ -1,5 +1,11 @@
 # 候选版验收与已有证据
 
+## 2026-11-04 WorkBuddy 同账号接入候选
+
+新增官方 CodeBuddy CLI 文字传输、独立用量记录与每轮调用预算，以及四语模型设置入口。需要用户在 CLI 登录同一账号并填写模型 ID，不自动读取 WorkBuddy 桌面凭据或当前模型。实现与步骤见 [WorkBuddy 接入](workbuddy.md)。
+
+**本轮没有执行测试、验证例程、应用或真实模型请求。** 用户入口为 `packaging/run_workbuddy_checks.ps1`，含模拟传输、共享预算、UI 保存及相关 Codex/服务预设回归。现有公开 Release 与本机固定入口保持原样，历史结果不覆盖本次修改。
+
 ## 2026-11-04 关闭弹窗修订包
 
 **已于 2026-11-04 01:34:52（UTC+8）更新现有 Release。** GitHub 的八个附件状态均为 uploaded；Windows ZIP 为 111,508,862 字节，SHA256 `d6c63c640fafd5bd83626a81a84937ef253cbe79b27dd18b16ae81e71b9cd766`。这只记录上传完成，不是应用测试结果。

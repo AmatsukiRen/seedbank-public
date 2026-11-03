@@ -28,6 +28,7 @@ from .brain import (
     BrainConfigError,
     anthropic_transport,
     codex_transport,
+    workbuddy_transport,
     describe_brain,
     load_brain_config,
     openai_transport,
@@ -130,8 +131,12 @@ for _preset, _provider in zip(PRESETS, ("", "deepseek", "deepseek", "anthropic",
                                      "", "", "", "codex", "openai")):
     _preset.update(provider=_provider, response_format_mode="prompt", temperature_mode="default")
 PRESETS.extend(ADDITIONAL_PRESETS)
+from .workbuddy_transport import LABEL as WORKBUDDY_LABEL, HINT as WORKBUDDY_HINT
+PRESETS.append({"label": WORKBUDDY_LABEL, "adapter": "workbuddy", "provider": "workbuddy",
+                "model": "", "base_url": "", "api_key_env": "", "hint": WORKBUDDY_HINT,
+                "response_format_mode": "prompt", "temperature_mode": "default"})
 
-_BRAIN_KEYS = ("adapter", "model", "base_url", "api_key_env", "api_key_source", "api_key_ref", "temperature", "max_tokens", "fallback", "input_budget", "codex_max_calls", "provider", "response_format_mode", "temperature_mode")
+_BRAIN_KEYS = ("adapter", "model", "base_url", "api_key_env", "api_key_source", "api_key_ref", "temperature", "max_tokens", "fallback", "input_budget", "codex_max_calls", "workbuddy_max_calls", "provider", "response_format_mode", "temperature_mode")
 _MEMORY_KEYS = ("strict", "daily_max")
 
 # 视觉模型配置。接收流程先归档原件，再按调用方式尝试视觉解释；
@@ -238,13 +243,13 @@ def _clean_brain_patch(patch: dict) -> dict:
                 value = max(2048, min(1000000, int(value)))
             except (TypeError, ValueError):
                 raise ValueError("input_budget 必须是 2048–1000000 的整数。") from None
-        if key == "codex_max_calls":
+        if key in ("codex_max_calls", "workbuddy_max_calls"):
             try:
                 value = int(value)
                 if not 1 <= value <= 3:
                     raise ValueError()
             except (TypeError, ValueError, OverflowError):
-                raise ValueError(t("每轮活动的 GPT 调用上限必须为 1–3。")) from None
+                raise ValueError(t("每轮活动的账号模型调用上限必须为 1–3。")) from None
         if key == "api_key_source":
             value = str(value or "env")
             if value not in ("env", "local"):
@@ -481,6 +486,11 @@ def test_brain(pack_dir, patch: dict | None = None) -> tuple[bool, str]:
             raw = anthropic_transport(cfg, system, user)
         elif adapter == "codex":
             raw = codex_transport(cfg, system, user)
+        elif adapter == "workbuddy":
+            raw = workbuddy_transport(cfg, system, user)
+            from .brain import parse_json_loose
+            if parse_json_loose(raw).get("message") != "好":
+                raise BrainConfigError(t("账号模型回复格式不符合要求，本轮未采用，也未自动重试。"))
         else:
             return False, t("不认识的适配器：{adapter}", adapter=adapter)
     except BrainConfigError as error:

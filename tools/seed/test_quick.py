@@ -1043,6 +1043,36 @@ class QuickTest(unittest.TestCase):
             self.bridge.editSetting("temperature_mode", "default")
             self.assert_no_errors()
 
+    def test_workbuddy_settings_save_and_usage_do_not_contact_model(self):
+        from seedbank.settings import PRESETS, load_settings
+        with mock.patch("seedbank.workbuddy_transport.subprocess.Popen", side_effect=AssertionError("No model process in settings")) as process:
+            self.interface()
+            birth = (self.pack / "birth.json").read_bytes()
+            self.root.setProperty("page", 4)
+            self.find("settingsPage").setProperty("section", 1)
+            self.wait_for(lambda: not self.bridge._pending)
+            self.bridge.applyPreset(next(i for i, p in enumerate(PRESETS) if p["adapter"] == "workbuddy"))
+            self.bridge.editSetting("model", "artificial-model")
+            self.bridge.editSetting("workbuddy_max_calls", "1")
+            for language in ("zh_CN", "en_US", "ja_JP", "ko_KR"):
+                self.bridge.preference("language", language)
+                self.app.processEvents()
+                self.assertTrue(self.find("field-" + self.bridge.translate("每轮活动最多调用（1–3）")).isVisible())
+                for caption in ("接口地址", "密钥环境变量名", "温度（0–2）", "视觉模型（可留空）"):
+                    name = "field-" + self.bridge.translate(caption)
+                    self.assertFalse(any(i.objectName() == name and i.isVisible() for i in self.visual_items()))
+                self.bridge.refreshWorkBuddyUsage()
+                self.assertTrue(self.bridge.workbuddyUsage)
+                self.assert_no_errors()
+            self.bridge.saveSettings()
+            self.wait_for(lambda: not self.bridge._pending and self.bridge._saved.get("adapter") == "workbuddy")
+            self.assertEqual(load_settings(self.pack)["workbuddy_max_calls"], 1)
+            self.assertEqual(load_settings(self.pack)["model"], "artificial-model")
+            self.assertEqual((self.pack / "birth.json").read_bytes(), birth)
+            self.bridge.applyPreset(next(i for i, p in enumerate(PRESETS) if p["adapter"] == "codex"))
+            self.assertEqual(self.bridge.form["codex_max_calls"], 2)
+            process.assert_not_called()
+
     def test_codex_settings_draft_fields_and_usage_do_not_contact_model(self):
         from seedbank.settings import PRESETS, load_settings
         with mock.patch("seedbank.codex_transport.subprocess.Popen", side_effect=AssertionError("No model process in settings")) as process:

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — WorkBuddy account integration
+
+- Add an experimental text provider using the official CodeBuddy CLI signed into the user's WorkBuddy account. Require an explicit model ID; desktop authentication and model selection are not imported.
+- Add separate usage receipts, bounded activity calls, tool-disabled ephemeral requests, failure handling and four-language settings. Offline regressions are prepared for user execution, but have not been run. See [setup and limitations](docs/workbuddy.md).
+
 ## 0.0.1 — 2026-11-04 · Dialog-close artifact revision
 
 - Restore visible header and footer close buttons in the dormancy/recovery dialog and support Escape, including while status is loading. Dismissal never applies a lifecycle choice. Runtime source: `b51bb5c`. The maintainer requested updating the existing preview assets; three new UI regressions and a user-run entry are prepared but have not been executed. See [repair and acceptance steps](docs/fix-lifecycle-dialog-close.md).

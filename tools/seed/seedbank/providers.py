@@ -54,6 +54,14 @@ ADDITIONAL_PRESETS = [
 
 def validate_connection(config):
     """Reject incomplete new presets before credential access or a request."""
+    if config.get("adapter") == "workbuddy":
+        from .workbuddy_transport import model_id
+        from .brain import BrainConfigError
+        try:
+            model_id(config)
+        except BrainConfigError as error:
+            raise ValueError(str(error)) from None
+        return
     if config.get("adapter") not in ("openai-compatible", "anthropic"):
         return
     if config.get("provider") and not str(config.get("model") or "").strip():

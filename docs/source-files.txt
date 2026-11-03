@@ -311,3 +311,5 @@ tools/seed/test_window_geometry.py
 tools/seed/testdata/bright-warm.jpg
 tools/seed/testdata/bright-warm.png
 tools/seed/testdata/sound.wav
+tools/seed/seedbank/workbuddy_transport.py
+tools/seed/test_workbuddy_transport.py

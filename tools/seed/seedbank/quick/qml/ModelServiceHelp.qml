@@ -39,6 +39,11 @@ ColumnLayout {
         }
         LabelText {
             Layout.fillWidth: true
+            text: Style.tr("WorkBuddy 账号可通过同账号登录的 CodeBuddy CLI 接入；需单独安装、登录并填写模型 ID，不会自动同步桌面选择。")
+            color: Style.muted; font.pixelSize: 13 * Style.scale
+        }
+        LabelText {
+            Layout.fillWidth: true
             text: Style.tr("使用自己的 API Key 和账号可用的模型 ID。预设不代表每个模型均已实测；图片、结构化回答等能力取决于所选模型与接口。角色外观请在“设置 → 外观”中选择。")
             color: Style.muted; font.pixelSize: 13 * Style.scale
         }

@@ -12,7 +12,7 @@ from .i18n import t
 from .util import SeedError
 
 _current = ContextVar("seedbank_model_budget", default=None)
-BLOCKED = "本轮 GPT 调用额度已用完，后续生成尚未开始；这不代表能力不足。"
+BLOCKED = "本轮模型调用额度已用完，后续生成尚未开始；这不代表能力不足。"
 
 
 class Exhausted(SeedError):

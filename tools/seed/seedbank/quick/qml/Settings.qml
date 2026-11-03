@@ -150,14 +150,14 @@ ColumnLayout {
                 }
                 LabelText { text: Style.tr("接口类型") }
                 Choice {
-                    Layout.fillWidth: true; model: ["stub", "openai-compatible", "anthropic", "codex"]
+                    Layout.fillWidth: true; model: ["stub", "openai-compatible", "anthropic", "codex", "workbuddy"]
                     currentIndex: model.indexOf(bridge.form.adapter || "stub")
                     onActivated: bridge.editSetting("adapter", currentText)
                     Accessible.name: Style.tr("接口类型")
                 }
                 Repeater {
-                    model: bridge.form.adapter === "codex"
-                        ? [{key: "model", label: "模型名称"}, {key: "codex_max_calls", label: "每轮活动最多调用（1–3）"}]
+                    model: ["codex", "workbuddy"].indexOf(bridge.form.adapter) >= 0
+                        ? [{key: "model", label: "模型名称"}, {key: bridge.form.adapter + "_max_calls", label: "每轮活动最多调用（1–3）"}]
                         : [{key: "model", label: "模型名称"}, {key: "base_url", label: "接口地址"}, {key: "temperature", label: "温度（0–2）"}, {key: "vision_model", label: "视觉模型（可留空）"}]
                     Field {
                         required property var modelData
@@ -233,14 +233,19 @@ ColumnLayout {
                 }
                 LabelText { visible: bridge.form.adapter === "codex"; text: Style.tr("使用本机 Codex 的 ChatGPT 登录与账号额度；无需填写密钥。当前支持文字，图片仅归档。"); color: Style.muted; Layout.fillWidth: true; font.pixelSize: 13 * Style.scale }
                 LabelText { visible: bridge.form.adapter === "codex"; text: Style.tr("每轮默认最多调用两次，共用于回答、回查和随后创作。主动活动、每篇日记分别计一轮；使用低推理量。这不是 token 硬上限，测试连接也会使用账号额度。"); color: Style.muted; Layout.fillWidth: true; font.pixelSize: 13 * Style.scale }
+                LabelText { visible: bridge.form.adapter === "workbuddy"; text: Style.tr("先在 CodeBuddy CLI 登录与 WorkBuddy 相同的账号，再填写该账号可用的模型 ID。不会自动同步桌面模型；仅文字，测试连接会使用账号额度。"); color: Style.muted; Layout.fillWidth: true; font.pixelSize: 13 * Style.scale }
+                LabelText { visible: bridge.form.adapter === "workbuddy"; text: Style.tr("每轮默认最多调用两次，共用于回答、回查和随后创作；这不是 token 或积分硬上限。连接失败后暂停自动请求，成功发送消息或重新保存设置后再继续。"); color: Style.muted; Layout.fillWidth: true; font.pixelSize: 13 * Style.scale }
+                AppButton { visible: bridge.form.adapter === "workbuddy"; text: Style.tr("打开 CodeBuddy 官方安装与登录指南"); onClicked: Qt.openUrlExternally("https://www.codebuddy.cn/docs/cli/quickstart") }
                 LabelText { text: Style.tr("照片和 WAV 原件会保存在生命包，并随完整备份保留。"); color: Style.muted; Layout.fillWidth: true; font.pixelSize: 13 * Style.scale }
-                LabelText { visible: bridge.form.adapter !== "codex"; text: Style.tr("递交照片时可能向已配置的视觉模型发送图片并产生费用；日常文字聊天不会自动重发原图。"); color: Style.muted; Layout.fillWidth: true; font.pixelSize: 13 * Style.scale }
+                LabelText { visible: ["codex", "workbuddy"].indexOf(bridge.form.adapter) < 0; text: Style.tr("递交照片时可能向已配置的视觉模型发送图片并产生费用；日常文字聊天不会自动重发原图。"); color: Style.muted; Layout.fillWidth: true; font.pixelSize: 13 * Style.scale }
                 RowLayout {
                     AppButton { text: Style.tr("测试连接"); enabled: !bridge.busy; onClicked: bridge.testConnection() }
                     AppButton { text: Style.tr("发现本地模型"); enabled: !bridge.busy; onClicked: bridge.discover() }
                 }
                 LabelText { visible: bridge.form.adapter === "codex"; text: bridge.codexUsage; color: Style.muted; Layout.fillWidth: true; font.pixelSize: 13 * Style.scale }
                 AppButton { visible: bridge.form.adapter === "codex"; text: Style.tr("刷新本机 GPT 用量"); onClicked: bridge.refreshCodexUsage() }
+                LabelText { visible: bridge.form.adapter === "workbuddy"; text: bridge.workbuddyUsage; color: Style.muted; Layout.fillWidth: true; font.pixelSize: 13 * Style.scale }
+                AppButton { visible: bridge.form.adapter === "workbuddy"; text: Style.tr("刷新本机 WorkBuddy 用量"); onClicked: bridge.refreshWorkBuddyUsage() }
             }
             Panel {
                 caption: Style.tr("本机可用的模型")

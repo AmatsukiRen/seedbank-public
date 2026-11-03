@@ -1583,6 +1583,10 @@ def _cmd_setup(args: list[str]) -> int:
         from .codex_transport import DEFAULT_MODEL
         brain = {"adapter": "codex", "model": str(flags.get("model") or DEFAULT_MODEL),
                  "base_url": "", "api_key_env": ""}
+    elif kind == "workbuddy":
+        from .workbuddy_transport import model_id
+        brain = {"adapter": "workbuddy", "model": model_id({"model": flags.get("model")}),
+                 "base_url": "", "api_key_env": ""}
     elif kind not in ("stub", "none", "offline"):
         raise SeedError(t("不认识的脑类型：{kind}（stub / local / anthropic / openai-compatible）", kind=kind))
 
