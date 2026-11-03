@@ -6,12 +6,13 @@ from pathlib import Path
 
 from PyInstaller.archive.readers import CArchiveReader
 import pefile
+from qt_distribution import excluded_qt_entry
 
 
 def verify(executable):
     path = Path(executable).resolve()
     names = list(CArchiveReader(str(path)).toc)
-    forbidden = [name for name in names if "virtualkeyboard" in name.lower() or
+    forbidden = [name for name in names if excluded_qt_entry(name) or
                  name.lower().endswith((".moc3", ".model3.json", ".motion3.json"))]
     pe = pefile.PE(str(path), fast_load=True)
     try:

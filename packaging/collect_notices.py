@@ -12,8 +12,24 @@ from packaging.utils import canonicalize_name
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def copy_qt_notices(destination, pyside_version):
+    """Keep LGPL texts even when a wheel ships only a commercial reference."""
+    folder = ROOT / 'packaging/licenses/qt'
+    provenance = json.loads((folder / 'sources.json').read_text(encoding='utf-8'))
+    if provenance['pyside_version'] != pyside_version:
+        raise ValueError('Update Qt source/notice provenance for this PySide6 version.')
+    copied = []
+    for name in ('LGPL-3.0-only.txt', 'GPL-3.0-only.txt', 'NOTICE.md', 'sources.json'):
+        target = destination / 'qt' / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(folder / name, target)
+        copied.append(target.relative_to(destination).as_posix())
+    return copied
+
+
 def assemble(destination: Path):
     destination.mkdir(parents=True, exist_ok=True)
+    qt_notices = copy_qt_notices(destination, metadata.version('PySide6'))
     queue = ['PyInstaller', 'PySide6', 'shiboken6', 'live2d-py', 'PyOpenGL',
              'Pillow', 'numpy', 'discord.py', 'lark-oapi', 'dingtalk-stream']
     # Some optional imports (voice/crypto, for example) are collected by the
@@ -55,8 +71,11 @@ def assemble(destination: Path):
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(supplemental, target)
             copied.append(target.relative_to(destination).as_posix())
+        if name == 'shiboken6' or name.startswith('pyside6'):
+            copied.extend(qt_notices)
         inventory.append({'name': dist.metadata['Name'], 'version': dist.version,
                           'license_expression': dist.metadata.get('License-Expression', ''),
+                          'license_metadata': dist.metadata.get('License', ''),
                           'homepage': dist.metadata.get('Home-page', ''),
                           'project_urls': dist.metadata.get_all('Project-URL') or [],
                           'license_files': sorted(copied)})
@@ -72,6 +91,7 @@ def assemble(destination: Path):
     inventory.sort(key=lambda row: row['name'].lower())
     (destination / 'inventory.json').write_text(json.dumps({
         'python': sys.version.split()[0], 'dependencies': inventory,
+        'shared_qt_notices': qt_notices,
         'scope': 'Build dependency metadata and original notices; publication clearance pending.'
     }, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     return inventory

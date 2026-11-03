@@ -37,6 +37,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File packaging/build_windows.ps1 
 
 `requirements-windows.lock` 固定本次构建的直接与传递依赖，不含本机路径或凭据。更新依赖时，在已安装目标版本的 Windows 环境运行 `python packaging/freeze_dependencies.py` 并复测；版本锁定不保证不同系统产生逐字节相同的 exe。构建明确排除未使用的 Qt Virtual Keyboard DLL 和输入插件，其许可与普通 Qt LGPL 模块不同。
 
+2026-11-03 后续许可核对又补充了 QML 调试插件及其 Qt Quick 3D 依赖的排除，保留 Qt Quick 2D；通知收集器补入 LGPLv3/GPLv3 正文。这些新修改尚未构建或测试。Qt 源码来源、替换重建步骤及待办见 [Qt 发行材料](qt-redistribution.md)，不把普通界面测试视为许可认证。
+
 ## 隔离离线回归
 
 以下命令均只使用临时人工数据。执行结果与范围见 [验收记录](acceptance.md)：

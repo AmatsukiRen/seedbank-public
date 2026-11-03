@@ -24,6 +24,9 @@ from PyInstaller.utils.hooks import collect_submodules, collect_data_files, copy
 
 # spec 在 packaging/ 里；仓库根在上一层。
 SPEC_DIR = Path(SPECPATH).resolve()
+sys.path.insert(0, str(SPEC_DIR))
+from qt_distribution import excluded_qt_entry
+
 REPO_ROOT = SPEC_DIR.parent
 SEED_DIR = REPO_ROOT / "tools" / "seed"
 EGG_DIR = REPO_ROOT / "eggs" / "dafeiyu.egg"
@@ -141,11 +144,12 @@ a = Analysis(
     optimize=0,
 )
 
-# PySide's QtGui hook also collects optional input-context plugins. This unused
-# module has GPLv3/commercial terms, not Qt's usual LGPL option. Exclude both
-# plugin and library, including any QML/data copies, from the final archive.
-a.binaries = [entry for entry in a.binaries if "virtualkeyboard" not in entry[0].lower()]
-a.datas = [entry for entry in a.datas if "virtualkeyboard" not in entry[0].lower()]
+# Optional input methods and QML debugging plugins are not used by this app.
+# qmldbg_quick3dprofiler also pulls in GPLv3/commercial Qt6Quick3DUtils.
+# Remove the consumer as well as the library; retain ordinary Qt Quick 2D.
+# This policy must also be checked against the produced executable.
+a.binaries = [entry for entry in a.binaries if not excluded_qt_entry(entry[0])]
+a.datas = [entry for entry in a.datas if not excluded_qt_entry(entry[0])]
 
 pyz = PYZ(a.pure)
 

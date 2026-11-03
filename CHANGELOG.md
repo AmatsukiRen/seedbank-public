@@ -15,6 +15,7 @@ Initial SeedBank candidate: local life archives, diary and memory views, explici
 
 ### Documentation and maintenance
 
+- Follow-up licensing preparation: exclude unused QML debugging/Quick 3D dependencies in packaging source and supplement Qt LGPL/GPL texts. Not rebuilt or tested yet; existing candidate attachments are unchanged. Track corresponding source, third-party notices and author/SDK inquiries separately.
 - Add isolated QQ security regressions, a reproducible Windows dependency snapshot, manual-only CI, issue/PR templates and security reporting guidance.
 - Restore a runnable five-page capture entry using artificial offline data; screenshots record the actual runtime and scenario.
 - Repair protocol links left behind by the source migration and provide current implementation navigation.
