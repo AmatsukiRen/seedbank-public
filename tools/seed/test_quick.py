@@ -259,6 +259,27 @@ class QuickTest(unittest.TestCase):
             proc.assert_not_called()
         self.assert_no_errors()
 
+    def test_channel_handoff_counts_and_stage_refresh_in_each_locale(self):
+        from seedbank import channels
+        self.interface()
+        self.root.setProperty("page", 4)
+        self.find("settingsPage").setProperty("section", 4)
+        for locale in ("zh_CN", "en_US", "ja_JP", "ko_KR"):
+            self.bridge.preference("language", locale)
+            for kind in ("telegram", "astrbot"):
+                connection = channels.Connection(self.bridge.session, channels.defaults(kind) | {"owner": "42"})
+                self.bridge.session.channels.connections[kind] = connection
+                connection.received, connection.sent, connection.relayed = 4, 2, 3
+                connection.status("sending", "回复已生成，正在提交到聊天渠道。")
+                self.bridge.selectChannel(kind)
+                self.bridge.watch()
+                self.app.processEvents()
+                self.assertEqual(self.find("channelDeliveryStatus").property("text"), connection.summary()["state"])
+                label = "已接收 / 已转交插件 / 失败" if kind == "astrbot" else "已接收 / 已交付 / 失败"
+                self.assertEqual(self.find("channelDeliveryCounts").property("text"),
+                                 self.bridge.translate(label) + (": 4 / 3 / 0" if kind == "astrbot" else ": 4 / 2 / 0"))
+                self.assert_no_errors()
+
     def test_qq_delivery_status_refreshes_without_logging_messages_or_credentials(self):
         self.interface()
         self.root.setProperty("page", 4)

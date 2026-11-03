@@ -13,8 +13,8 @@
 
 私聊仅允许绑定的主人，群内需精确会话白名单；同一平台不要同时使用 SeedBank 原生连接和本插件，以免事件走两次。令牌代表信任此本地插件传入的平台身份，不是对互联网开放的用户认证 API。
 
-失败或超时不自动重试：SeedBank 可能已经记录该次经历。桌面计数表示交给插件，不代表 AstrBot 最终发信成功。停用/卸载插件或停止 SeedBank 的 AstrBot 连接即可断开；它不会自动设置开机启动。
+失败或超时不自动重试：SeedBank 可能已经记录该次经历。最新源码把本机返回单独记为 relayed，桌面显示“已转交插件”，不增加平台发送成功计数；这些修订尚未验收。插件没有最终平台送达回执，不能把 HTTP 返回成功当作对方已收到。停用/卸载插件或停止 SeedBank 的 AstrBot 连接即可断开；它不会自动设置开机启动。
 
-完整指南：[聊天渠道与身份范围](https://github.com/AmatsukiRen/seedbank-public/blob/main/docs/channels.md)。仓库当前仍为私有，仅协作者可访问。
+完整指南：[聊天渠道与身份范围](https://github.com/AmatsukiRen/seedbank-public/blob/main/docs/channels.md)。仓库已公开；最新本地候选修订不代表已更新公开下载。
 
 源码按研发仓库 MIT 许可使用；AstrBot 本体和所接平台遵循各自许可与服务规则。

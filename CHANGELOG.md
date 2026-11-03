@@ -2,6 +2,8 @@
 
 ## Unreleased — Runtime self-knowledge and WorkBuddy account integration
 
+- Follow up across Telegram, Discord, Feishu and DingTalk: accept allowlisted bare mentions, preserve literal Telegram text, require a Telegram message receipt, and expose generation/delivery stages. Count AstrBot handoff separately from platform delivery. Prompt v44 and new cross-channel persistence/privacy cases are prepared but untested. See [channels](docs/channels.md).
+
 - Accept OneBot CQ-string group mentions as well as message arrays, and respond to a bare allowed mention. Reject incomplete login receipts and show local QQ processing/delivery diagnostics. Verify shared-pack persistence and desktop recall without real QQ traffic. See [QQ group replies](docs/qq-group-replies.md).
 
 - Provide per-turn birth identity, actual inbound channel and local connection observations to the model. Keep private identity and other-channel activity out of group prompts; never infer online status from saved settings or chat text. See [runtime self-knowledge](docs/runtime-self-knowledge.md).

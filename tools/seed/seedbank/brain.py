@@ -1273,7 +1273,7 @@ class RemoteBrain(Brain):
                 "runtime_guard": runtime_guard,
                 "fallback": fallback_error is not None,
                 "fallback_reason": type(fallback_error).__name__ if fallback_error is not None else "",
-                "prompt_version": "seedbank-memory-v43", "operation": kind, "at": now_iso(),
+                "prompt_version": "seedbank-memory-v44", "operation": kind, "at": now_iso(),
                 "context": budget_info, "memory_searches": search_count,
                 "retrieval": ctx.get("retrieval_status", {"state": "not_used"}),
                 "fact_time": {"on": used_ctx.get("facts", {}).get("on", ""),

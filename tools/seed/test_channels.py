@@ -179,7 +179,7 @@ class ChannelTest(unittest.TestCase):
             connection.exchange(event(), deliver)
         deliver.assert_called_once()
         with closing(sqlite3.connect(connection.journal.path)) as db:
-            self.assertEqual(db.execute("SELECT state FROM delivery").fetchone()[0], "failed")
+            self.assertEqual(db.execute("SELECT state FROM delivery").fetchone()[0], "delivery_unknown")
 
     def test_telegram_utf16_mention_and_private_detection(self):
         update = {"message": {"message_id": 1, "from": {"id": 42, "is_bot": False},

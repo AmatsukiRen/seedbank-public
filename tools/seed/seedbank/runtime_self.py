@@ -41,7 +41,7 @@ def _channel(row):
     """Bounded allowlist, including when a future carrier adds summary fields."""
     result = {"state": row.get("state") if row.get("state") in
               ("not_started", "listening", "running", "stopped") else "unknown"}
-    for key in ("received", "sent", "failed"):
+    for key in ("received", "sent", "failed", "relayed"):
         value = row.get(key)
         if type(value) is int and value >= 0:
             result[key] = min(value, 1000000000)
@@ -87,7 +87,7 @@ def prompt(ctx):
     if state.get("channel") != "unspecified" or state.get("channels"):
         text += ("Current state overrides old connection claims. listening/running=local receiver/worker, not remote login; "
                  "not_started/stopped=not listening here, even with saved settings. received/sent/failed=count since start, "
-                 "not current online proof; receiving_this_message=only this arrival. Allowed incoming replies are relayed "
+                 "not current online proof; relayed=local bridge handoff, not platform delivery; receiving_this_message=only this arrival. Allowed incoming replies are relayed "
                  "(QQ: owner private/allowlisted @mentions); no arbitrary sends, group joining, history browsing or guaranteed "
                  "delivery. You cannot inspect settings UI. Converse, recall permitted records and propose supported actions. "
                  "Explain naturally in the user's language, not status codes.\n")

@@ -22,7 +22,7 @@ if __name__ == "__main__":
                           APPDATA=str(Path(directory) / "Roaming"),
                           LOCALAPPDATA=str(Path(directory) / "Local"),
                           QT_QPA_PLATFORM="offscreen", QT_QUICK_BACKEND="software", SEEDBANK_LANG="zh_CN")
-        names = ["test_provider_presets", "test_api_credentials", "test_channels", "test_workbuddy_transport", "test_runtime_self", "test_qq_group_reply", "test_qq_security",
+        names = ["test_provider_presets", "test_api_credentials", "test_channels", "test_channel_continuity", "test_workbuddy_transport", "test_runtime_self", "test_qq_group_reply", "test_qq_security",
                  "test_quick.QuickTest.test_first_launch_without_model_offers_selection_instead_of_loading",
                  "test_quick.QuickTest.test_clearing_model_preserves_other_preferences_and_survives_reopen",
                  "test_avatar_expression", "test_presentation", "test_live2d_model", "test_live2d_motion", "test_live2d_lifecycle",

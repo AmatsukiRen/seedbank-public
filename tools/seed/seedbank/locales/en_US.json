@@ -1673,5 +1673,15 @@
   "回复已取消：个体已休眠或连接已停止。": "Reply cancelled: the individual is dormant or the connection stopped.",
   "错误码：{code}": "Error code: {code}",
   "交给个体 {received} 条 · 回复成功 {sent} 条 · 失败 {failed} 条": "Passed to individual: {received} · Sent: {sent} · Failed: {failed}",
-  "OneBot 未返回有效登录信息，不能确认 QQ 已连接。": "OneBot returned no valid login information; QQ connection is unconfirmed."
+  "OneBot 未返回有效登录信息，不能确认 QQ 已连接。": "OneBot returned no valid login information; QQ connection is unconfirmed.",
+  "私聊账号未绑定为主人；消息未交给个体。": "This private sender is not the bound owner; the message was not passed to the individual.",
+  "该群或频道不在白名单；检查后保存并重新启动连接。": "This group or channel is not allowed. Review, save and restart the connection.",
+  "收到空白文字；消息未交给个体。": "Empty text received; the message was not passed to the individual.",
+  "消息格式或身份字段不完整；消息未交给个体。": "Message format or identity fields are incomplete; the message was not passed to the individual.",
+  "本次未生成可发送的文字；没有发送回复。": "No sendable text was generated; no reply was sent.",
+  "回复已生成，正在提交到聊天渠道。": "Reply generated; submitting to the chat channel.",
+  "回复已交给 AstrBot；最终平台送达尚未确认。": "Reply handed to AstrBot; final platform delivery is unconfirmed.",
+  "平台已确认本次回复发送成功。": "The platform confirmed this reply was sent successfully.",
+  "回复提交结果未确认；未自动重发。": "Reply submission is unconfirmed; no automatic retry.",
+  "已接收 / 已转交插件 / 失败": "Received / Handed to plugin / Failed"
 }

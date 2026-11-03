@@ -316,3 +316,4 @@ tools/seed/test_workbuddy_transport.py
 tools/seed/seedbank/runtime_self.py
 tools/seed/test_runtime_self.py
 tools/seed/test_qq_group_reply.py
+tools/seed/test_channel_continuity.py

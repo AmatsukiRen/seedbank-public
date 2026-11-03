@@ -4,7 +4,28 @@
 
 你可以从桌面、私聊或群聊来见同一个体。平台负责收发消息；经历、记忆、选择与模型配置继续由 SeedBank 的同一个会话处理。聊天平台的机器人 Token 与模型 API Key 是两种凭据，请分别设置。
 
-以下描述 2026-11-03 的研发实现。新增渠道与 AstrBot 插件源码已迁入本库。研发版已有部分离线结果，详见[验收记录](acceptance.md)；迁入后的回归与真实平台连接尚待验收，不作为已发布的稳定支持承诺。
+以下描述当前源码实现。2026-11-04 的其他渠道修订尚未运行回归，真实平台连接也未验收；不能用此前版本的离线结果代替。版本与范围见[验收记录](acceptance.md)。
+
+## QQ 以外的同类问题
+
+2026-11-04 代码审查确认：四个直连平台会先去除对机器人的提及，再交给共享路由；旧路由拒绝空正文，因此只 @ 不附文字时也会丢弃。已修改共享入口，仅在白名单群内有明确提及时传入“对方 @ 了你，没有附带文字”的事件说明，不伪造发言。空白私聊、未允许的群及没有实际提及的群消息仍被拒绝。
+
+| 范围 | 代码发现与修订 |
+| --- | --- |
+| Telegram | 修复纯 @；只移除平台实体指明的提及，保留普通文字中的用户名，并支持有显示名字的提及。发送成功还需有消息编号回执。 |
+| Discord | 修复纯 @；从平台 mentions 列表确认提及，保留群私信不能使用主人上下文的限制。 |
+| 飞书 | 修复纯 @；无效 content JSON、非文字内容或异常 mentions 不再直接中断解析。 |
+| 钉钉 | 修复平台确认已 @ 但 text.content 为空时的丢弃；不再将对象或数组强制转换成发言。 |
+| AstrBot | 仍通过 `/seed 文字` 显式转交。新增独立 relayed 计数和提示，不能把本机 HTTP 返回成功当作最终平台送达。 |
+| SnowLuma / NapCat / LLOneBot | 继续走 QQ OneBot 同一实现，沿用 [QQ 修订](qq-group-replies.md)，没有第二套独立记忆。 |
+
+这些渠道共用 `Connection.exchange → Session.call → Bridge.message`，当前输入渠道进入模型上下文，档案、日记和记忆仍属于同一个体；群的可见范围相互隔离。摘要卡片与原始对话是两层记录，不能仅凭“记忆页没有新卡片”判断消息完全未保存。路由拒绝、生成未完成和发送结果未知也不是同一种状态。
+
+设置 → 聊天渠道现在分别显示白名单／主人限制、正在生成、正在提交、发送成功、未生成文字、失败或结果未知。发送不明确时仍不重试，避免重复消息；AstrBot 显示“已转交插件”。这些信息也保留到连接断开时，不用一个笼统断开状态掩盖刚才的发送异常。
+
+本轮只做代码检查和修改，新增 14 项逻辑用例及 1 项四语界面用例，尚未运行。逻辑用例包括五渠道消息保存、重开桌面回忆、无摘要时的原始记录检索及群间隔离。用户运行入口仍为 `packaging/run_offline.ps1 -Suite integrations`；因为提示版本升级到 v44，另请使用 `-Suite core` 复查上下文预算。新 exe 需独立执行 `packaging/run_candidate_checks.ps1`，不能引用旧包的通过记录。
+
+提及解析依据：[Telegram MessageEntity](https://core.telegram.org/bots/api#messageentity)、[Discord Message.mentions](https://discordpy.readthedocs.io/en/stable/api.html#discord.Message.mentions)。Telegram 的发送回执依据：[sendMessage](https://core.telegram.org/bots/api#sendmessage)。其余平台仍沿用已有 SDK 接口，本轮不声称完成线上兼容性验收。
 
 ## 接入范围
 
@@ -104,6 +125,6 @@ AstrBot 和 SeedBank 必须运行在**同一台机器、同一网络命名空间
 
 休眠确认与直接渠道的当前消息处理、回复提交顺序执行，可能需等待当前模型请求或发送完成；已经提交到平台的消息不能撤回。AstrBot 的最终发信由框架完成，停止转接不能撤回已交给插件的回复。
 
-**English:** QQ uses the existing OneBot integration. New direct text adapters target Telegram, Discord, Feishu and DingTalk; AstrBot uses an explicit `/seed` local bridge plugin. Configure your own bot credentials, owner identity and group allowlists. These additions await offline and live acceptance; they are not yet a published release.
+**English:** QQ uses OneBot. Telegram, Discord, Feishu and DingTalk use direct text adapters; AstrBot uses an explicit `/seed` local bridge. The 2026-11-04 revisions address bare mentions, preserve literal message text and distinguish bridge handoff from platform delivery. These latest revisions have not been tested or published; earlier offline results do not cover them.
 
-**日本語:** QQ は既存の OneBot 接続を使用します。Telegram、Discord、Feishu、DingTalk の文字連携と、AstrBot の `/seed` ローカルブリッジを追加しました。自分のボット認証情報、所有者 ID、許可グループを設定します。追加機能は検証待ちで、公開リリースではありません。
+**日本語:** QQ は OneBot、Telegram・Discord・Feishu・DingTalk は文字アダプター、AstrBot は `/seed` ローカルブリッジを使用します。2026-11-04 の修訂は、本文のないメンション、文字の保持、プラグインへの引き渡しと配信確認の区別を対象としています。この修訂は未検証・未公開で、過去の試験結果は適用できません。

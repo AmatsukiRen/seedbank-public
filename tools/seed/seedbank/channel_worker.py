@@ -39,13 +39,16 @@ class Bus:
             if not line:
                 os._exit(0)
             reply = json.loads(line).get("reply", "")
-            ok = True
+            ok, uncertain = True, False
             if reply:
                 try:
-                    send(reply)
+                    ok = send(reply) is not False
                 except Exception:
-                    ok = False
-            self.emit({"type": "delivery", "ok": ok})
+                    ok, uncertain = False, True
+            receipt = {"type": "delivery", "ok": ok}
+            if uncertain:
+                receipt["uncertain"] = True
+            self.emit(receipt)
 
     def enqueue(self, event, send):
         try:
@@ -61,25 +64,46 @@ class Bus:
 
 
 def telegram_event(update, bot):
+    if not isinstance(update, dict) or not isinstance(bot, dict) or not bot.get("id"):
+        return None
     message = update.get("message") or {}
+    if not isinstance(message, dict):
+        return None
     sender, chat = message.get("from") or {}, message.get("chat") or {}
+    if not isinstance(sender, dict) or not isinstance(chat, dict):
+        return None
     text = message.get("text")
     if not isinstance(text, str) or sender.get("is_bot") is not False or chat.get("type") not in ("private", "group", "supergroup"):
         return None
     username = "@" + str(bot.get("username") or "")
     # Telegram entity offsets use UTF-16 code units, not Python character indices.
-    mentioned = False
-    for entity in message.get("entities", []):
+    ranges, encoded = [], text.encode("utf-16-le")
+    entities = message.get("entities") or []
+    if not isinstance(entities, list):
+        return None
+    for entity in entities:
+        if not isinstance(entity, dict):
+            continue
         start, length = entity.get("offset", 0), entity.get("length", 0)
-        part = text.encode("utf-16-le")[start * 2:(start + length) * 2].decode("utf-16-le", errors="replace")
-        if entity.get("type") == "mention" and part.casefold() == username.casefold():
-            mentioned = True
-        if entity.get("type") == "text_mention" and str((entity.get("user") or {}).get("id")) == str(bot["id"]):
-            mentioned = True
+        if type(start) is not int or type(length) is not int or start < 0 or length <= 0 or (start + length) * 2 > len(encoded):
+            continue
+        part = encoded[start * 2:(start + length) * 2].decode("utf-16-le", errors="replace")
+        user = entity.get("user") or {}
+        if ((entity.get("type") == "mention" and len(username) > 1 and part.casefold() == username.casefold())
+                or (entity.get("type") == "text_mention" and isinstance(user, dict) and str(user.get("id")) == str(bot["id"]))):
+            ranges.append((start * 2, (start + length) * 2))
+    # Remove only platform-confirmed mentions, including named text mentions.
+    # Literal usernames elsewhere in the message remain part of the experience.
+    parts, offset = [], 0
+    for start, end in sorted(ranges):
+        if start >= offset:
+            parts.append(encoded[offset:start])
+            offset = end
+    parts.append(encoded[offset:])
     return {"event_id": str(message.get("message_id") or ""), "account": str(bot["id"]),
             "sender": str(sender.get("id") or ""), "chat": str(chat.get("id") or ""),
-            "text": re.sub(re.escape(username) + r"(?![A-Za-z0-9_])", "", text, flags=re.I).strip(),
-            "direct": chat["type"] == "private", "mentioned": mentioned, "bot": False}
+            "text": b"".join(parts).decode("utf-16-le", errors="replace").strip(),
+            "direct": chat["type"] == "private", "mentioned": bool(ranges), "bot": False}
 
 
 def run_telegram(config, secret, bus):
@@ -109,8 +133,21 @@ def run_telegram(config, secret, bus):
                                "link_preview_options": {"is_disabled": True}}
                     if topic:
                         payload["message_thread_id"] = topic
-                    api("sendMessage", payload)
+                    receipt = api("sendMessage", payload)
+                    if not isinstance(receipt, dict) or type(receipt.get("message_id")) is not int or receipt["message_id"] <= 0:
+                        raise RuntimeError("Telegram returned no message receipt")
             bus.forward(event, send)
+
+
+def discord_event(message, bot_id, *, direct):
+    if message.author.bot or message.webhook_id or not isinstance(message.content, str) or not message.content:
+        return None
+    identifier = str(bot_id)
+    mentioned = any(str(user.id) == identifier for user in message.mentions)
+    text = re.sub(r"<@!?" + re.escape(identifier) + r">", "", message.content) if mentioned else message.content
+    return {"event_id": str(message.id), "account": identifier,
+            "sender": str(message.author.id), "chat": str(message.channel.id),
+            "direct": direct, "mentioned": mentioned, "bot": False, "text": text.strip()}
 
 
 def run_discord(config, secret, bus):
@@ -120,16 +157,12 @@ def run_discord(config, secret, bus):
     client = discord.Client(intents=intents, allowed_mentions=discord.AllowedMentions.none())
     @client.event
     async def on_message(message):
-        if message.author.bot or message.webhook_id or not message.content:
-            return
         direct = isinstance(message.channel, discord.DMChannel)
         if message.guild is None and not direct:
             return  # A group DM must never get owner-private context.
-        identifier = str(client.user.id)
-        event = {"event_id": str(message.id), "account": identifier,
-                 "sender": str(message.author.id), "chat": str(message.channel.id),
-                 "direct": direct, "mentioned": client.user in message.mentions, "bot": False,
-                 "text": re.sub(r"<@!?" + identifier + r">", "", message.content).strip()}
+        event = discord_event(message, client.user.id, direct=direct)
+        if event is None:
+            return
         loop = asyncio.get_running_loop()
         async def reply_chunks(reply):
             for start in range(0, len(reply), 1800):
@@ -141,18 +174,37 @@ def run_discord(config, secret, bus):
 
 
 def feishu_event(data, config):
+    if not isinstance(data, dict):
+        return None
     event = data.get("event") or {}
+    if not isinstance(event, dict):
+        return None
     sender, message = event.get("sender") or {}, event.get("message") or {}
+    if not isinstance(sender, dict) or not isinstance(message, dict):
+        return None
     if sender.get("sender_type") != "user" or message.get("message_type") != "text" or message.get("chat_type") not in ("p2p", "group"):
         return None
-    text = json.loads(message.get("content") or "{}").get("text", "")
+    try:
+        content = json.loads(message.get("content") or "{}")
+    except (ValueError, TypeError):
+        return None
+    if not isinstance(content, dict) or not isinstance(content.get("text"), str):
+        return None
+    text = content["text"]
+    mentions = message.get("mentions") or []
+    sender_id = sender.get("sender_id") or {}
+    if not isinstance(mentions, list) or not isinstance(sender_id, dict):
+        return None
     mentioned = False
-    for mention in message.get("mentions") or []:
-        if (mention.get("id") or {}).get("open_id") == config["self_id"]:
+    for mention in mentions:
+        if (isinstance(mention, dict) and isinstance(mention.get("id"), dict)
+                and mention["id"].get("open_id") == config["self_id"]):
             mentioned = True
-            text = text.replace(mention.get("key") or "@_invalid_", "")
+            key = mention.get("key")
+            if isinstance(key, str) and key:
+                text = text.replace(key, "")
     return {"event_id": str(message.get("message_id") or ""), "account": config["app_id"],
-            "sender": str((sender.get("sender_id") or {}).get("open_id") or ""), "chat": str(message.get("chat_id") or ""),
+            "sender": str(sender_id.get("open_id") or ""), "chat": str(message.get("chat_id") or ""),
             "text": text.strip(), "direct": message["chat_type"] == "p2p", "mentioned": mentioned, "bot": False}
 
 
@@ -179,11 +231,14 @@ def run_feishu(config, secret, bus):
 
 
 def dingtalk_event(data, config):
-    if data.get("msgtype") != "text" or not data.get("senderStaffId") or str(data.get("conversationType")) not in ("1", "2"):
+    if not isinstance(data, dict) or data.get("msgtype") != "text" or not data.get("senderStaffId") or str(data.get("conversationType")) not in ("1", "2"):
+        return None
+    content = data.get("text")
+    if not isinstance(content, dict) or not isinstance(content.get("content"), str):
         return None
     return {"event_id": str(data.get("msgId") or ""), "account": config["app_id"],
             "sender": str(data["senderStaffId"]), "chat": str(data.get("conversationId") or ""),
-            "text": str((data.get("text") or {}).get("content") or "").strip(),
+            "text": content["content"].strip(),
             "direct": str(data["conversationType"]) == "1", "mentioned": data.get("isInAtList") is True, "bot": False}
 
 

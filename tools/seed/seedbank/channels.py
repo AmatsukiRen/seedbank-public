@@ -89,27 +89,40 @@ def save_config(pack, config):
 
 def route(config, event):
     """A channel event cannot request arbitrary bridge operations or identity."""
+    return route_with_reason(config, event)[0]
+
+
+def route_with_reason(config, event):
+    """Return only fixed local reason codes, never private event contents."""
     if not isinstance(event, dict) or event.get("bot") is not False:
-        return None
-    fields = [event.get(k) for k in ("event_id", "account", "sender", "chat", "text")]
+        return None, "invalid"
+    fields = [event.get(k) for k in ("event_id", "account", "sender", "chat")]
     if not all(isinstance(v, str) and v.strip() for v in fields):
-        return None
-    if any(len(v) > 512 for v in fields[:4]) or len(fields[4]) > 2000:
-        return None
+        return None, "invalid"
+    text = event.get("text")
+    if any(len(v) > 512 for v in fields) or not isinstance(text, str) or len(text) > 2000:
+        return None, "invalid"
     direct = event.get("direct") is True
     if not direct and event.get("direct") is not False:
-        return None
+        return None, "invalid"
     owner = event["sender"] == config["owner"]
     groups = {v.strip() for v in str(config.get("groups", "")).split(",") if v.strip()}
     if direct and not owner:
-        return None
-    if not direct and (event["chat"] not in groups or event.get("mentioned") is not True):
-        return None
+        return None, "not_owner"
+    if not direct and event["chat"] not in groups:
+        return None, "group_not_allowed"
+    if not direct and event.get("mentioned") is not True:
+        return None, "not_mentioned"
+    text = text.strip()
+    if not text:
+        if direct or config["id"] == "astrbot":
+            return None, "empty"
+        text = t("（对方在群里 @ 了你，没有附带文字。）")
     identity = json.dumps([config["id"], event["account"], event["chat"], event["event_id"]], ensure_ascii=False)
     request_id = "channel-" + digest(identity)
     audience = "owner" if direct else "channel:" + config["id"] + ":" + digest(event["account"] + "/" + event["chat"])
-    return {"text": event["text"].strip(), "speaker": "主人" if owner else config["id"] + ":" + event["sender"],
-            "person_id": "owner" if owner else "", "audience_id": audience, "request_id": request_id}
+    return {"text": text, "speaker": "主人" if owner else config["id"] + ":" + event["sender"],
+            "person_id": "owner" if owner else "", "audience_id": audience, "request_id": request_id}, "accepted"
 
 
 class Journal:
@@ -138,45 +151,75 @@ class Connection:
         self.stopped = threading.Event()
         self.process = self.server = None
         self.state = "尚未启动"
-        self.received = self.sent = self.failed = 0
+        self.stage = "not_started"
+        self.received = self.sent = self.failed = self.relayed = 0
+
+    def status(self, stage, text):
+        self.stage, self.state = stage, text
 
     def summary(self):
         running = not self.stopped.is_set() and (self.server is not None or (self.process is not None and self.process.poll() is None))
-        return {"id": self.config["id"], "running": running, "state": t(self.state),
-                "received": self.received, "sent": self.sent, "failed": self.failed}
+        row = {"id": self.config["id"], "running": running, "state": t(self.state), "stage": self.stage,
+               "received": self.received, "sent": self.sent, "failed": self.failed}
+        if self.config["id"] == "astrbot":
+            row["relayed"] = self.relayed
+        return row
 
     def exchange(self, event, deliver):
-        request = route(self.config, event)
+        request, reason = route_with_reason(self.config, event)
         # One Session owns all carriers, including the GUI. The lock also covers
         # delivery so a confirmed pause cannot be followed by a new send.
         with self.session.lock:
             from .lifecycle import active
-            if self.stopped.is_set() or self.session.closed or not active(self.session.pack) or request is None:
+            if self.stopped.is_set() or self.session.closed or not active(self.session.pack):
+                return deliver("")
+            if request is None:
+                labels = {"not_owner": "私聊账号未绑定为主人；消息未交给个体。",
+                          "group_not_allowed": "该群或频道不在白名单；检查后保存并重新启动连接。",
+                          "not_mentioned": "收到群消息，但没有识别到对本账号的 @。",
+                          "empty": "收到空白文字；消息未交给个体。",
+                          "invalid": "消息格式或身份字段不完整；消息未交给个体。"}
+                self.status(reason, labels[reason])
                 return deliver("")
             if not self.journal.claim(request["request_id"]):
                 return deliver("")
             self.received += 1
+            self.status("generating", "消息已交给当前个体，正在生成回复。")
             delivery_started = False
             try:
                 from .runtime_self import incoming
                 with incoming(self.session.pack, self.config["id"]):
                     result = self.session.call("message", **request)
                 if self.stopped.is_set() or not active(self.session.pack):
+                    self.status("cancelled", "回复已取消：个体已休眠或连接已停止。")
                     self.journal.finish(request["request_id"], "cancelled")
                     return deliver("")
                 reply = str(result.get("reply") or "")
+                if not reply.strip():
+                    self.journal.finish(request["request_id"], "no_reply")
+                    self.status("no_reply", "本次未生成可发送的文字；没有发送回复。")
+                    return deliver("")
                 self.journal.finish(request["request_id"], "sending")
                 delivery_started = True
+                self.status("sending", "回复已生成，正在提交到聊天渠道。")
                 ok = deliver(reply)
-                self.journal.finish(request["request_id"], "delivered" if ok else "delivery_failed")
-                self.sent += bool(ok and reply)
+                relay = self.config["id"] == "astrbot"
+                self.journal.finish(request["request_id"], ("relayed" if relay else "delivered") if ok else "delivery_failed")
+                self.sent += bool(ok and not relay)
+                self.relayed += bool(ok and relay)
                 self.failed += not ok
-                self.state = "连接进程已启动" if ok else "回复发送失败；未自动重试"
+                if not ok:
+                    self.status("delivery_failed", "回复发送失败；未自动重试")
+                elif relay:
+                    self.status("relayed", "回复已交给 AstrBot；最终平台送达尚未确认。")
+                else:
+                    self.status("delivered", "平台已确认本次回复发送成功。")
                 return ok
             except Exception:
                 self.failed += 1
-                self.state = "消息处理失败；请查看未完成请求"
-                self.journal.finish(request["request_id"], "failed")
+                self.status("delivery_unknown" if delivery_started else "generation_failed",
+                            "回复提交结果未确认；未自动重发。" if delivery_started else "消息处理失败；请查看未完成请求")
+                self.journal.finish(request["request_id"], "delivery_unknown" if delivery_started else "failed")
                 # Do not forward exception details or private context to a group.
                 if delivery_started:
                     raise  # Never issue a second send after an uncertain receipt.
@@ -186,7 +229,7 @@ class Connection:
         secret = os.environ.get(self.config["token_env"], "").strip()
         if not secret:
             raise ValueError(t("令牌环境变量为空；设置后请重新打开 SeedBank。"))
-        self.state = "连接进程已启动"
+        self.status("starting", "连接进程已启动")
         if self.config["id"] == "astrbot":
             self._start_relay(secret)
         else:
@@ -220,7 +263,7 @@ class Connection:
                 if row.get("type") == "exit":
                     break
                 if row.get("type") == "error":
-                    self.state = "渠道连接失败；请核对令牌、权限与网络"
+                    self.status("connection_failed", "渠道连接失败；请核对令牌、权限与网络")
                     self.failed += 1
                     continue
                 if row.get("type") != "event":
@@ -235,14 +278,17 @@ class Connection:
                     result = messages.get(timeout=45)
                     if result.get("type") != "delivery":
                         raise RuntimeError("Missing delivery receipt")
+                    if result.get("uncertain") is True:
+                        raise RuntimeError("Unconfirmed platform delivery")
                     return result.get("ok") is True
                 self.exchange(row.get("event"), deliver)
         except Exception:
-            self.failed += 1
-            self.state = "渠道连接失败；请核对令牌、权限与网络"
+            if self.stage != "delivery_unknown":
+                self.failed += 1
+                self.status("connection_failed", "渠道连接失败；请核对令牌、权限与网络")
         finally:
-            if not self.stopped.is_set():
-                self.state = "渠道已断开；请检查配置后重新启动"
+            if not self.stopped.is_set() and self.stage not in ("connection_failed", "delivery_unknown", "delivery_failed", "generation_failed"):
+                self.status("disconnected", "渠道已断开；请检查配置后重新启动")
             self.stop(preserve_status=True)
 
     def _start_relay(self, secret):
@@ -297,7 +343,7 @@ class Connection:
             except subprocess.TimeoutExpired:
                 self.process.kill()
         if not preserve_status:
-            self.state = "已停止连接"
+            self.status("stopped", "已停止连接")
 
 
 class Manager:
@@ -319,7 +365,7 @@ class Manager:
             try:
                 connection.start()
             except Exception:
-                connection.state = "渠道连接失败；请核对令牌、权限与网络"
+                connection.status("connection_failed", "渠道连接失败；请核对令牌、权限与网络")
                 try:
                     connection.stop(preserve_status=True)
                 except (OSError, subprocess.TimeoutExpired):

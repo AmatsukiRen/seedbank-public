@@ -31,8 +31,15 @@ ColumnLayout {
             AppButton { text: Style.tr("保存设置"); enabled: !bridge.busy; onClicked: bridge.saveChannel() }
             AppButton { objectName: "startChannelButton"; text: panel.connectionState.running ? Style.tr("停止连接") : Style.tr("启动连接"); primary: true; enabled: !bridge.busy; onClicked: bridge.toggleChannel(!panel.connectionState.running) }
         }
-        LabelText { text: panel.connectionState.state; Layout.fillWidth: true; color: Style.accent }
-        LabelText { text: Style.tr("已接收 / 已交付 / 失败") + ": " + panel.connectionState.received + " / " + panel.connectionState.sent + " / " + panel.connectionState.failed; Layout.fillWidth: true; color: Style.muted }
+        LabelText { objectName: "channelDeliveryStatus"; text: panel.connectionState.state; Layout.fillWidth: true; color: Style.accent }
+        LabelText {
+            objectName: "channelDeliveryCounts"
+            text: (bridge.channelForm.id === "astrbot" ? Style.tr("已接收 / 已转交插件 / 失败") : Style.tr("已接收 / 已交付 / 失败"))
+                  + ": " + panel.connectionState.received + " / "
+                  + (bridge.channelForm.id === "astrbot" ? (panel.connectionState.relayed || 0) : panel.connectionState.sent)
+                  + " / " + panel.connectionState.failed
+            Layout.fillWidth: true; color: Style.muted
+        }
     }
     Panel {
         caption: Style.tr("连接与可见范围")
