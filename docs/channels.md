@@ -1,0 +1,97 @@
+# 聊天平台与机器人框架
+
+[SeedBank](../README.md) · [模型服务](model-services.md) · [开发与扩展](extensions.md)
+
+你可以从桌面、私聊或群聊来见同一个体。平台负责收发消息；经历、记忆、选择与模型配置继续由 SeedBank 的同一个会话处理。聊天平台的机器人 Token 与模型 API Key 是两种凭据，请分别设置。
+
+以下描述 2026-11-03 的研发实现。新增渠道和 AstrBot 插件尚未完成离线及真实平台验收，不作为已经发布的稳定支持承诺。应用源码仍在研发仓库。
+
+## 接入范围
+
+| 渠道或框架 | 接入方式 | 当前范围 |
+| --- | --- | --- |
+| QQ | 已有 OneBot v11 HTTP API + 本机 HTTP 上报 | 主人私聊、白名单群 @、原有文字及图片路径 |
+| SnowLuma / NapCat / LLOneBot 等 | 使用它们提供的 OneBot v11 能力 | 属于上面同一条 QQ 接入路径；不是再登录一个 QQ 账号 |
+| Telegram | Bot API 长轮询 | 新增文字私聊、白名单群 @ |
+| Discord | Bot Gateway，discord.py | 新增文字私聊、白名单频道 @ |
+| 飞书 | 企业自建机器人，官方 SDK 长连接 | 新增文字私聊、白名单群 @ |
+| 钉钉 | 企业机器人，官方 Stream SDK | 新增文字私聊、白名单群 @ |
+| AstrBot | 本机认证转接 + 随包插件 | `/seed` 文字指令，平台身份与会话白名单由 SeedBank 再次检查 |
+
+“QQ 已有”表示已有适配器与配置入口，不表示代替第三方客户端登录或保证所有实现版本兼容。这里的 Snow 指 SnowLuma；其他名为 Snow 的项目需按实际协议确认。AstrBot 是机器人框架，其已有平台可以通过插件尝试转接；不能把整个 AstrBot 平台清单写成 SeedBank 均已独立适配和验收。
+
+## 共用设置
+
+新增渠道位于 **设置 → 聊天渠道**；QQ / SnowLuma 使用原 **QQ** 页。
+
+1. 在对应平台创建自己的机器人，取得下表所需凭据。
+2. 将实际 Token / App Secret 写入电脑环境变量，重新打开 SeedBank。界面只填写变量名，不把密钥粘贴进账号 ID、应用 ID 或环境变量名框。
+3. 填写主人账号 ID。昵称不能代替稳定 ID；空白名单不响应任何群。
+4. 填写允许的群或频道 ID，保存，再手动“启动连接”。启动进程并不等于平台鉴权或消息投递已经成功。
+5. 先用独立人工包，确认指定主人私聊、陌生人拒绝、白名单群 @、非白名单拒绝，再使用日常个体。
+
+| 渠道 | 凭据变量默认名 | 应用字段 | 主人 ID | 群白名单 |
+| --- | --- | --- | --- | --- |
+| Telegram | `SEEDBANK_TELEGRAM_TOKEN` | 无 | 数字 user ID | 数字 chat ID（群通常为负数） |
+| Discord | `SEEDBANK_DISCORD_TOKEN` | 无 | 数字用户 ID | 频道 ID，不是服务器 ID |
+| 飞书 | `SEEDBANK_FEISHU_SECRET` | App ID + 机器人 open_id | 用户 open_id | chat_id |
+| 钉钉 | `SEEDBANK_DINGTALK_SECRET` | Client ID / AppKey | senderStaffId | conversationId |
+| AstrBot | `SEEDBANK_ASTRBOT_TOKEN` | 本机端口，默认 8791 | `/seedid` 返回的完整主人 ID | `/seedid` 返回的完整会话 ID |
+
+默认只接受文字，单条最多 2000 字。新渠道尚未接附件、语音、主动推送或任意远程管理命令。休眠时不处理新消息，不会因聊天内容或重连自动恢复。主人在群里说话也使用群的可见范围；未绑定的群成员不会被冒认为主人。群只接触允许分享的上下文。
+
+## 各平台准备
+
+### Telegram
+
+通过 BotFather 建 Bot，将 Token 放入对应环境变量。用户需先打开 Bot 私聊，群内使用 `@机器人用户名` 明确提及。保留平台隐私设置，并按官方说明配置机器人可收到的消息。使用 [Bot API 的 getUpdates / sendMessage](https://core.telegram.org/bots/api)。
+
+一个 Bot 只能选择一种接收路径；如果已经配置 Webhook，本实现会拒绝启动，不会替你删除。每次手动启动会跳过已有待处理更新，避免突然回答一批离线积压消息。不要与其他轮询器同时使用同一 Token。程序关闭时不接收消息，也不会伪造这段时间的经历。
+
+### Discord
+
+创建 Bot 应用，使用 **Bot Token**，不要使用普通用户 Token。启用 **Message Content Intent**，邀请到目标服务器并允许查看频道、发送消息。白名单填具体频道或线程 ID；普通群私信不会按主人私聊处理。接入参考 [Discord Gateway](https://github.com/discord/discord-api-docs/blob/main/developers/events/gateway.mdx) 与 [discord.py](https://discordpy.readthedocs.io/en/stable/quickstart.html)。
+
+回复禁用自动提及，避免模型输出触发 `@everyone` 等通知。启动 SeedBank 后再发送一条新消息；没有导入历史频道内容。
+
+### 飞书
+
+使用企业自建应用，启用机器人能力与**长连接接收事件**，订阅 `im.message.receive_v1`，按控制台为私聊接收、群内 @ 接收及机器人发送消息授予权限，并发布到需要使用的企业范围。填写 App ID，环境变量保存 App Secret。群内 @ 根据机器人自己的 open_id 判断，不能填昵称或 App ID 代替它。
+
+读取用户 open_id、机器人 open_id、群 chat_id 时应使用同一应用的身份范围。当前端点是飞书国内站，没有将 Lark 国际站自动切换纳入此版。参考[官方长连接说明](https://open.feishu.cn/document/ukTMukTMukTM/uYDNxYjL2QTM24iN0EjN/event-subscription-configure-)及[回复消息 API](https://open.feishu.cn/document/server-docs/im-v1/message/reply)。
+
+### 钉钉
+
+在开放平台创建企业机器人并启用 **Stream** 接收模式，填写 Client ID / AppKey，环境变量保存 Client Secret / AppSecret。配置机器人可见范围并发布。主人绑定 `senderStaffId`，群绑定 `conversationId`；外部联系人缺少 staff ID 的事件暂不处理。
+
+这不是只能发送通知的群自定义 Webhook 机器人。回复使用本次事件的短期 sessionWebhook；过期或投递失败不自动重发。参考[钉钉官方 Stream Python SDK](https://github.com/open-dingtalk/dingtalk-stream-sdk-python)。
+
+### QQ / SnowLuma
+
+在已有 OneBot 实现里启用 HTTP API，将消息上报到 QQ 页填写的本机端口，例如 `http://127.0.0.1:8790/`。SeedBank 的 OneBot HTTP 地址应填写桥端实际 API 地址；常见端口并不统一，不必照抄示例。主人 QQ 号、群白名单、机器人 QQ 号分别填写。
+
+设置 `SEEDBANK_ONEBOT_TOKEN` 并使桥端的访问令牌/上报鉴权配置匹配。OneBot 的登录、平台权限及协议兼容仍由所选实现负责。不要同时把相同 QQ 事件经 OneBot 和 AstrBot 两条路径交给同一个体。
+
+### AstrBot
+
+本机研发交付随附 `seedbank-astrbot-plugin.zip`。解压到 AstrBot 的插件目录，例如 `data/plugins/seedbank_bridge/`，确认该目录下直接是 `main.py`、`metadata.yaml`、`_conf_schema.json`，然后按 AstrBot 的[插件安装方法](https://docs.astrbot.app/use/plugin.html)重载。此次未向插件市场发布。
+
+AstrBot 和 SeedBank 必须运行在**同一台机器、同一网络命名空间**；当前只监听 `127.0.0.1`，不能直接从远端主机或默认 Docker 网络访问。两边设置同一个足够长的随机 `SEEDBANK_ASTRBOT_TOKEN`，插件与应用端口一致。它是本机桥接令牌，不是模型 Key 或 AstrBot 管理员密码。
+
+先发送 `/seedid`，把返回的主人 ID 与需要的会话 ID 复制到 SeedBank；主人 ID 带平台实例前缀，以免不同平台上碰巧相同的用户 ID 被混认。之后用 `/seed 今天想说的话`；群内该指令即明确调用，但仍须在白名单中。修改了 AstrBot 的命令前缀时使用对应前缀。
+
+插件停止该事件继续触发 AstrBot 的默认模型流程，由 SeedBank 生成并保存经历；没有复制 AstrBot 的人设、历史会话或工具权限。插件只调用固定的 `POST /v1/message`，不开放生命包读写、休眠恢复或任意桥接命令。接口返回表示内容已交给插件，**不是平台最终送达回执**。参考 [AstrBot 消息事件开发说明](https://docs.astrbot.app/dev/star/guides/listen-message-event.html)。
+
+## 运行与恢复
+
+每种新渠道最多启动一个连接，多个渠道与桌面共享同一个 Session 顺序处理。平台网络 SDK 在单独的受管子进程内运行；停止连接或关闭窗口会结束相应子进程，不关闭其他应用。关窗后不会作为后台机器人继续运行，重开不会自动连接。
+
+新渠道的配置与投递编号保存在本机用户目录 `.seedbank/channels/`，按生命包路径分隔。里面不保存令牌、输入正文或回答正文。聊天记录仍写入生命包。搬迁生命包后需要重新配置渠道，不能期待旧的去重记录跨机器自动恢复。
+
+平台重投的同一消息会去重；已经尝试过的失败消息也不自动再次请求模型或发送。失败计数需要结合桌面的未完成请求查看。断线、超时或分段回复时，远端可能已经收到部分内容，不能保证恰好一次送达。SDK 可重连网络连接，这不等于自动重试失败的模型活动。
+
+休眠确认与直接渠道的当前消息处理、回复提交顺序执行，可能需等待当前模型请求或发送完成；已经提交到平台的消息不能撤回。AstrBot 的最终发信由框架完成，停止转接不能撤回已交给插件的回复。
+
+**English:** QQ uses the existing OneBot integration. New direct text adapters target Telegram, Discord, Feishu and DingTalk; AstrBot uses an explicit `/seed` local bridge plugin. Configure your own bot credentials, owner identity and group allowlists. These additions await offline and live acceptance; they are not yet a published release.
+
+**日本語:** QQ は既存の OneBot 接続を使用します。Telegram、Discord、Feishu、DingTalk の文字連携と、AstrBot の `/seed` ローカルブリッジを追加しました。自分のボット認証情報、所有者 ID、許可グループを設定します。追加機能は検証待ちで、公開リリースではありません。

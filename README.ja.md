@@ -91,7 +91,7 @@
 
 | 分野 | 既存の接続点 | 一緒に作れるもの |
 | :--- | :--- | :--- |
-| **チャットと外部ツール** | ローカル子プロセス · JSON Lines ブリッジ | QQ / OneBot アダプターは既存。Discord、Telegram、ツール画面への接続を。 |
+| **チャットと外部ツール** | ローカル子プロセス · JSON Lines ブリッジ | 既存の QQ/OneBot に、Discord、Telegram、Feishu、DingTalk の文字連携と AstrBot ブリッジを追加。接続ガイドを参照。 |
 | **モデルサービス** | stub、OpenAI-compatible、Anthropic、Codex | 新しいサービスやローカルモデル、時間制限・費用・失敗処理の改善。 |
 | **画面と身体** | Qt Quick / QML、ローカル Live2D、載体ブリッジ | 記録と明示的な選択を引き継ぐデスクトップ、モバイル、VR の入口。 |
 | **プラグイン基盤** | 統一インストール、権限宣言、ホットリロードは未実装 | マニフェスト、権限、ライフサイクル、互換性の設計。 |
@@ -124,11 +124,31 @@ Python、QML、フロントエンド、モデル連携、キャラクター制�
 | OpenAI | OpenAI-compatible | `OPENAI_API_KEY` |
 | DeepSeek | OpenAI-compatible / Anthropic-compatible | `DEEPSEEK_API_KEY` |
 | Claude | Anthropic | `ANTHROPIC_API_KEY` |
+| Google Gemini / Qwen / Doubao | OpenAI-compatible | 各サービスの Key。接続表を参照 |
+| Kimi / Zhipu GLM / MiniMax | OpenAI-compatible | 各サービスの Key。接続表を参照 |
+| SiliconFlow / OpenRouter / Qianfan / Hunyuan | OpenAI-compatible | 各サービスの Key。接続表を参照 |
 | その他の互換サービス | 提供元のプロトコルと接続先を指定 | `SEEDBANK_API_KEY` |
 | Ollama / LM Studio | ローカル OpenAI-compatible | 通常は Key 不要 |
 | Codex ログイン（任意） | この PC の Codex ログインを使用 | API Key 不要 |
 
 Windows では入力を伏せ字にし、現在の OS ユーザーで暗号化して保存します。ライフパックには参照だけを保存するため、別の PC では Key の再入力が必要です。環境変数も詳細設定として利用できます。変数名は Key の読み取り先であり、アカウント名ではありません。モデル名は変更でき、料金と権限はサービスと Key に従います。別項目の Codex ログインを選んだ場合だけ、ローカルの Codex ログインを使用します。アプリの実装は現在、開発用リポジトリにあります。
+
+追加プリセットのモデル ID は自分のアカウントに合わせて入力します。地域とワークスペースも合わせてください。実装済みは実機検証済みを意味しません。[サービス一覧と設定方法](docs/model-services.md)をご覧ください。
+
+### いつもの場所から会いに来る
+
+モデルは理解と表現を担い、チャット連携は出会う場所を広げます。同じ個体の経験を共有し、グループでは共有範囲に合う文脈を使用します。
+
+| プラットフォーム / 基盤 | 接続方式 | 範囲 |
+| :--- | :--- | :--- |
+| QQ · SnowLuma / NapCat / LLOneBot | 既存の OneBot v11 | 所有者の個別会話、許可グループのメンション |
+| Discord · Telegram | Bot Gateway / Bot API ポーリング | 文字連携を追加。手動開始 |
+| Feishu · DingTalk | ボット長接続 / Stream | 文字連携を追加。自分のアプリ認証情報 |
+| AstrBot | ローカルプラグイン · /seed | 既存の入口を利用し、ID と範囲を再確認 |
+
+追加機能は開発版に実装し、オフライン・実プラットフォーム検証待ちです。添付、音声、自発通知は新連携の対象外です。AstrBot の全プラットフォームが SeedBank で検証済みという意味ではありません。
+
+**[プラットフォームと AstrBot の設定（中文） →](docs/channels.md)**
 
 経験を引き継ぎ、選択がその後に影響し、AI が自分の生活を形づくるための探究です。意識や完全な人格が確認されたわけではありません。この物語と同じ成長を約束するものでもありません。
 

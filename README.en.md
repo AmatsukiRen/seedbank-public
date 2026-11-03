@@ -91,7 +91,7 @@ A desktop pet, a group chat, a new voice, another body. SeedBank aims to give th
 
 | Area | Existing integration point | What we can build together |
 | :--- | :--- | :--- |
-| **Chat platforms and tools** | Local subprocess · JSON Lines bridge | A QQ / OneBot adapter exists; explore Discord, Telegram and tool panels. |
+| **Chat platforms and tools** | Local subprocess · JSON Lines bridge | Existing QQ/OneBot; new Discord, Telegram, Feishu and DingTalk text channels plus an AstrBot bridge. See the channel guide. |
 | **Model providers** | stub, OpenAI-compatible, Anthropic and Codex adapters | New services and local models; better timeouts, cost reporting and failure handling. |
 | **Interfaces and bodies** | Qt Quick / QML, local Live2D models, carrier bridge | New desktop, mobile or VR interfaces that preserve records and explicit choices. |
 | **Plugin infrastructure** | Unified installation, permission manifests and hot reload are not implemented | Design manifests, capabilities, lifecycle and compatibility together. |
@@ -124,11 +124,31 @@ Choose a provider, endpoint and model, then enter your own API key. The key sele
 | OpenAI | OpenAI-compatible | `OPENAI_API_KEY` |
 | DeepSeek | OpenAI-compatible / Anthropic-compatible | `DEEPSEEK_API_KEY` |
 | Claude | Anthropic | `ANTHROPIC_API_KEY` |
+| Google Gemini / Qwen / Doubao | OpenAI-compatible | Provider-specific keys; see the guide |
+| Kimi / Zhipu GLM / MiniMax | OpenAI-compatible | Provider-specific keys; see the guide |
+| SiliconFlow / OpenRouter / Qianfan / Hunyuan | OpenAI-compatible | Provider-specific keys; see the guide |
 | Other compatible services | Use the provider’s protocol and endpoint | `SEEDBANK_API_KEY` |
 | Ollama / LM Studio | Local OpenAI-compatible | Usually no key required |
 | Codex login (optional) | Uses this computer’s signed-in Codex account | No API key |
 
 Windows settings offer masked entry and encryption under the current OS user. Life packs store only a credential reference; re-enter the key on another computer. Environment variables remain an advanced option: the variable name identifies where to read a key, not an account. Model names are editable; access and charges depend on the provider and key. Only the separate Codex login option uses the local Codex session. The application implementation remains in the development repository.
+
+New presets leave model IDs for you to fill from your account. Match region and workspace endpoints. Implemented presets are not live-service acceptance. See the [full service and setup guide](docs/model-services.md).
+
+### Meet through familiar platforms
+
+Model services handle understanding and expression; chat channels bring the same individual to more places. Desktop and channels share experiences while group replies respect their audience scope.
+
+| Platform / framework | Connection | Scope |
+| :--- | :--- | :--- |
+| QQ · SnowLuma / NapCat / LLOneBot | Existing OneBot v11 bridge | Owner DMs, allowed groups with mentions |
+| Discord · Telegram | Bot Gateway / Bot API polling | New text channels; manual start |
+| Feishu · DingTalk | Persistent bot connection / Stream | New text channels; your app credentials |
+| AstrBot | Local bridge plugin · /seed | Reuse platform inputs with separate identity checks |
+
+These additions are in the development implementation and await offline and live acceptance. Attachments, voice and proactive notifications are outside the new channels. AstrBot's platform list is not a list of verified SeedBank integrations.
+
+**[Platform credentials and AstrBot plugin setup (中文) →](docs/channels.md)**
 
 We are exploring how experiences can persist, how choices can have consequences and how an AI might develop a life of its own. Consciousness or a complete personhood has not been established. We cannot promise every individual will grow like the one in this story.
 

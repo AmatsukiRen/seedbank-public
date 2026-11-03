@@ -189,7 +189,7 @@
       [
         "Chat platforms and tools",
         "Local subprocess · JSON Lines bridge",
-        "A QQ / OneBot adapter exists; explore Discord, Telegram and tool panels."
+        "Existing QQ/OneBot; new Discord, Telegram, Feishu and DingTalk text channels plus an AstrBot bridge. See the channel guide."
       ],
       [
         "Model providers",
@@ -246,6 +246,21 @@
         "`ANTHROPIC_API_KEY`"
       ],
       [
+        "Google Gemini / Qwen / Doubao",
+        "OpenAI-compatible",
+        "Provider-specific keys; see the guide"
+      ],
+      [
+        "Kimi / Zhipu GLM / MiniMax",
+        "OpenAI-compatible",
+        "Provider-specific keys; see the guide"
+      ],
+      [
+        "SiliconFlow / OpenRouter / Qianfan / Hunyuan",
+        "OpenAI-compatible",
+        "Provider-specific keys; see the guide"
+      ],
+      [
         "Other compatible services",
         "Use the provider’s protocol and endpoint",
         "`SEEDBANK_API_KEY`"
@@ -261,6 +276,39 @@
         "No API key"
       ]
     ],
-    "note": "Windows settings offer masked entry and encryption under the current OS user. Life packs store only a credential reference; re-enter the key on another computer. Environment variables remain an advanced option: the variable name identifies where to read a key, not an account. Model names are editable; access and charges depend on the provider and key. Only the separate Codex login option uses the local Codex session. The application implementation remains in the development repository."
+    "note": "Windows settings offer masked entry and encryption under the current OS user. Life packs store only a credential reference; re-enter the key on another computer. Environment variables remain an advanced option: the variable name identifies where to read a key, not an account. Model names are editable; access and charges depend on the provider and key. Only the separate Codex login option uses the local Codex session. The application implementation remains in the development repository.\n\nNew presets leave model IDs for you to fill from your account. Match region and workspace endpoints. Implemented presets are not live-service acceptance. See the [full service and setup guide](docs/model-services.md)."
+  },
+  "channels": {
+    "title": "Meet through familiar platforms",
+    "intro": "Model services handle understanding and expression; chat channels bring the same individual to more places. Desktop and channels share experiences while group replies respect their audience scope.",
+    "columns": [
+      "Platform / framework",
+      "Connection",
+      "Scope"
+    ],
+    "rows": [
+      [
+        "QQ · SnowLuma / NapCat / LLOneBot",
+        "Existing OneBot v11 bridge",
+        "Owner DMs, allowed groups with mentions"
+      ],
+      [
+        "Discord · Telegram",
+        "Bot Gateway / Bot API polling",
+        "New text channels; manual start"
+      ],
+      [
+        "Feishu · DingTalk",
+        "Persistent bot connection / Stream",
+        "New text channels; your app credentials"
+      ],
+      [
+        "AstrBot",
+        "Local bridge plugin · /seed",
+        "Reuse platform inputs with separate identity checks"
+      ]
+    ],
+    "note": "These additions are in the development implementation and await offline and live acceptance. Attachments, voice and proactive notifications are outside the new channels. AstrBot's platform list is not a list of verified SeedBank integrations.",
+    "link": "Platform credentials and AstrBot plugin setup (中文)"
   }
 }

@@ -91,7 +91,7 @@
 
 | 方向 | 已有接入点 | 可以一起做什么 |
 | :--- | :--- | :--- |
-| **聊天平台与外部工具** | 本地子进程 · JSON Lines 桥接 | QQ / OneBot 已有适配；欢迎探索 Discord、Telegram、工具面板。 |
+| **聊天平台与外部工具** | 本地子进程 · JSON Lines 桥接 | QQ / OneBot 已有；新增 Discord、Telegram、飞书、钉钉文字渠道及 AstrBot 桥接，见平台指南。 |
 | **模型服务** | stub、OpenAI-compatible、Anthropic、Codex 适配器 | 接入新的服务与本地模型，完善超时、费用和失败处理。 |
 | **界面与身体** | Qt Quick / QML、Live2D 本地模型、载体桥接 | 新桌面端、移动端或 VR 载体；保留档案与明确选择。 |
 | **插件基础设施** | 统一安装、权限声明、热加载尚未实现 | 一起设计插件清单、能力权限、生命周期和兼容约定。 |
@@ -124,11 +124,31 @@ Python、QML、前端、模型工程、角色制作、无障碍与翻译，都�
 | OpenAI | OpenAI-compatible | `OPENAI_API_KEY` |
 | DeepSeek | OpenAI-compatible / Anthropic-compatible | `DEEPSEEK_API_KEY` |
 | Claude | Anthropic | `ANTHROPIC_API_KEY` |
+| Google Gemini / 通义千问 / 豆包 | OpenAI-compatible | 各自服务的 Key，见接入表 |
+| Kimi / 智谱 GLM / MiniMax | OpenAI-compatible | 各自服务的 Key，见接入表 |
+| 硅基流动 / OpenRouter / 千帆 / 混元 | OpenAI-compatible | 各自服务的 Key，见接入表 |
 | 其他兼容服务 | 按服务商提供的协议与地址填写 | `SEEDBANK_API_KEY` |
 | Ollama / LM Studio | 本地 OpenAI-compatible | 通常不需要 Key |
 | Codex 登录通道（可选） | 使用本机 Codex 已登录账号 | 不填写 API Key |
 
 Windows 设置支持隐藏输入并使用当前系统用户加密保存 Key；生命包只保存凭据引用，换电脑后需重新填写。环境变量方式保留为高级选项：变量名只是读取 Key 的位置，不是账号名。模型名称可自行修改，费用和权限取决于服务商与所用 Key。Codex 登录通道单独选择，才会使用本机 Codex 登录。当前应用实现仍在原研发库。
+
+新增预设不固定模型 ID，请填写自己账号可用的模型；地域和工作空间地址须匹配。预设已实现不等于真实调用已验收。详见[完整模型接入表与设置方法](docs/model-services.md)。
+
+### 从你熟悉的平台来见它
+
+模型决定它如何理解和表达，聊天渠道决定你从哪里与它相遇。桌面和新渠道共享同一份经历；群聊使用对应的分享范围。
+
+| 平台 / 框架 | 接入方式 | 范围 |
+| :--- | :--- | :--- |
+| QQ · SnowLuma / NapCat / LLOneBot | 已有 OneBot v11 桥 | 主人私聊、白名单群 @ |
+| Discord · Telegram | Bot Gateway / Bot API 长轮询 | 新增文字渠道，手动连接 |
+| 飞书 · 钉钉 | 企业机器人长连接 / Stream | 新增文字渠道，自己的应用凭据 |
+| AstrBot | 本机桥接插件 · /seed | 复用框架平台入口，独立检查身份与范围 |
+
+新增接入正在研发版本中完成，尚待离线与真实平台验收；附件、语音和主动推送不在新增渠道范围。AstrBot 平台列表不等于 SeedBank 全部实测支持。
+
+**[平台配置、凭据与 AstrBot 插件说明 →](docs/channels.md)**
 
 我们在探索怎样让经历延续、让选择有后果、让 AI 逐渐形成自己的生活。当前没有证据证明意识或完整人格，也不承诺每个个体都会像这段故事一样成长。
 

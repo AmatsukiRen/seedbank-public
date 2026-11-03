@@ -148,6 +148,18 @@ ${d.api.rows.map(row=>`| ${row.join(" | ")} |`).join("\n")}
 
 ${d.api.note}
 
+### ${d.channels.title}
+
+${d.channels.intro}
+
+| ${d.channels.columns.join(" | ")} |
+| :--- | :--- | :--- |
+${d.channels.rows.map(row=>`| ${row.join(" | ")} |`).join("\n")}
+
+${d.channels.note}
+
+**[${d.channels.link} →](docs/channels.md)**
+
 ${d.faq[3][1]}
 
 ### ${s[5]}

@@ -15,6 +15,8 @@
 
 ## 设计与数据
 
+- 2026-11-03 接入说明：三语 README 新增模型与聊天渠道两块，详见 docs/model-services.md、docs/channels.md。研发版新增十家模型预设（合计 13 家云服务）、Discord/Telegram/飞书/钉钉文字渠道、AstrBot 本机 /seed 桥接；QQ 与 SnowLuma 复用已有 OneBot v11。新增项未做离线或真实平台验收，不能写成全面实测支持。应用核心和 AstrBot 实装仍在原研发库，当前产品库仅新增说明，无源码迁移、公开或发行授权。
+
 - 可见品牌写作 SeedBank。沿用已经认可的女仆头像、白底与蓝色设计方向。
 - 核心标语为“给 AI 完整的一生。”，用于 GitHub About、三语 README 标题与介绍。围绕经历、记忆、关系、选择与成长说明愿景；不把完整人格或意识写成既成事实。About 使用产品简介，不再写“私有发行筹备与页面设计”。
 - 用户最新要求以三语 README 和 docs 为唯一介绍入口，移除独立 HTML 网站。文案源为 docs/content/*.json，生成工具为 tools/render-readme.mjs。用户进一步要求删除“首发进度与已知限制”页面与链接，不再生成 docs/release-plan.md。原研发库负责记录交付及未验收事项；不得因此声称应用已迁入或已经发布。此要求不授权立即公开、发 Release 或自行测试。
