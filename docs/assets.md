@@ -49,6 +49,8 @@
 
 ## 页面设计与文字
 
+GitHub 首页的 assets/readme/*.svg 是代码原生的文字与界面排版，采用现有钴蓝、白底、少量品红。没有重新生成人物、编辑头像或把页面截图伪装成实机画面。原头像作为独立 PNG 由 README 引用；SVG 不嵌入模型、位图、外链、脚本或网页容器。
+
 - 页面与 README 使用已认可的品牌图和本项目研发截图。
 - 参考 [dsh-wallpaper-engine](https://github.com/elysia395/dsh-wallpaper-engine) 的统一视觉与入口组织，以及 [dsh-pet](https://github.com/PC2005-cloud/dsh-pet) 的实机展示方式。
 - 没有复制参考仓库的横幅、图标、角色图片、动画或代码。

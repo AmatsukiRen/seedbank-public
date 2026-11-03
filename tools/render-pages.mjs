@@ -1,6 +1,7 @@
 // Regenerates authored static pages and documentation. No browser, model or test calls.
 // Usage by the maintainer: node tools/render-pages.mjs
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { renderReadme, renderReadmeAssets } from "./readme-design.mjs";
 const root = new URL("../", import.meta.url);
 const locales = [
   {
@@ -120,112 +121,6 @@ ${d.shots.map((s,i)=>`<figure class="screen ${i===0?"screen-main":""}"><a class=
 </html>
 `;
 };
-const renderReadme = function readme(d, locales) {
-const s=d.readmeSections;
-const langs=locales.map(l=>`[${l.lang==="zh-CN"?"简体中文":l.lang==="en"?"English":"日本語"}](${l.readme})`).join(" · ");
-return `<!-- Private release preparation. No public package or release tag exists. -->
-<p align="center">${langs.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>')}</p>
-
-<table>
-<tr>
-<td width="68%">
-<h1>SeedBank</h1>
-<p><strong>${d.heroTitle.join("") .replace("Every hellodeserves","Every hello deserves")}</strong></p>
-<p>${d.readmeIntro}</p>
-<p><a href="docs/${d.storyFile}">${d.readmeStory} ↗</a> · <a href="site/${d.file}">${d.readmePreview} ↗</a></p>
-</td>
-<td width="32%"><img src="assets/brand/seedbank-logo.png" width="240" alt="${d.heroArt}"></td>
-</tr>
-</table>
-
-> ${d.draft}
-
-## ${d.readmeHook}
-
-${d.readmeBody}
-
-## ${s[0]}
-
-${d.whyParas[2]}
-
-${d.birthText}
-
-## ${s[1]}
-
-${d.readmeStoryText}
-
-| | |
-| :--- | :--- |
-${d.chapters.map((c,i)=>`| **${String(i+1).padStart(2,"0")} · ${c.label}** | ${c.title} ${c.quote} |`).join("\n")}
-
-[${d.readmeStory} →](docs/${d.storyFile})
-
-## ${s[2]}
-
-${d.galleryIntro}
-
-<a href="assets/screenshots/idle.png"><img src="assets/screenshots/idle.png" width="100%" alt="${d.shotAlt[0]}"></a>
-
-<table>
-<tr>
-<td width="50%"><a href="assets/screenshots/wave.png"><img src="assets/screenshots/wave.png" alt="${d.shotAlt[1]}"></a></td>
-<td width="50%"><a href="assets/screenshots/small.png"><img src="assets/screenshots/small.png" alt="${d.shotAlt[2]}"></a></td>
-</tr>
-<tr><td>${d.shots[1][1]} · ${d.shots[1][3]}</td><td>${d.shots[2][1]} · ${d.shots[2][3]}</td></tr>
-</table>
-
-[${d.screenshotSource}](docs/screenshots.md) · DeepSeek-chan（大肥鱼） / 神宫凉子 / 霓虹猫_NeonNeko
-
-## ${s[3]}
-
-| | |
-| :--- | :--- |
-${d.features.map(f=>`| **${f[0]}** | ${f[1]} |`).join("\n")}
-
-${d.featuresNote}
-
-## ${s[4]}
-
-${d.startNotice}
-
-${d.readmeLocal}
-
-${d.steps.map((f,i)=>`${i+1}. **${f[0]}** ${f[1]}`).join("\n")}
-
-${d.readmeStatus}
-
-${d.faq[3][1]}
-
-## ${s[5]}
-
-${d.readmeData.map(p=>"- "+p).join("\n")}
-
-## ${s[6]}
-
-${d.creditsIntro}
-
-| | |
-| :--- | :--- |
-| ${d.creditRoles[0]} | [@ZipZipPipe](https://space.bilibili.com/4168597) · [@上善无形](https://www.bilibili.com/opus/1253873972180680713) |
-| ${d.creditRoles[1]} | **神宫凉子** |
-| ${d.creditRoles[2]} | **霓虹猫_NeonNeko** |
-| ${d.creditRoles[3]} | ${d.modelSource} |
-
-[${d.creditsLink}](https://www.bilibili.com/video/BV1ALnw6YEGK) · [${d.assetsLink}](docs/assets.md)
-
-${d.creditsNote}
-
-## ${s[7]}
-
-${d.readmeContribute}
-
-[MIT](LICENSE) · [Design](docs/design.md) · [0.0.1](docs/release-plan.md) · [Acceptance steps](docs/acceptance.md)
-
----
-
-**${d.footer}**
-`;
-};
 const renderStory = function story(d, locales) {
 return `# ${d.storyTitle}
 
@@ -254,6 +149,9 @@ for (const locale of locales) {
   const data = JSON.parse(readFileSync(new URL("site/content/" + locale.lang + ".json", root), "utf8"));
   writeFileSync(new URL("site/" + locale.file, root), renderPage(data, locales), "utf8");
   writeFileSync(new URL(locale.readme, root), renderReadme(data, locales), "utf8");
+  mkdirSync(new URL("assets/readme/", root), { recursive: true });
+  for (const [path, svg] of renderReadmeAssets(data)) {
+    writeFileSync(new URL(path, root), svg, "utf8");
+  }
   writeFileSync(new URL("docs/" + data.storyFile, root), renderStory(data, locales), "utf8");
 }
-

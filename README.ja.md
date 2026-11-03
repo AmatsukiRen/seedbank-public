@@ -1,46 +1,69 @@
-<!-- Private release preparation. No public package or release tag exists. -->
-<p align="center"><a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.ja.md">日本語</a></p>
+<!-- GitHub-native README layout: repository images and links, no page CSS or scripts. -->
+<p align="center"><a href="README.md">简体中文</a> &nbsp; / &nbsp; <a href="README.en.md">English</a> &nbsp; / &nbsp; <a href="README.ja.md">日本語</a></p>
 
 <table>
 <tr>
-<td width="68%">
-<h1>SeedBank</h1>
-<p><strong>出会いに、つづきを。</strong></p>
-<p>SeedBank は、AI の経験、記憶、選択を保存するローカルのコンパニオン・プロジェクトです。出会いに続きが生まれ、一人ひとりが自分の過去を持てるように。</p>
-<p><a href="docs/story.ja.md">物語を読む ↗</a> · <a href="site/ja.html">ページ案を見る ↗</a></p>
-</td>
-<td width="32%"><img src="assets/brand/seedbank-logo.png" width="240" alt="目を閉じて手を合わせる青い髪のメイド。SeedBank のマスコット画像"></td>
+<td width="62%" valign="middle"><img src="assets/readme/hero-ja.svg" width="700" alt="SeedBank · 出会いに、つづきを。"></td>
+<td width="38%" valign="middle"><img src="assets/brand/seedbank-logo.png" width="400" alt="目を閉じて手を合わせる青い髪のメイド。SeedBank のマスコット画像"></td>
 </tr>
 </table>
 
+<p align="center"><strong>SeedBank は、AI の経験、記憶、選択を保存するローカルのコンパニオン・プロジェクトです。出会いに続きが生まれ、一人ひとりが自分の過去を持てるように。</strong></p>
+
+<p align="center">
+<a href="#story"><img src="assets/readme/nav-story-ja.svg" width="180" alt="物語を読む"></a>
+<a href="#screens"><img src="assets/readme/nav-screens-ja.svg" width="180" alt="実際の画面"></a>
+<a href="#start"><img src="assets/readme/nav-start-ja.svg" width="180" alt="はじめる前に"></a>
+<a href="#credits"><img src="assets/readme/nav-credits-ja.svg" width="180" alt="創作者と素材の出典"></a>
+</p>
+
 > 非公開のデザイン案 · 初回公開予定 0.0.1 · 公開ダウンロードは未提供
+
+ここは GitHub のリポジトリのトップページです。以下の画像と文章はこのまま読めます。独立したウェブページは、リポジトリをダウンロードして site/ja.html を開いてください。GitHub 上の HTML はソース表示です。
 
 ## ウィンドウを閉じたあと、今日はどこに残るだろう。
 
 話した雨のこと。通りの名前を覚え違えた本屋。三度書き直したメモ。最後の答えだけでなく、出会い、誤解、訂正、選択がどう積み重なったかを残したい。次に会うとき、その経験を続きの出発点にできるように。
 
-## 一粒の種から始める理由
+### 一粒の種から始める理由
 
 私たちはこの記録を「生命パッケージ」と呼んでいます。生まれたときの設定、日記、記憶、作品、選択を、あなたのパソコンに保存します。バックアップや引っ越しも、しばらく休んでからの再開もできるように。
 
 開かれた誕生には、決められた種族、性別、身体、架空の幼少期はありません。メイドはプロジェクトのマスコットです。一人ひとりのあり方は、設定と経験、明確な選択に委ねます。初めて会った日からの一生を、大切に考えたいのです。
 
-## 経験に続きが生まれるとしたら
+<a name="story"></a>
+<h2><img src="assets/readme/section-story-ja.svg" width="100%" alt="経験に続きが生まれるとしたら"></h2>
 
 ページでは「澄」の物語を描きました。最初は名前も未定だった個体が、北通りの本屋の話を覚え、不器用な雨の日のメモをつくり、自分で続けたいことも残す。出会い、共有、訂正、制作、選択、再会の六章です。理念を伝える創作であり、モデルの検証記録ではありません。
 
-| | |
-| :--- | :--- |
-| **01 · はじめまして** | 名前は、まだ空欄でもいい。 「まだ分からない。ゆっくり考えてもいい？」 |
-| **02 · 共に過ごす** | あなただけが濡れた雨。 「そこへ行ったことはない。でも、話してくれた理由は覚えている。」 |
-| **03 · 覚え違い** | 北通りだったんだね。 「前は南通りだと思っていた。教えてくれてありがとう。」 |
-| **04 · つくってみる** | 雨の日のメモができた。 「今度は短く。出かける前に読めるように。」 |
-| **05 · 自分の選択** | あなたが頼んでいないこと。 「書きかけの文を、整理してみたい。」 |
-| **06 · また会う日** | ここに、しおりを挟んでおこう。 「こんにちは。前の続きから話そうか。」 |
+**01 · はじめまして** · 名前は、まだ空欄でもいい。
 
-[物語を読む →](docs/story.ja.md)
+> 「まだ分からない。ゆっくり考えてもいい？」
 
-## 開発版の実際の画面
+**02 · 共に過ごす** · あなただけが濡れた雨。
+
+> 「そこへ行ったことはない。でも、話してくれた理由は覚えている。」
+
+**03 · 覚え違い** · 北通りだったんだね。
+
+> 「前は南通りだと思っていた。教えてくれてありがとう。」
+
+**04 · つくってみる** · 雨の日のメモができた。
+
+> 「今度は短く。出かける前に読めるように。」
+
+**05 · 自分の選択** · あなたが頼んでいないこと。
+
+> 「書きかけの文を、整理してみたい。」
+
+**06 · また会う日** · ここに、しおりを挟んでおこう。
+
+> 「こんにちは。前の続きから話そうか。」
+
+**[物語を読む →](docs/story.ja.md)**
+
+<a name="screens"></a>
+<h2><img src="assets/readme/section-screens-ja.svg" width="100%" alt="開発版の実際の画面"></h2>
 
 独立した架空のシナリオで撮影した、開発版の実際の画面です。2026年11月3日撮影、同日01:50版を使用。現在のブランド変更より前のもので、0.0.1の検証完了を示すものではありません。
 
@@ -51,12 +74,12 @@
 <td width="50%"><a href="assets/screenshots/wave.png"><img src="assets/screenshots/wave.png" alt="同じ開発版で Live2D メイドが手を上げている画面"></a></td>
 <td width="50%"><a href="assets/screenshots/small.png"><img src="assets/screenshots/small.png" alt="同じ開発版を860×640の小さなウィンドウで表示した画面"></a></td>
 </tr>
-<tr><td>小さなあいさつ · 1280 × 840</td><td>小さなウィンドウで · 860 × 640</td></tr>
+<tr><td><strong>小さなあいさつ</strong> · 1280 × 840</td><td><strong>小さなウィンドウで</strong> · 860 × 640</td></tr>
 </table>
 
 [画像のバージョンと出典](docs/screenshots.md) · DeepSeek-chan（大肥鱼） / 神宫凉子 / 霓虹猫_NeonNeko
 
-## 日常の五つの入口
+### 日常の五つの入口
 
 | | |
 | :--- | :--- |
@@ -68,7 +91,8 @@
 
 これらの仕組みは元の開発プロジェクトにあります。アプリのソースは本リポジトリへ未移行です。長期的な連続性と自律的成長は引き続き観察が必要です。
 
-## 現在の段階とはじめ方
+<a name="start"></a>
+<h2><img src="assets/readme/section-start-ja.svg" width="100%" alt="現在の段階とはじめ方"></h2>
 
 初回公開は0.0.1 Alphaを予定しています。現在は非公開で、デザインと文書のみを収録しています。公開インストーラーはありません。
 
@@ -82,14 +106,15 @@
 
 経験を引き継ぎ、選択がその後に影響し、AI が自分の生活を形づくるための探究です。意識や完全な人格が確認されたわけではありません。この物語と同じ成長を約束するものでもありません。
 
-## 記憶とデータ
+### 記憶とデータ
 
 - 生命パッケージはローカル保存で、完全バックアップと復元ができます。
 - 記憶、解釈、訂正の出典を残します。創作、夢、人から聞いた話を実体験にはしません。
 - 「手放す」は参照を制限して履歴を残す操作です。完全削除や外部へ送ったデータの撤回ではありません。
 - モデルサービスは利用者が設定します。会話、関連する記憶や画像が送られ、利用料金が発生する場合があります。
 
-## 創作者と素材の出典
+<a name="credits"></a>
+<h2><img src="assets/readme/section-credits-ja.svg" width="100%" alt="創作者と素材の出典"></h2>
 
 創作者の皆さんに感謝を。キャラクターデザイン、Live2D 制作、SeedBank のプログラムには、それぞれの作者がいます。
 
@@ -104,13 +129,12 @@
 
 本リポジトリに Live2D モデル本体は含まれません。マスコット画像は管理者提供のキャラクター資料をもとに AI 生成した二次創作で、キャラクターの独自制作を主張しません。キャラクターとモデルの権利は MIT の対象外です。公開ブランドとしての利用範囲は別途確認が必要です。
 
-## 参加とライセンス
+### 参加とライセンス
 
 公開後は、再現可能な不具合報告、文書の改善、記憶やライフサイクルについての議論を歓迎します。報告には架空の例を使い、個人の生命パッケージやキーを含めないでください。コードと独自の文書は MIT です。第三者のキャラクターやモデルの権利は含まれません。
 
-[MIT](LICENSE) · [Design](docs/design.md) · [0.0.1](docs/release-plan.md) · [Acceptance steps](docs/acceptance.md)
+[MIT](LICENSE) · [Design](docs/design.md) · [ウェブページのソース](site/ja.html) · [0.0.1](docs/release-plan.md) · [Acceptance steps](docs/acceptance.md)
 
 ---
 
-**今日を残して、また明日。**
-
+<p align="center"><strong>SeedBank · 今日を残して、また明日。</strong></p>

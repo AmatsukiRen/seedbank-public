@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="120" viewBox="0 0 1200 120" role="img" aria-labelledby="title">
+<title id="title">创作者与素材来源</title>
+<defs><style>text{font-family:"Segoe UI","Microsoft YaHei","Noto Sans CJK SC","Yu Gothic",sans-serif} .mono{font-family:Consolas,"Courier New",monospace}</style></defs>
+
+<rect width="1200" height="120" rx="12" fill="#eff4ff"/>
+<rect width="7" height="120" rx="3" fill="#2450bd"/>
+<text x="32" y="36" class="mono" font-size="15" letter-spacing="2" fill="#2450bd">CREDITS</text>
+<text x="30" y="86" font-size="34" font-weight="750" fill="#182e55">创作者与素材来源</text>
+<rect x="1104" y="30" width="56" height="6" rx="3" fill="#c52182"/>
+<path d="M1104 50H1160M1104 68H1160M1104 86H1160" fill="none" stroke="#c2cfe7" stroke-width="2"/>
+
+</svg>

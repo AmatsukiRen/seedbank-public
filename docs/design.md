@@ -24,6 +24,8 @@
 
 ## 文件结构
 
+GitHub 仓库首页有单独的视觉实现：README 引用 assets/readme/ 中的三语 SVG 标题、导航与章节横条，保留原 PNG 头像及正文，不依赖 site/style.css。详见 [GitHub 首页设计](readme-design.md)。独立网页仍由 site/*.html 提供，未部署在线站点。
+
 | 文件 | 作用 |
 | --- | --- |
 | `site/index.html`、`en.html`、`ja.html` | 可直接双击的三语页面 |
@@ -31,6 +33,8 @@
 | `site/story.js` | 章节切换、展开全文与章节定位 |
 | `site/content/*.json` | 三语完整文案源 |
 | `tools/render-pages.mjs` | 维护者重生成静态 HTML、README、故事文档的工具 |
+| `tools/readme-design.mjs` | GitHub 首页专用模板与原生 SVG 排版 |
+| `assets/readme/*.svg` | 三语品牌标题、四个导航入口与四个章节横条 |
 | `README*.md` | 三语 GitHub 首页 |
 | `docs/story*.md` | 六章连续阅读版 |
 | `assets/brand/seedbank-logo.png` | 已认可的品牌头像 |
