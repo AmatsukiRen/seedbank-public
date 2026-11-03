@@ -259,6 +259,60 @@ class QuickTest(unittest.TestCase):
             proc.assert_not_called()
         self.assert_no_errors()
 
+    def test_observation_settings_and_review_close_in_all_locales(self):
+        from seedbank import observing
+        self.interface()
+        self.root.setProperty("page", 4)
+        self.root.setWidth(860)
+        self.root.setHeight(640)
+        for language in ("zh_CN", "en_US", "ja_JP", "ko_KR"):
+            self.bridge.preference("language", language)
+            for section in (3, 4):
+                self.find("settingsPage").setProperty("section", section)
+                self.app.processEvents()
+                field = self.find("observationGroups")
+                if section == 3:
+                    self.qml(field, "edited('456')")
+                    self.bridge.editQQ("owner", "123")
+                    self.bridge.saveQQ()
+                    self.wait_for(lambda: not self.bridge._pending)
+                    self.assertEqual(self.bridge.qqForm["observe_groups"], "456")
+                else:
+                    self.bridge.selectChannel("telegram")
+                    self.qml(field, "edited('group1')")
+                    self.bridge.editChannel("owner", "42")
+                    self.bridge.saveChannel()
+                    self.assertEqual(self.bridge.channelForm["observe_groups"], "group1")
+                self.assertFalse(self.bridge.error, self.bridge.notice)
+                self.qml(self.find("openObservationHistory"), "clicked()")
+                dialog = self.find("observationHistoryDialog")
+                self.wait_for(lambda: dialog.property("opened") and not self.bridge._pending)
+                button = self.find("closeObservationHistory")
+                self.assertTrue(button.isVisible())
+                point = button.mapToScene(QPointF(button.width() / 2, button.height() / 2)).toPoint()
+                QTest.mouseClick(self.root, Qt.MouseButton.LeftButton, Qt.KeyboardModifier.NoModifier, point)
+                self.wait_for(lambda: not dialog.property("visible"))
+        self.assertEqual(observing.history(self.pack)["attempts"], 0)
+        self.assert_no_errors()
+
+    def test_observation_pending_review_and_withdraw_without_model(self):
+        from seedbank import observing
+        self.interface()
+        self.root.setProperty("page", 4)
+        self.find("settingsPage").setProperty("section", 3)
+        self.bridge.session.observe_message(channel="qq", account="999", group="456", sender="321",
+            event_id="ui-source", text="人工旁听来源", audience_id="qq-group:456")
+        self.qml(self.find("openObservationHistory"), "clicked()")
+        self.wait_for(lambda: not self.bridge._pending and self.bridge.observationHistory["pending"] == 1)
+        self.assertIn("人工旁听来源", self.bridge.observationHistory["pending_messages"][0])
+        self.qml(self.find("withdrawPendingObservations"), "clicked()")
+        self.wait_for(lambda: not self.bridge._pending and self.bridge.observationHistory["pending"] == 0)
+        self.assertEqual(self.bridge.observationHistory["batches"][0]["state"], "withdrawn")
+        self.assertEqual(observing.history(self.pack)["attempts"], 0)
+        QTest.keyClick(self.root, Qt.Key.Key_Escape)
+        self.wait_for(lambda: not self.find("observationHistoryDialog").property("visible"))
+        self.assert_no_errors()
+
     def test_channel_handoff_counts_and_stage_refresh_in_each_locale(self):
         from seedbank import channels
         self.interface()

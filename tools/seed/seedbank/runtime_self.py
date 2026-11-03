@@ -41,10 +41,12 @@ def _channel(row):
     """Bounded allowlist, including when a future carrier adds summary fields."""
     result = {"state": row.get("state") if row.get("state") in
               ("not_started", "listening", "running", "stopped") else "unknown"}
-    for key in ("received", "sent", "failed", "relayed"):
+    for key in ("received", "sent", "failed", "relayed", "observed"):
         value = row.get(key)
-        if type(value) is int and value >= 0:
+        if type(value) is int and value >= 0 and (key != "observed" or value > 0):
             result[key] = min(value, 1000000000)
+    if row.get("observation_enabled") is True:
+        result["observation_enabled"] = row["observation_enabled"]
     return result
 
 
@@ -91,4 +93,8 @@ def prompt(ctx):
                  "(QQ: owner private/allowlisted @mentions); no arbitrary sends, group joining, history browsing or guaranteed "
                  "delivery. You cannot inspect settings UI. Converse, recall permitted records and propose supported actions. "
                  "Explain naturally in the user's language, not status codes.\n")
+        if any(row.get("observation_enabled") or row.get("observed") for row in state.get("channels", {}).values()):
+            text += ("observation_enabled=selected groups' newly pushed text can be silently collected; observed=saved arrivals. "
+                     "Batched notes are others' claims, not verified facts, lived experience or weight training. "
+                     "No cross-group sharing, historical-message access or unsolicited group replies is implied.\n")
     return text

@@ -304,6 +304,9 @@ class Brain:
 
     name = "unknown"
 
+    def observe(self, ctx: dict) -> dict:
+        raise NotImplementedError
+
     def chat(self, ctx: dict) -> dict:
         raise NotImplementedError
 
@@ -325,6 +328,10 @@ class Brain:
 
 class StubBrain(Brain):
     name = "stub-v2"
+
+    def observe(self, ctx: dict) -> dict:
+        # Offline templates do not fabricate a successful learning extraction.
+        return {"notes": [], "_generation": {"runner": self.name, "model": None, "operation": "observe"}}
 
     def chat(self, ctx: dict) -> dict:
         if ctx.get("initiative"):
@@ -1273,7 +1280,7 @@ class RemoteBrain(Brain):
                 "runtime_guard": runtime_guard,
                 "fallback": fallback_error is not None,
                 "fallback_reason": type(fallback_error).__name__ if fallback_error is not None else "",
-                "prompt_version": "seedbank-memory-v44", "operation": kind, "at": now_iso(),
+                "prompt_version": "seedbank-observation-v1" if kind == "observe" else "seedbank-memory-v44", "operation": kind, "at": now_iso(),
                 "context": budget_info, "memory_searches": search_count,
                 "retrieval": ctx.get("retrieval_status", {"state": "not_used"}),
                 "fact_time": {"on": used_ctx.get("facts", {}).get("on", ""),
@@ -1292,6 +1299,13 @@ class RemoteBrain(Brain):
                     "_used_practice": used_ctx.get("practice", {}), "_used_relationships": used_ctx.get("relationships", {}),
                     "_used_life_story": used_ctx.get("life_story", {}), "_used_inner": used_ctx.get("inner", {})}
         try:
+            if kind == "observe":
+                from .observing import prompt, validate
+                # One bounded batch only: no recall loop, fallback, tools or follow-up calls.
+                call_limit = 1
+                raw = send_prompt(prompt(ctx))
+                parsed = parse_json_loose(raw)
+                return finish({"notes": validate(parsed, {row["id"] for row in ctx["observation_items"]})})
             if kind == "chat":
                 if ctx.get("initiative"):
                     prompt = prompt_for(build_initiate_prompt)
@@ -1370,6 +1384,10 @@ class RemoteBrain(Brain):
                 self._account_failed = True
             raise
         except Exception as error:  # noqa: BLE001 —— 网络/解析问题都退回 stub，但要喊出来
+            if kind == "observe":
+                if self.name in ACCOUNT_ADAPTERS:
+                    self._account_failed = True
+                raise BrainConfigError("旁听整理未完成；没有采用模板或自动重试。") from None
             if self.name in ACCOUNT_ADAPTERS:
                 self._account_failed = True
                 raise BrainConfigError(t("账号模型回复格式不符合要求，本轮未采用，也未自动重试。")) from None
@@ -1404,6 +1422,9 @@ class RemoteBrain(Brain):
 
     def chat(self, ctx: dict) -> dict:
         return self._run(ctx, "chat")
+
+    def observe(self, ctx: dict) -> dict:
+        return self._run(ctx, "observe")
 
     def diary(self, ctx: dict) -> dict:
         return self._run(ctx, "diary")
@@ -1454,6 +1475,9 @@ class _CfgBrain(Brain):
 
     def chat(self, ctx: dict) -> dict:
         return self._inner.chat(self._ctx(ctx))
+
+    def observe(self, ctx: dict) -> dict:
+        return self._inner.observe(self._ctx(ctx))
 
     def diary(self, ctx: dict) -> dict:
         return self._inner.diary(self._ctx(ctx))

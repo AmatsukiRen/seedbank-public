@@ -37,6 +37,52 @@ class Session:
         from ..channels import Manager
         self.channels = Manager(self)
 
+    def observe_message(self, **fields):
+        from ..observing import collect
+        with self.lock:
+            if self.closed:
+                raise SeedError("The room is closed.")
+            result = collect(self.pack, **fields)
+            self.revision += 1
+            return result
+
+    def observation_sources(self):
+        from .. import observing
+        allowed = []
+        if self.server and not self.server.adapter._stopped.is_set():
+            adapter = self.server.adapter
+            if adapter.observe_groups:
+                allowed.append({"channel": "qq", "groups": adapter.observe_groups,
+                                "limit": adapter.observe_daily_limit, "account": adapter.self_id})
+        # Copy under the manager lock; do not hold it while calling the model.
+        with self.channels.lock:
+            connections = list(self.channels.connections.values())
+        for connection in connections:
+            cfg = connection.config
+            if connection.summary()["running"] and cfg["id"] in observing.KINDS:
+                selected = observing.groups(cfg.get("observe_groups"))
+                if selected:
+                    allowed.append({"channel": cfg["id"], "groups": selected, "limit": cfg["observe_daily_limit"]})
+        return allowed
+
+    def process_observations(self, force=False):
+        from ..observing import process
+        with self.lock:
+            if self.closed:
+                return {"state": "inactive"}
+            result = process(self.pack, self.bridge.brain, self.observation_sources(), force=force)
+            self.revision += 1
+            return result
+
+    def withdraw_observation(self, identifier):
+        from ..observing import withdraw
+        with self.lock:
+            if self.closed:
+                raise SeedError("The room is closed.")
+            result = withdraw(self.pack, identifier)
+            self.revision += 1
+            return result
+
     def call(self, operation, **fields):
         with self.lock, runtime_self.host(self.pack, self.runtime_channels):
             if self.closed:
@@ -55,8 +101,9 @@ class Session:
             result = self.call("tick")
             inbox = process_inbox(self.pack, brain=self.bridge.brain)
             spoken = maybe_initiate(self.pack, self.bridge.brain)
+            observations = self.process_observations()
             self.revision += 1
-            return {**result, "inbox": inbox, "spoken": spoken, "snapshot": self.snapshot()}
+            return {**result, "inbox": inbox, "spoken": spoken, "observations": observations, "snapshot": self.snapshot()}
 
     def save_brain(self, patch, *, api_key=""):
         with self.lock:
@@ -126,7 +173,7 @@ class Session:
                                  os.environ.get("SEEDBANK_ONEBOT_TOKEN", ""))
         adapter = qq.QQAdapter(self.pack, owner, qq.parse_groups(config.get("groups")),
                                bridge=self, sender=sender, self_id=str(config.get("self_id") or ""),
-                               log=lambda message: None)
+                               log=lambda message: None, observation_config=config)
         server = qq._IMServer(("127.0.0.1", port), adapter, secret=qq.inbound_secret(config))
         worker = threading.Thread(target=server.serve_forever, name="seedbank-desktop-qq", daemon=True)
         try:

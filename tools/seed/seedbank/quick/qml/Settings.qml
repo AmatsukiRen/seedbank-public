@@ -304,6 +304,7 @@ ColumnLayout {
                 }
                 LabelText { objectName: "qqDeliveryStatus"; text: bridge.qqStatusText; color: Style.accent; Layout.fillWidth: true }
             }
+            ObservationPanel { qqMode: true; Layout.fillWidth: true }
             Panel { caption: Style.tr("连接方法"); detail: Style.tr("先在 SnowLuma、NapCat 或 LLOneBot 中开启 HTTP 服务，将消息上报地址设为 http://127.0.0.1:上报端口/。保存后点击启动连接。"); Layout.fillWidth: true }
         }
     }

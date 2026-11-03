@@ -41,10 +41,11 @@ ColumnLayout {
             Layout.fillWidth: true; color: Style.muted
         }
     }
+    ObservationPanel { visible: bridge.channelForm.id !== "astrbot"; Layout.fillWidth: true }
     Panel {
         caption: Style.tr("连接与可见范围")
         Layout.fillWidth: true
-        LabelText { text: Style.tr("本轮新增渠道仅接收文字：主人私聊，或白名单群内明确提及。群聊不使用私人上下文；附件、语音和主动推送暂未接入。"); Layout.fillWidth: true; color: Style.muted }
+        LabelText { text: Style.tr("文字回复仅限主人私聊、白名单群内明确提及；可另外指定旁听群。群聊不使用私人上下文，附件、语音和主动推送暂未接入。"); Layout.fillWidth: true; color: Style.muted }
         LabelText { text: Style.tr("关窗后停止连接，下次打开需手动启动。休眠期间不处理消息；重复事件和失败回复不会自动重试。平台连接与模型请求可能使用你的服务额度。"); Layout.fillWidth: true; color: Style.muted }
         LabelText { text: Style.tr("QQ 与 SnowLuma 请使用 QQ 页的 OneBot v11。AstrBot 需要安装随包插件；同一账号、同一会话只选择一条接入路径，避免重复回复。"); Layout.fillWidth: true; color: Style.muted }
     }

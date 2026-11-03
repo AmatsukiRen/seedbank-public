@@ -1,5 +1,10 @@
 # SeedBank 工作约定
 
+## 指定群旁听（尚未发布）
+
+- 2026-11-04 用户在询问能否主动观看指定群学习后回复「好的这个很有必要」，本轮实施默认关闭的群旁听、来源隔离、分批笔记、持久额度及审阅撤回。只做独立本机候选，不自动开启真实群、修改真实个体、请求模型或更新公开 Release。
+- 用户本轮重新提供了 AGENTS.md：测试由用户执行，后续不自行运行测试、验证例程、构建检查或应用自检，覆盖下方旧授权。可生产打包并跳过冒烟。早期初稿在 02:47 曾留下 15/15 的离线结果；此后修订未复跑，不能写成最终版通过。新增用户入口 packaging/run_observation_checks.ps1；具体范围见 docs/group-observation.md。
+
 ## WorkBuddy 接入
 
 - 2026-11-04 01:49:53（UTC+8）已生产并独立交付 WorkBuddy 候选：源码 3d19fec，exe 107,377,785 字节，SHA256 e004f55753b9fb4b63f7175a7fcbecf9b546b811a73c6bd7c0415e02935659d7。程序与源码 ZIP 同一提交；没有运行测试、应用或真实 CLI 请求，未更新公开 Release、标签或原固定入口。用户离线入口为 Run-WorkBuddy-Checks.cmd，源码脚本 packaging/run_workbuddy_checks.ps1。此时命令路径中未发现独立 CodeBuddy CLI，需要用户按 docs/workbuddy.md 安装并登录同一账号后再验收，不能声称已有真实连通结果。

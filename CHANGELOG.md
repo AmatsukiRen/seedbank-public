@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — opt-in group observation
+
+- Add separate observation groups, silent source recording, bounded batch summaries, persistent daily call allowances and source-scoped recall. Preserve normal allowlisted mention replies. See [behavior and platform limits](docs/group-observation.md).
+- Add four-language settings, paged source/note review and withdrawal from future recall. No model weight training, historical-message scraping or unsolicited group sends.
+- Current revision awaits user-run offline and packaged checks. The earlier 15-case draft result does not cover the subsequent changes. Published 0.0.2 assets are unchanged.
+
 ## 0.0.2 — 2026-11-04 · One life across channels
 
 - Give the channel, runtime self-knowledge, WorkBuddy and dialog fixes below a separate version and Release page. The application, Windows metadata, archive names and three-language download links now identify 0.0.2; the 0.0.1 release remains available.

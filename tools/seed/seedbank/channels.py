@@ -16,6 +16,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 from .i18n import t
+from . import observing
 from .util import read_json, write_json_atomic
 
 
@@ -40,7 +41,7 @@ def defaults(kind):
     preset = next((p for p in PRESETS if p["id"] == kind), None)
     if preset is None:
         raise ValueError("Unknown chat channel")
-    return {key: preset[key] for key in ("id", "token_env", "app_id", "self_id")} | {"owner": "", "groups": "", "port": 8791}
+    return {key: preset[key] for key in ("id", "token_env", "app_id", "self_id")} | {"owner": "", "groups": "", "port": 8791, **observing.DEFAULTS}
 
 
 def load_config(pack, kind):
@@ -50,7 +51,7 @@ def load_config(pack, kind):
     if isinstance(values, dict):
         for key, value in values.items():
             if key in result and key != "id" and (isinstance(value, str) or
-                    (key == "port" and type(value) is int)):
+                    (key in ("port", "observe_daily_limit") and type(value) is int)):
                 result[key] = value
     return result
 
@@ -72,6 +73,7 @@ def clean_config(config):
             raise ValueError()
     except (ValueError, TypeError):
         raise ValueError(t("端口需要在 1024 到 65535 之间。")) from None
+    result.update(observing.config(config, kind))
     return result
 
 
@@ -109,9 +111,11 @@ def route_with_reason(config, event):
     groups = {v.strip() for v in str(config.get("groups", "")).split(",") if v.strip()}
     if direct and not owner:
         return None, "not_owner"
-    if not direct and event["chat"] not in groups:
+    watch = not direct and config["id"] in observing.KINDS and event["chat"] in observing.groups(config.get("observe_groups"))
+    reply = direct or (event["chat"] in groups and event.get("mentioned") is True)
+    if not direct and event["chat"] not in groups and not watch:
         return None, "group_not_allowed"
-    if not direct and event.get("mentioned") is not True:
+    if not direct and not reply and not watch:
         return None, "not_mentioned"
     text = text.strip()
     if not text:
@@ -121,6 +125,12 @@ def route_with_reason(config, event):
     identity = json.dumps([config["id"], event["account"], event["chat"], event["event_id"]], ensure_ascii=False)
     request_id = "channel-" + digest(identity)
     audience = "owner" if direct else "channel:" + config["id"] + ":" + digest(event["account"] + "/" + event["chat"])
+    if watch and not reply:
+        if not event["text"].strip():
+            return None, "empty"
+        return {"channel": config["id"], "account": event["account"], "group": event["chat"],
+                "sender": event["sender"], "event_id": event["event_id"], "text": text,
+                "audience_id": audience}, "observe"
     return {"text": text, "speaker": "主人" if owner else config["id"] + ":" + event["sender"],
             "person_id": "owner" if owner else "", "audience_id": audience, "request_id": request_id}, "accepted"
 
@@ -153,6 +163,7 @@ class Connection:
         self.state = "尚未启动"
         self.stage = "not_started"
         self.received = self.sent = self.failed = self.relayed = 0
+        self.observed = 0
 
     def status(self, stage, text):
         self.stage, self.state = stage, text
@@ -160,7 +171,8 @@ class Connection:
     def summary(self):
         running = not self.stopped.is_set() and (self.server is not None or (self.process is not None and self.process.poll() is None))
         row = {"id": self.config["id"], "running": running, "state": t(self.state), "stage": self.stage,
-               "received": self.received, "sent": self.sent, "failed": self.failed}
+               "received": self.received, "sent": self.sent, "failed": self.failed, "observed": self.observed,
+               "observation_enabled": running and bool(observing.groups(self.config.get("observe_groups")))}
         if self.config["id"] == "astrbot":
             row["relayed"] = self.relayed
         return row
@@ -181,6 +193,15 @@ class Connection:
                           "invalid": "消息格式或身份字段不完整；消息未交给个体。"}
                 self.status(reason, labels[reason])
                 return deliver("")
+            if reason == "observe":
+                try:
+                    result = self.session.observe_message(**request)
+                    self.observed += result["state"] == "collected"
+                    self.status("observed", "已安静旁听；不会向群里发送回复。" if result["state"] != "capacity" else "旁听队列或每日接收已达上限；本条未保存。")
+                except Exception:
+                    self.failed += 1
+                    self.status("observe_failed", "旁听保存失败；未请求模型或发送回复。")
+                return deliver("")  # Worker acknowledgement only; Bus never sends an empty reply.
             if not self.journal.claim(request["request_id"]):
                 return deliver("")
             self.received += 1

@@ -317,3 +317,7 @@ tools/seed/seedbank/runtime_self.py
 tools/seed/test_runtime_self.py
 tools/seed/test_qq_group_reply.py
 tools/seed/test_channel_continuity.py
+tools/seed/seedbank/observing.py
+tools/seed/seedbank/quick/qml/ObservationPanel.qml
+tools/seed/test_observing.py
+tools/seed/run_observation_tests.py

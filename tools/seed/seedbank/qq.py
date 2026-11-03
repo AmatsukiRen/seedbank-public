@@ -347,7 +347,7 @@ def test_connection(base_url: str = "", token: str = "", timeout: float = 4.0) -
 
 class QQAdapter:
     def __init__(self, pack_dir, owner: str, groups=None, *, bridge=None, sender=None,
-                 self_id: str = "", log=None):
+                 self_id: str = "", log=None, observation_config=None):
         self.pack_dir = str(expand_home(pack_dir))
         self.owner = str(owner or "")
         self.groups = [str(g) for g in (groups or [])]
@@ -360,10 +360,18 @@ class QQAdapter:
         self._delivery_lock = threading.RLock()
         self._received = self._sent = self._failed = 0
         self._last_stage, self._last_code = "waiting", None
+        from . import observing
+        settings = observing.config(observation_config or {}, "qq")
+        self.observe_groups = observing.groups(settings["observe_groups"])
+        self.observe_daily_limit = settings["observe_daily_limit"]
+        self._observed = 0
+        if self.observe_groups and not hasattr(bridge, "observe_message"):
+            raise ValueError("群聊旁听需要从桌面当前个体启动。")
 
     def runtime_status(self):
         return {"state": "stopped" if self._stopped.is_set() else "listening",
-                "received": self._received, "sent": self._sent, "failed": self._failed}
+                "received": self._received, "sent": self._sent, "failed": self._failed, "observed": self._observed,
+                "observation_enabled": bool(self.observe_groups) and not self._stopped.is_set()}
 
     def diagnostics(self):
         return {**self.runtime_status(), "stage": self._last_stage, "code": self._last_code}
@@ -411,6 +419,29 @@ class QQAdapter:
             return {"ok": True, "action": "ignore", "reason": "different_account"}
         decision = decide(event, owner=self.owner, groups=self.groups,
                           self_id=self.self_id or str(event.get("self_id") or ""))
+        group = str(event.get("group_id") or "")
+        account = self.self_id or str(event.get("self_id") or "")
+        sender = str(event.get("user_id") or "")
+        identifier = event.get("message_id")
+        if (decision["action"] == "ignore" and event.get("post_type") == "message"
+                and event.get("message_type") == "group" and group in self.observe_groups
+                and account and sender and sender != account and isinstance(identifier, (str, int))
+                and not isinstance(identifier, bool) and str(identifier).strip()):
+            text = extract_text(message_segments(event.get("message")))[:MAX_TEXT].strip()
+            if text:
+                with self._delivery_lock:
+                    if self._stopped.is_set():
+                        return {"ok": True, "action": "ignore", "reason": "stopped"}
+                    try:
+                        result = self.bridge.observe_message(channel="qq", account=account, group=group,
+                            sender=sender, event_id=str(identifier), text=text, audience_id="qq-group:" + group)
+                        self._observed += result["state"] == "collected"
+                        self._stage("observe_capacity" if result["state"] == "capacity" else "observed")
+                        return {"ok": True, "action": "observe", **result}
+                    except (RuntimeError, OSError, ValueError, SeedError):
+                        self._failed += 1
+                        self._stage("observe_failed")
+                        return {"ok": False, "action": "observe", "state": "failed"}
         if decision["action"] == "ignore":
             if decision.get("reason_code"):
                 self._stage(decision["reason_code"])
@@ -499,6 +530,9 @@ class QQAdapter:
 
 def diagnostic_text(row):
     labels = {
+        "observed": "已安静旁听；不会向群里发送回复。",
+        "observe_capacity": "旁听队列或每日接收已达上限；本条未保存。",
+        "observe_failed": "旁听保存失败；未请求模型或发送回复。",
         "waiting": "本机接收服务已启动；等待消息，尚不能据此确认 QQ 在线。",
         "group_not_allowed": "收到群消息，但该群不在白名单；检查后保存并重新启动连接。",
         "not_mentioned": "收到群消息，但没有识别到对本账号的 @。",
@@ -737,7 +771,7 @@ def save_config(patch: dict) -> dict:
     current = load_config().get("qq")
     merged = dict(current) if isinstance(current, dict) else {}
     for key, value in (patch or {}).items():
-        if key not in {"pack", "owner", "groups", "self_id", "onebot_http", "port", "secret_env"}:
+        if key not in {"pack", "owner", "groups", "self_id", "onebot_http", "port", "secret_env", "observe_groups", "observe_daily_limit"}:
             continue
         if value in (None, ""):
             merged.pop(key, None)
@@ -746,6 +780,8 @@ def save_config(patch: dict) -> dict:
     merged.pop("token", None)
     merged.pop("secret", None)
     merged["secret_env"] = secret_env(merged)
+    from .observing import config
+    merged.update(config(merged, "qq"))
     _save({"qq": merged})
     return merged
 

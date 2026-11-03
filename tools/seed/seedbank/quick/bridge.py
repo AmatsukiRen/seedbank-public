@@ -150,6 +150,7 @@ class Bridge(QObject):
         self._channel_form = defaults("telegram")
         self._channel_status = []
         self._qq_status = {}
+        self._observation_history = {"pending": 0, "attempts": 0, "date": "", "batches": [], "page": 0, "pages": 1, "pending_messages": []}
         self._plugins = PluginManager()
         self._plugin_rows = []
         self._plugin_output = {}
@@ -410,6 +411,44 @@ class Bridge(QObject):
     @Property("QVariantList", notify=stateChanged)
     def channelStatus(self):
         return self._channel_status
+
+    @Property("QVariantMap", notify=stateChanged)
+    def observationHistory(self):
+        return self._observation_history
+
+    @Slot()
+    def loadObservations(self):
+        self._load_observations()
+
+    @Slot(int)
+    def observationPage(self, page):
+        self._load_observations(page)
+
+    def _load_observations(self, page=None, notice=None):
+        if not self.session:
+            return
+        from ..observing import history
+        page = self._observation_history.get("page", 0) if page is None else page
+        def done(value):
+            self._observation_history = value
+            self.stateChanged.emit()
+            if notice:
+                self.notify(t(notice))
+        self.submit("observation-history", lambda: history(self.pack, page), done)
+
+    @Slot()
+    def processObservations(self):
+        if self.session:
+            def done(value):
+                notice = {"completed": "旁听整理已完成。", "failed": "旁听整理失败；本次额度已计入，不会自动重试。",
+                    "daily_limit": "今日旁听整理额度已用完。", "inactive": "请先启动已配置旁听群的连接。"}.get(value["state"], "暂无到期的旁听内容。")
+                self._load_observations(0, notice)
+            self.submit("observation-process", lambda: self.session.process_observations(force=True), done)
+
+    @Slot(str)
+    def withdrawObservation(self, identifier):
+        if self.session:
+            self.submit("observation-withdraw", lambda: self.session.withdraw_observation(identifier), lambda value: self.loadObservations())
 
     @Slot(result="QVariantList")
     def channelPresets(self):
@@ -672,7 +711,7 @@ class Bridge(QObject):
                 if on_error is not None:
                     on_error(error)
                 else:
-                    self.notify(t(error) if kind in ("memory-history", "memory-revise", "settings") or kind.startswith(("semantic-", "facts-", "learning-", "reminder-", "relationships-", "disclosure-", "life-story-", "archive-", "lifecycle-", "plugins-")) else error, True)
+                    self.notify(t(error) if kind in ("memory-history", "memory-revise", "settings") or kind.startswith(("semantic-", "facts-", "learning-", "reminder-", "relationships-", "disclosure-", "life-story-", "archive-", "lifecycle-", "plugins-", "observation-")) else error, True)
             else:
                 callback(result)
         except Exception as failure:
@@ -709,6 +748,11 @@ class Bridge(QObject):
         def opened(result):
             self.session, snapshot, self._form = result
             self.pack = target
+            previous_qq_pack = self._qq_form.get("pack")
+            if not previous_qq_pack or Path(previous_qq_pack).expanduser().resolve() != target:
+                # QQ reply defaults may be shared, but observation requires a choice for this individual.
+                self._qq_form.update(observe_groups="", observe_daily_limit=4)
+                self._qq_saved = dict(self._qq_form)
             self._saved = deepcopy(self._form)
             self._ready = True
             remember_pack(target)
@@ -1719,6 +1763,8 @@ class Bridge(QObject):
             raise ValueError(t("接口地址需要以 http:// 或 https:// 开头。"))
         config["groups"] = qq.parse_groups(config.get("groups"))
         config["secret_env"] = qq.secret_env(config)
+        from ..observing import config as observation_config
+        config.update(observation_config(config, "qq"))
         config["pack"] = str(self.pack)
         return config
 
