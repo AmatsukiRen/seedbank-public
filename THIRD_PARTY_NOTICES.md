@@ -20,3 +20,7 @@ The current candidate remains private. Live2D's official licensing page distingu
 The brand image is derived from the maintainer's supplied character reference. Character design: **ZipZipPipe** and **上善无形**. The reference Live2D model's illustration and separation: **神宫凉子**; rigging: **霓虹猫_NeonNeko**. Full links, scope and unresolved public brand permission are recorded in [docs/assets.md](docs/assets.md).
 
 No third-party Live2D model, `.moc3`, model textures or motions are distributed in the application source or candidate ZIP. Users select their own local model and must follow its author's terms. The two egg directories are textual birth templates, not model assets.
+
+## Seed template data
+
+The existing `species.json` files in `eggs/open.egg` and `eggs/dafeiyu.egg` declare **CC-BY-SA-4.0**, rather than the application's MIT license. These declarations are preserved. Attribute the SeedBank project / AmatsukiRen, retain the source and license link, identify modifications and follow the license's share-alike requirements when distributing adapted template data. See [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). This template license does not grant rights in similarly named third-party character artwork or Live2D models.
