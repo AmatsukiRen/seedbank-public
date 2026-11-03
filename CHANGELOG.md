@@ -4,7 +4,7 @@
 
 - Add separate observation groups, silent source recording, bounded batch summaries, persistent daily call allowances and source-scoped recall. Preserve normal allowlisted mention replies. See [behavior and platform limits](docs/group-observation.md).
 - Add four-language settings, paged source/note review and withdrawal from future recall. No model weight training, historical-message scraping or unsolicited group sends.
-- User-run core checks (415) and actual executable packaging/software UI/plugin checks passed. Integration ran 334 cases with two failures of the same outdated status expectation; its corrected test and the previously skipped security suite await a focused user rerun. Observation and locale UI cases passed. Published 0.0.2 assets are unchanged; see [dated evidence](docs/acceptance.md).
+- User-run core checks (415), security checks (134) and actual executable packaging/software UI/plugin checks passed. Integration initially had two failures of the same outdated status expectation; its corrected test passed a focused rerun, with the remaining integration executions already passing. Observation and locale UI cases passed. Published 0.0.2 assets are unchanged; real-platform/model and native Live2D behavior are outside this round's scope. See [dated evidence](docs/acceptance.md).
 
 ## 0.0.2 — 2026-11-04 · One life across channels
 
