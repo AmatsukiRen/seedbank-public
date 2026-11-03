@@ -2,7 +2,7 @@
 
 我们想给 AI 一段能够延续的经历。做好这件事需要许多人的专长：能读懂过去的记忆系统、可靠的模型接入、自然的界面、新的声音与身体，还有愿意认真追问“为什么”的人。
 
-欢迎通过 Issue 讨论具体问题，用 PR 提交独立改进。当前核心迁入与首发进度统一见[发行计划](docs/release-plan.md)；接入指南与参考客户端可用于提前准备适配方案。
+欢迎通过 Issue 讨论具体问题，用 PR 提交独立改进。应用核心仍在原研发库；本库的接入指南与参考客户端可用于准备适配方案。
 
 ## 找一件你愿意开始的小事
 
@@ -35,8 +35,8 @@
 
 ## English
 
-We welcome provider and chat adapters, new interfaces, memory research, accessibility, translations and character work. Start with one concrete scenario. Describe the integration layer, inputs and outputs, data access, networking, failures and dormancy. Include artificial examples and clearly separate executed checks from proposed steps. Application migration and release progress are tracked in [the release plan](docs/release-plan.md). See the [integration guide](docs/extensions.md) and [offline reference client](examples/bridge_client.py). No stable plugin SDK or plugin manager is available yet.
+We welcome provider and chat adapters, new interfaces, memory research, accessibility, translations and character work. Start with one concrete scenario. Describe the integration layer, inputs and outputs, data access, networking, failures and dormancy. Include artificial examples and clearly separate executed checks from proposed steps. The application core remains in the development repository. See the [integration guide](docs/extensions.md) and [offline reference client](examples/bridge_client.py). No stable plugin SDK or plugin manager is available yet.
 
 ## 日本語
 
-モデルやチャットのアダプター、新しい画面、記憶の研究、アクセシビリティ、翻訳、キャラクター制作を歓迎します。具体的な利用場面を一つ決め、接続する層、入出力、データアクセス、通信、失敗時と休眠時の扱いを説明してください。架空の例を使い、実施済みと未実施の確認を明確に分けます。アプリ移行と公開の進捗は[リリース計画](docs/release-plan.md)にまとめています。[接続ガイド](docs/extensions.md)と[オフラインの参考実装](examples/bridge_client.py)をご覧ください。安定したプラグイン SDK や管理機能はまだありません。
+モデルやチャットのアダプター、新しい画面、記憶の研究、アクセシビリティ、翻訳、キャラクター制作を歓迎します。具体的な利用場面を一つ決め、接続する層、入出力、データアクセス、通信、失敗時と休眠時の扱いを説明してください。架空の例を使い、実施済みと未実施の確認を明確に分けます。アプリのコアは現在、開発用リポジトリにあります。[接続ガイド](docs/extensions.md)と[オフラインの参考実装](examples/bridge_client.py)をご覧ください。安定したプラグイン SDK や管理機能はまだありません。

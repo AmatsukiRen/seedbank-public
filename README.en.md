@@ -111,6 +111,21 @@ The first release, 0.0.1, is in preparation. Application source, downloads and s
 2. **A way to talk** Explore the interface with offline templates, then configure your own model service and budget if you wish.
 3. **A look you like** Appearance can be chosen separately. Obtain Live2D models from their authors and retain the required credits.
 
+### Bring your own model service
+
+Choose a provider, endpoint and model, then enter your own API key. The key selects the service account; SeedBank does not use the maintainer’s account or your browser login.
+
+| Service | Protocol | Example environment variable (advanced) |
+| :--- | :--- | :--- |
+| OpenAI | OpenAI-compatible | `OPENAI_API_KEY` |
+| DeepSeek | OpenAI-compatible / Anthropic-compatible | `DEEPSEEK_API_KEY` |
+| Claude | Anthropic | `ANTHROPIC_API_KEY` |
+| Other compatible services | Use the provider’s protocol and endpoint | `SEEDBANK_API_KEY` |
+| Ollama / LM Studio | Local OpenAI-compatible | Usually no key required |
+| Codex login (optional) | Uses this computer’s signed-in Codex account | No API key |
+
+Windows settings offer masked entry and encryption under the current OS user. Life packs store only a credential reference; re-enter the key on another computer. Environment variables remain an advanced option: the variable name identifies where to read a key, not an account. Model names are editable; access and charges depend on the provider and key. Only the separate Codex login option uses the local Codex session. The application implementation remains in the development repository.
+
 We are exploring how experiences can persist, how choices can have consequences and how an AI might develop a life of its own. Consciousness or a complete personhood has not been established. We cannot promise every individual will grow like the one in this story.
 
 ### Memory and data
@@ -140,7 +155,7 @@ This repository does not redistribute the Live2D model files. The mascot portrai
 
 Start with one focused extension: a new entry point, a tool action with provenance, or a clearer memory interface. See CONTRIBUTING.md and docs/extensions.md for scope and examples. Use artificial examples in reports; omit private life packs and secrets. Code and original documentation use MIT. Third-party character and model rights are separate.
 
-[License: MIT](LICENSE) · [Contributing](CONTRIBUTING.md) · [Release progress and limitations](docs/release-plan.md)
+[License: MIT](LICENSE) · [Contributing](CONTRIBUTING.md)
 
 ---
 

@@ -111,6 +111,21 @@ Python、QML、前端、模型工程、角色制作、无障碍与翻译，都�
 2. **一种对话方式** 先用离线模板熟悉操作，再按需要配置自己的模型服务与预算。
 3. **一个喜欢的外观** 外观可以另行选择。Live2D 模型请从作者渠道取得，并保留素材署名。
 
+### 用自己的模型服务
+
+选择服务商、接口地址和模型名称，再填写你自己的 API Key。使用哪个服务账号，由 Key 决定；不绑定维护者账号，也不读取你在浏览器里登录的账号。
+
+| 服务 | 接口类型 | 环境变量示例（高级方式） |
+| :--- | :--- | :--- |
+| OpenAI | OpenAI-compatible | `OPENAI_API_KEY` |
+| DeepSeek | OpenAI-compatible / Anthropic-compatible | `DEEPSEEK_API_KEY` |
+| Claude | Anthropic | `ANTHROPIC_API_KEY` |
+| 其他兼容服务 | 按服务商提供的协议与地址填写 | `SEEDBANK_API_KEY` |
+| Ollama / LM Studio | 本地 OpenAI-compatible | 通常不需要 Key |
+| Codex 登录通道（可选） | 使用本机 Codex 已登录账号 | 不填写 API Key |
+
+Windows 设置支持隐藏输入并使用当前系统用户加密保存 Key；生命包只保存凭据引用，换电脑后需重新填写。环境变量方式保留为高级选项：变量名只是读取 Key 的位置，不是账号名。模型名称可自行修改，费用和权限取决于服务商与所用 Key。Codex 登录通道单独选择，才会使用本机 Codex 登录。当前应用实现仍在原研发库。
+
 我们在探索怎样让经历延续、让选择有后果、让 AI 逐渐形成自己的生活。当前没有证据证明意识或完整人格，也不承诺每个个体都会像这段故事一样成长。
 
 ### 记忆与数据
@@ -140,7 +155,7 @@ Python、QML、前端、模型工程、角色制作、无障碍与翻译，都�
 
 欢迎用一个小而完整的扩展开始：一种新的入口、一项可追溯的工具能力，或者更好读懂的记忆界面。具体方向和提交方式见 CONTRIBUTING.md；接入范围与示例见 docs/extensions.md。反馈使用人工样例，不附私人生命包或密钥。代码与自撰文档使用 MIT；第三方角色和模型权利另行记录。
 
-[许可: MIT](LICENSE) · [如何参与](CONTRIBUTING.md) · [首发进度与已知限制](docs/release-plan.md)
+[许可: MIT](LICENSE) · [如何参与](CONTRIBUTING.md)
 
 ---
 

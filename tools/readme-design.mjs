@@ -138,6 +138,16 @@ ${d.startNotice}
 
 ${d.steps.map((f,i)=>`${i+1}. **${f[0]}** ${f[1]}`).join("\n")}
 
+### ${d.api.title}
+
+${d.api.intro}
+
+| ${d.api.columns[0]} | ${d.api.columns[1]} | ${d.api.columns[2]} |
+| :--- | :--- | :--- |
+${d.api.rows.map(row=>`| ${row.join(" | ")} |`).join("\n")}
+
+${d.api.note}
+
 ${d.faq[3][1]}
 
 ### ${s[5]}
@@ -163,7 +173,7 @@ ${d.creditsNote}
 
 ${d.readmeContribute}
 
-[${d.licenseLink}: MIT](LICENSE) · [${d.extensions.contribute}](CONTRIBUTING.md) · [${d.releaseLink}](docs/release-plan.md)
+[${d.licenseLink}: MIT](LICENSE) · [${d.extensions.contribute}](CONTRIBUTING.md)
 
 ---
 

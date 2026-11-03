@@ -220,6 +220,47 @@
   ],
   "galleryHint": "New captures of all five pages will be added after capture and review.",
   "startNotice": "The first release, 0.0.1, is in preparation. Application source, downloads and setup instructions will be provided together at release.",
-  "releaseLink": "Release progress and limitations",
-  "licenseLink": "License"
+  "licenseLink": "License",
+  "api": {
+    "title": "Bring your own model service",
+    "intro": "Choose a provider, endpoint and model, then enter your own API key. The key selects the service account; SeedBank does not use the maintainer’s account or your browser login.",
+    "columns": [
+      "Service",
+      "Protocol",
+      "Example environment variable (advanced)"
+    ],
+    "rows": [
+      [
+        "OpenAI",
+        "OpenAI-compatible",
+        "`OPENAI_API_KEY`"
+      ],
+      [
+        "DeepSeek",
+        "OpenAI-compatible / Anthropic-compatible",
+        "`DEEPSEEK_API_KEY`"
+      ],
+      [
+        "Claude",
+        "Anthropic",
+        "`ANTHROPIC_API_KEY`"
+      ],
+      [
+        "Other compatible services",
+        "Use the provider’s protocol and endpoint",
+        "`SEEDBANK_API_KEY`"
+      ],
+      [
+        "Ollama / LM Studio",
+        "Local OpenAI-compatible",
+        "Usually no key required"
+      ],
+      [
+        "Codex login (optional)",
+        "Uses this computer’s signed-in Codex account",
+        "No API key"
+      ]
+    ],
+    "note": "Windows settings offer masked entry and encryption under the current OS user. Life packs store only a credential reference; re-enter the key on another computer. Environment variables remain an advanced option: the variable name identifies where to read a key, not an account. Model names are editable; access and charges depend on the provider and key. Only the separate Codex login option uses the local Codex session. The application implementation remains in the development repository."
+  }
 }
