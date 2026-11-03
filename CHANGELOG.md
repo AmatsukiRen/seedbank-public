@@ -4,7 +4,7 @@
 
 - Add separate observation groups, silent source recording, bounded batch summaries, persistent daily call allowances and source-scoped recall. Preserve normal allowlisted mention replies. See [behavior and platform limits](docs/group-observation.md).
 - Add four-language settings, paged source/note review and withdrawal from future recall. No model weight training, historical-message scraping or unsolicited group sends.
-- Current revision awaits user-run offline and packaged checks. The earlier 15-case draft result does not cover the subsequent changes. Published 0.0.2 assets are unchanged.
+- The user-run observation suite passed across two runs: 22 original cases, then 2 revised test cases. Full related regressions and checks of the produced executable remain pending. Published 0.0.2 assets are unchanged; see [dated evidence](docs/acceptance.md).
 
 ## 0.0.2 — 2026-11-04 · One life across channels
 
