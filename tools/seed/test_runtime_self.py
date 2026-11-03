@@ -121,7 +121,10 @@ class RuntimeSelfTest(unittest.TestCase):
         event = private_event(123)
         self.assertFalse(adapter.handle(event)["ok"])
         adapter.handle(event)
-        self.assertEqual(adapter.runtime_status(), {"state": "listening", "received": 1, "sent": 0, "failed": 1})
+        self.assertEqual(adapter.runtime_status(), {
+            "state": "listening", "received": 1, "sent": 0, "failed": 1,
+            "observed": 0, "observation_enabled": False,
+        })
         adapter.sender.send_private.assert_called_once()
 
     def test_other_channels_report_actual_origin_without_ids_or_secrets(self):

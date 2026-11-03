@@ -24,5 +24,5 @@ if __name__ == "__main__":
                  "test_media_intake", "test_cross_channel_actions"]
         sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "adapters/qq-onebot"))
         names = ["test_qq_onebot"] if options.compatibility_only else names + ["test_qq_onebot"]
-        result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromNames(names))
+        result = unittest.TextTestRunner(stream=sys.stdout, verbosity=2).run(unittest.defaultTestLoader.loadTestsFromNames(names))
         raise SystemExit(0 if result.wasSuccessful() else 1)
