@@ -48,6 +48,7 @@ ${locales.map(l=>`<link rel="alternate" hreflang="${l.lang}" href="${l.file}">`)
 <a class="brand" href="${d.file}" aria-label="SeedBank"><img src="../assets/brand/seedbank-logo.png" width="44" height="44" alt=""><span>SeedBank<span class="brand-mark" aria-hidden="true">✳</span></span></a>
 <nav class="main-nav" aria-label="${e(d.nav[0])}">
 ${["idea","story","screens","start"].map((id,i)=>`<a href="#${id}">${e(d.nav[i])}</a>`).join("")}
+<a href="#extend">${e(d.extensions.nav)}</a>
 </nav>
 <nav class="languages" aria-label="${e(d.language)}">${links}</nav>
 </header>
@@ -88,15 +89,23 @@ ${d.chapters.map((c,i)=>`<article class="story-panel" id="chapter-${i}" aria-lab
 </section>
 <section class="screens-section wrap" id="screens" aria-labelledby="screens-title">
 <div class="section-heading"><h2 id="screens-title">${e(d.galleryTitle)}</h2><p>${e(d.galleryIntro)}</p></div>
-<div class="screens-grid">
-${d.shots.map((s,i)=>`<figure class="screen ${i===0?"screen-main":""}"><a class="screen-image" href="../assets/screenshots/${s[0]}.png" aria-label="${e(s[1]+": "+d.galleryOriginal)}"><img src="../assets/screenshots/${s[0]}.png" width="${i===2?860:1280}" height="${i===2?640:840}" loading="lazy" alt="${e(d.shotAlt[i])}"></a><figcaption><div><strong>${e(s[1])}</strong><span>${e(s[2])}</span></div><span class="image-size">${e(s[3])}</span></figcaption></figure>`).join("\n")}
-</div>
+${d.shots.length ? `<div class="screens-grid">
+${d.shots.map((s,i)=>`<figure class="screen ${i===0?"screen-main":""}"><a class="screen-image" href="../assets/screenshots/${s[0]}.png" aria-label="${e(s[1]+": "+d.galleryOriginal)}"><img src="../assets/screenshots/${s[0]}.png" width="1280" height="840" loading="lazy" alt="${e(d.shotAlt[i])}"></a><figcaption><div><strong>${e(s[1])}</strong><span>${e(s[2])}</span></div><span class="image-size">${e(s[3])}</span></figcaption></figure>`).join("\n")}
+</div>` : ""}
 <p class="caption">${e(d.galleryHint)} <a href="../docs/screenshots.md">${e(d.screenshotSource)} ↗</a></p>
 </section>
 <section class="features-section wrap" aria-labelledby="features-title">
 <h2 id="features-title">${e(d.featuresTitle)}</h2>
 <div class="feature-list">${d.features.map((f,i)=>`<article class="feature"><span class="feature-index" aria-hidden="true">${String(i+1).padStart(2,"0")}</span><h3>${e(f[0])}</h3><p>${e(f[1])}</p></article>`).join("\n")}</div>
 <p class="caption">${e(d.featuresNote)}</p>
+</section>
+<section class="extend-section wrap" id="extend" aria-labelledby="extend-title">
+<div class="section-heading"><span class="extend-kicker">BUILD WITH US</span><h2 id="extend-title">${e(d.extensions.title)}</h2><p>${e(d.extensions.intro)}</p></div>
+<p class="extend-status">${e(d.extensions.status)}</p>
+<div class="extend-routes">${d.extensions.routes.map((r,i)=>`<article><span class="feature-index" aria-hidden="true">${String(i+1).padStart(2,"0")}</span><h3>${e(r[0])}</h3><p class="extend-existing">${e(r[1])}</p><p>${e(r[2])}</p></article>`).join("\n")}</div>
+<div class="protocol-note"><p>${e(d.extensions.protocol)}</p><pre><code>{"id":"hello-1","op":"hello"}</code></pre></div>
+<p>${e(d.extensions.invite)}</p>
+<div class="hero-actions"><a class="button primary" href="../docs/extensions.md">${e(d.extensions.guide)} ↗</a><a class="text-link" href="../CONTRIBUTING.md">${e(d.extensions.contribute)} ↗</a></div>
 </section>
 <section class="start-section" id="start" aria-labelledby="start-title"><div class="wrap">
 <h2 id="start-title">${e(d.startTitle)}</h2>

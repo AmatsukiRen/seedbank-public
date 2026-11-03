@@ -11,10 +11,11 @@
 <p align="center"><strong>SeedBank 是一个为 AI 保存经历、记忆与选择的本地陪伴项目。我们想让一次相遇有后续，让一个个体慢慢拥有自己的过去。</strong></p>
 
 <p align="center">
-<a href="#story"><img src="assets/readme/nav-story-zh-CN.svg" width="180" alt="读这段故事"></a>
-<a href="#screens"><img src="assets/readme/nav-screens-zh-CN.svg" width="180" alt="实机画面"></a>
-<a href="#start"><img src="assets/readme/nav-start-zh-CN.svg" width="180" alt="开始之前"></a>
-<a href="#credits"><img src="assets/readme/nav-credits-zh-CN.svg" width="180" alt="创作者与素材来源"></a>
+<a href="#story"><img src="assets/readme/nav-story-zh-CN.svg" width="150" alt="读这段故事"></a>
+<a href="#screens"><img src="assets/readme/nav-screens-zh-CN.svg" width="150" alt="界面导览"></a>
+<a href="#extend"><img src="assets/readme/nav-extend-zh-CN.svg" width="150" alt="开发与扩展"></a>
+<a href="#start"><img src="assets/readme/nav-start-zh-CN.svg" width="150" alt="开始之前"></a>
+<a href="#credits"><img src="assets/readme/nav-credits-zh-CN.svg" width="150" alt="创作者与素材来源"></a>
 </p>
 
 > 私有设计稿 · 首发计划 0.0.1 · 暂无公开下载
@@ -63,21 +64,11 @@
 **[读这段故事 →](docs/story.md)**
 
 <a name="screens"></a>
-<h2><img src="assets/readme/section-screens-zh-CN.svg" width="100%" alt="研发实机画面"></h2>
+<h2><img src="assets/readme/section-screens-zh-CN.svg" width="100%" alt="界面导览"></h2>
 
-下面是已有研发版本的真实程序画面，来自独立人工场景。截图摄于 2026-11-03，使用当天 01:50 研发版；早于当前品牌调整，不代表 0.0.1 已完成验收。
+陪伴、日记、记忆、生活、设置：五个入口各自承载日常的一部分。下面介绍当前研发版本的功能。
 
-<a href="assets/screenshots/idle.png"><img src="assets/screenshots/idle.png" width="100%" alt="旧版 SeedBank 陪伴页，左侧导航、中间 Live2D 女仆和右侧空白对话区，人工隔离场景"></a>
 
-<table>
-<tr>
-<td width="50%"><a href="assets/screenshots/wave.png"><img src="assets/screenshots/wave.png" alt="同一研发版本中女仆抬手的实际 Live2D 画面"></a></td>
-<td width="50%"><a href="assets/screenshots/small.png"><img src="assets/screenshots/small.png" alt="同一研发版本在 860×640 小窗口中的布局"></a></td>
-</tr>
-<tr><td><strong>一次招呼</strong> · 1280 × 840</td><td><strong>小窗口里的陪伴</strong> · 860 × 640</td></tr>
-</table>
-
-[截图的版本与来源](docs/screenshots.md) · DeepSeek-chan（大肥鱼） / 神宫凉子 / 霓虹猫_NeonNeko
 
 ### 日常的五个入口
 
@@ -87,9 +78,35 @@
 | **日记** | 把日子放回日历。选中一天，重新读一读那时留下的文字。 |
 | **记忆** | 看看为什么这样记。回到依据，留下更正，也允许看法发生改变。 |
 | **生活** | 让想法有下文。保存目标、尝试、作品与反馈，接上下一次行动。 |
-| **延续** | 把档案带在身边。本机生命包、完整备份、明确休眠与恢复。 |
+| **设置** | 选择外观、语言和对话方式。配置属于使用者，个体的经历保存在生命包里。 |
 
 以上为原研发版本已有机制；应用源码尚待迁入本库。长期连续性与自主成长仍需观察。
+
+旧版陪伴页的三张重复展示已撤下。新版五页实机图待采集，将注明程序版本、人工场景与拍摄日期。 [截图状态与采集约定](docs/screenshots.md)
+
+<a name="extend"></a>
+<h2><img src="assets/readme/section-extend-zh-CN.svg" width="100%" alt="让更多人，为这一生添一点可能。"></h2>
+
+也许你想让它住进桌宠、来到群聊、用新的声音说话，或者拥有另一种身体。SeedBank 想给这些尝试一个共同的起点：界面和模型可以更换，经历仍有自己的来处。欢迎做插件、写适配器、设计载体的人一起建设。
+
+> 原研发库已有接入机制；本库目前仍是私有设计稿，应用源码与完整开发环境尚待迁入。现有协议处于研发阶段，不承诺稳定 SDK。
+
+| 方向 | 已有接入点 | 可以一起做什么 |
+| :--- | :--- | :--- |
+| **聊天平台与外部工具** | 本地子进程 · JSON Lines 桥接 | QQ / OneBot 已有适配；欢迎探索 Discord、Telegram、工具面板。 |
+| **模型服务** | stub、OpenAI-compatible、Anthropic、Codex 适配器 | 接入新的服务与本地模型，完善超时、费用和失败处理。 |
+| **界面与身体** | Qt Quick / QML、Live2D 本地模型、载体桥接 | 新桌面端、移动端或 VR 载体；保留档案与明确选择。 |
+| **插件基础设施** | 统一安装、权限声明、热加载尚未实现 | 一起设计插件清单、能力权限、生命周期和兼容约定。 |
+
+已有桥接通过 stdin/stdout 交换逐行 JSON，协议标识为 seedbank/bridge@1。例如，接入端先发送这一行读取握手信息；它不是公开 HTTP 地址：
+
+```json
+{"id":"hello-1","op":"hello"}
+```
+
+Python、QML、前端、模型工程、角色制作、无障碍与翻译，都有值得参与的地方。接入指南说明操作范围、请求编号、记忆来源、休眠行为以及人工样例的使用方式。
+
+**[接入协议与扩展路线 →](docs/extensions.md)** · **[如何参与 →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 
 <a name="start"></a>
 <h2><img src="assets/readme/section-start-zh-CN.svg" width="100%" alt="当前阶段与开始方式"></h2>
@@ -131,7 +148,7 @@
 
 ### 参与与许可
 
-公开后欢迎可复现的问题、文档改进和记忆与生命周期设计讨论。反馈请使用人工示例，不附私人生命包或密钥。代码与自撰文档使用 MIT；第三方角色和模型的权利不包含在其中。
+欢迎用一个小而完整的扩展开始：一种新的入口、一项可追溯的工具能力，或者更好读懂的记忆界面。具体方向和提交方式见 CONTRIBUTING.md；接入范围与示例见 docs/extensions.md。反馈使用人工样例，不附私人生命包或密钥。代码与自撰文档使用 MIT；第三方角色和模型权利另行记录。
 
 [MIT](LICENSE) · [Design](docs/design.md) · [网页源文件](site/index.html) · [0.0.1](docs/release-plan.md) · [Acceptance steps](docs/acceptance.md)
 

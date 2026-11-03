@@ -34,11 +34,11 @@ GitHub 仓库首页有单独的视觉实现：README 引用 assets/readme/ 中�
 | `site/content/*.json` | 三语完整文案源 |
 | `tools/render-pages.mjs` | 维护者重生成静态 HTML、README、故事文档的工具 |
 | `tools/readme-design.mjs` | GitHub 首页专用模板与原生 SVG 排版 |
-| `assets/readme/*.svg` | 三语品牌标题、四个导航入口与四个章节横条 |
+| `assets/readme/*.svg` | 三语品牌标题、五个导航入口与五个章节横条 |
 | `README*.md` | 三语 GitHub 首页 |
 | `docs/story*.md` | 六章连续阅读版 |
 | `assets/brand/seedbank-logo.png` | 已认可的品牌头像 |
-| `assets/screenshots/*.png` | 三张已有研发实机截图 |
+| `assets/screenshots/*.png` | 历史研发截图，已从首页撤下 |
 
 修改文案时编辑对应 JSON，再由维护者运行 `node tools/render-pages.mjs` 生成静态内容。它是文件生成工具，不会启动浏览器或调用模型。静态页面与 Markdown 本次已写入，无需用户先生成才能预览。
 
@@ -64,3 +64,7 @@ GitHub 仓库首页有单独的视觉实现：README 引用 assets/readme/ 中�
 
 本轮只实施与整理，未运行页面、浏览器自动化、脚本验证、构建检查或应用测试。没有宣称移动端、键盘或各浏览器已经验证通过。用户步骤见[acceptance.md](acceptance.md)。
 
+
+## 开发者参与与当前画面
+
+三语首页新增开发扩展区域：已有桥接、模型适配与载体接口分别列出，统一插件运行时明确列为待建设。CONTRIBUTING.md、docs/extensions.md 与离线 Python 示例提供进一步入口。旧版同页三图不再展示；五页实机图待用户运行当前交付采集后补入，状态见 screenshots.md。

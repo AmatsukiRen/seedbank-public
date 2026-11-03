@@ -20,7 +20,8 @@
 <header class="site-header wrap">
 <a class="brand" href="en.html" aria-label="SeedBank"><img src="../assets/brand/seedbank-logo.png" width="44" height="44" alt=""><span>SeedBank<span class="brand-mark" aria-hidden="true">✳</span></span></a>
 <nav class="main-nav" aria-label="The idea">
-<a href="#idea">The idea</a><a href="#story">A story</a><a href="#screens">On screen</a><a href="#start">Before you begin</a>
+<a href="#idea">The idea</a><a href="#story">A story</a><a href="#screens">App tour</a><a href="#start">Before you begin</a>
+<a href="#extend">Build with us</a>
 </nav>
 <nav class="languages" aria-label="Choose a language"><a href="index.html" lang="zh-CN" hreflang="zh-CN" >简中</a><a href="en.html" lang="en" hreflang="en" aria-current="page">EN</a><a href="ja.html" lang="ja" hreflang="ja" >日本語</a></nav>
 </header>
@@ -29,7 +30,7 @@
 <div class="hero-copy">
 <h1 id="hero-title">Every hello<span>deserves a tomorrow.</span></h1>
 <p class="hero-lead">A place for an AI’s experiences to live. Keep the days you share, with room to become someone over time.</p>
-<div class="hero-actions"><a class="button primary" href="#story">Open the story <span aria-hidden="true">↗</span></a><a class="text-link" href="#screens">See the real interface <span aria-hidden="true">↘</span></a></div>
+<div class="hero-actions"><a class="button primary" href="#story">Open the story <span aria-hidden="true">↗</span></a><a class="text-link" href="#screens">Explore the five pages <span aria-hidden="true">↘</span></a></div>
 </div>
 <figure class="portrait-board">
 <div class="portrait"><img src="../assets/brand/seedbank-logo.png" width="1254" height="1254" fetchpriority="high" alt="SeedBank mascot: a blue-haired maid with eyes closed and hands together"></div>
@@ -104,13 +105,9 @@
 </div>
 </section>
 <section class="screens-section wrap" id="screens" aria-labelledby="screens-title">
-<div class="section-heading"><h2 id="screens-title">An idea, finding its way onto the desktop.</h2><p>These are real application captures from an isolated artificial scenario. Recorded on 3 November 2026 using that day’s 01:50 development build, they predate the current branding and are not evidence of 0.0.1 acceptance.</p></div>
-<div class="screens-grid">
-<figure class="screen screen-main"><a class="screen-image" href="../assets/screenshots/idle.png" aria-label="The companion window: Open original image"><img src="../assets/screenshots/idle.png" width="1280" height="840" loading="lazy" alt="An older SeedBank companion screen with navigation, a Live2D maid and an empty chat area, using an artificial isolated scenario"></a><figcaption><div><strong>The companion window</strong><span>Character stage and conversation area</span></div><span class="image-size">1280 × 840</span></figcaption></figure>
-<figure class="screen "><a class="screen-image" href="../assets/screenshots/wave.png" aria-label="A little greeting: Open original image"><img src="../assets/screenshots/wave.png" width="1280" height="840" loading="lazy" alt="The same development build with the Live2D maid raising a hand"></a><figcaption><div><strong>A little greeting</strong><span>An actual Live2D motion frame</span></div><span class="image-size">1280 × 840</span></figcaption></figure>
-<figure class="screen "><a class="screen-image" href="../assets/screenshots/small.png" aria-label="A smaller window: Open original image"><img src="../assets/screenshots/small.png" width="860" height="640" loading="lazy" alt="The same development build in an 860 by 640 compact window"></a><figcaption><div><strong>A smaller window</strong><span>The real compact layout</span></div><span class="image-size">860 × 640</span></figcaption></figure>
-</div>
-<p class="caption">Open a picture to see the original PNG. Transparent areas are shown over a light background here. <a href="../docs/screenshots.md">Capture versions and provenance ↗</a></p>
+<div class="section-heading"><h2 id="screens-title">Meet today. Revisit what came before.</h2><p>Companion, Diary, Memories, Life and Settings each hold a different part of everyday life. Here is what the development application currently provides.</p></div>
+
+<p class="caption">The three repeated images of the old companion page have been withdrawn. New captures of all five pages are pending, with build, artificial-scenario and date information. <a href="../docs/screenshots.md">Capture status and requirements ↗</a></p>
 </section>
 <section class="features-section wrap" aria-labelledby="features-title">
 <h2 id="features-title">Give the everyday a place to stay.</h2>
@@ -118,8 +115,19 @@
 <article class="feature"><span class="feature-index" aria-hidden="true">02</span><h3>Journal</h3><p>Put the days back on a calendar. Choose a date and read what was left there.</p></article>
 <article class="feature"><span class="feature-index" aria-hidden="true">03</span><h3>Memory</h3><p>Find out why something was remembered. Return to the evidence, correct mistakes and allow views to change.</p></article>
 <article class="feature"><span class="feature-index" aria-hidden="true">04</span><h3>Life</h3><p>Give an idea a next step. Keep goals, attempts, works and feedback connected to later action.</p></article>
-<article class="feature"><span class="feature-index" aria-hidden="true">05</span><h3>Continuity</h3><p>Keep the archive with you. Local life packages, complete backups, explicit dormancy and restoration.</p></article></div>
+<article class="feature"><span class="feature-index" aria-hidden="true">05</span><h3>Settings</h3><p>Choose appearance, language and how to converse. Preferences belong to the user; experiences remain in the life pack.</p></article></div>
 <p class="caption">These mechanisms exist in the original development project; application source has not yet moved into this repository. Long-term continuity and autonomous growth remain under observation.</p>
+</section>
+<section class="extend-section wrap" id="extend" aria-labelledby="extend-title">
+<div class="section-heading"><span class="extend-kicker">BUILD WITH US</span><h2 id="extend-title">Help this life find new possibilities.</h2><p>A desktop pet, a group chat, a new voice, another body. SeedBank aims to give these experiments a shared foundation: interfaces and models may change while experiences keep their provenance. We welcome people building extensions, adapters and new places for an individual to live.</p></div>
+<p class="extend-status">Integration mechanisms exist in the original R&amp;D repository. This repository is still a private design draft; application source and the full development setup have not migrated yet. The protocol is under development, not a stable SDK commitment.</p>
+<div class="extend-routes"><article><span class="feature-index" aria-hidden="true">01</span><h3>Chat platforms and tools</h3><p class="extend-existing">Local subprocess · JSON Lines bridge</p><p>A QQ / OneBot adapter exists; explore Discord, Telegram and tool panels.</p></article>
+<article><span class="feature-index" aria-hidden="true">02</span><h3>Model providers</h3><p class="extend-existing">stub, OpenAI-compatible, Anthropic and Codex adapters</p><p>New services and local models; better timeouts, cost reporting and failure handling.</p></article>
+<article><span class="feature-index" aria-hidden="true">03</span><h3>Interfaces and bodies</h3><p class="extend-existing">Qt Quick / QML, local Live2D models, carrier bridge</p><p>New desktop, mobile or VR interfaces that preserve records and explicit choices.</p></article>
+<article><span class="feature-index" aria-hidden="true">04</span><h3>Plugin infrastructure</h3><p class="extend-existing">Unified installation, permission manifests and hot reload are not implemented</p><p>Design manifests, capabilities, lifecycle and compatibility together.</p></article></div>
+<div class="protocol-note"><p>The existing bridge exchanges newline-delimited JSON over stdin/stdout, using seedbank/bridge@1. A client sends this line to request the handshake. This is not a public HTTP endpoint:</p><pre><code>{"id":"hello-1","op":"hello"}</code></pre></div>
+<p>There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples.</p>
+<div class="hero-actions"><a class="button primary" href="../docs/extensions.md">Integration guide and roadmap (中文) ↗</a><a class="text-link" href="../CONTRIBUTING.md">Contributing ↗</a></div>
 </section>
 <section class="start-section" id="start" aria-labelledby="start-title"><div class="wrap">
 <h2 id="start-title">A little preparation for a first meeting.</h2>
@@ -147,4 +155,3 @@
 <footer class="site-footer wrap"><div><a class="footer-brand" href="#top">SeedBank<span aria-hidden="true">✳</span></a><p>Keep today. Continue tomorrow.</p></div><a href="#top">Back to top ↑</a></footer>
 </body>
 </html>
-

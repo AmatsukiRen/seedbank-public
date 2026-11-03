@@ -18,6 +18,8 @@
 - 可见品牌写作 SeedBank。沿用已经认可的女仆头像、白底与蓝色设计方向。
 - 页面、README 和完整故事维护简体中文、英文、日文三版；文案源为 site/content/*.json。维护者生成工具为 tools/render-pages.mjs；不因有生成工具就自动运行测试或浏览器验收。
 - 人设署名 ZipZipPipe、上善无形；Live2D 原画及拆分为神宫凉子、建模为霓虹猫_NeonNeko。截图日期与版本不得改标为当前候选。详细来源见 docs/assets.md 和 docs/screenshots.md。
+- 旧三张同页截图已从三语首页撤下；新版五页图待用户运行原研发交付的 Capture-SeedBank-Pages.cmd 并查看。不要重新展示旧图或把已准备的入口说成已采集完成。
+- 开发者内容见 CONTRIBUTING.md、docs/extensions.md、examples/bridge_client.py。区分原库已有本地 JSON Lines 接口与尚未实现的插件管理；本库没有迁入应用核心，也未提供稳定插件 SDK。参考客户端未运行。
 - 品牌外观不预设个体物种、性别、身体或虚构童年；默认开放出生。
 - 不设固定寿命；明确休眠后保留档案并停止自动活动，允许明确恢复，不自动操作真实个体。
 - 私人生命包、密钥、连接配置、原始日志及第三方 Live2D 本体不得纳入本库。

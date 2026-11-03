@@ -33,6 +33,7 @@ export function renderReadmeAssets(d) {
   const navs=[
     ["story",d.readmeStory,"STORY",true],
     ["screens",d.nav[2],"ON SCREEN",false],
+    ["extend",d.extensions.nav,"BUILD WITH US",false],
     ["start",d.nav[3],"BEGIN",false],
     ["credits",d.creditRoles[0].replace("Character design","Creators").replace("キャラクターデザイン","クレジット").replace("人设","创作者署名"),"CREDITS",false]
   ];
@@ -44,7 +45,7 @@ export function renderReadmeAssets(d) {
 <text x="18" y="59" font-size="${english?20:22}" font-weight="700" fill="${primary?"#ffffff":"#193c92"}">${escapeXml(label)}</text>
 <path d="M248 36H263V51M245 54L263 36" fill="none" stroke="${primary?"#ffffff":"#c52182"}" stroke-width="2.5"/>
 `)]);}
-  const sections=[["story",d.readmeSections[1],"STORY"],["screens",d.readmeSections[2],"ON SCREEN"],["start",d.readmeSections[4],"BEGIN"],["credits",d.readmeSections[6],"CREDITS"]];
+  const sections=[["story",d.readmeSections[1],"STORY"],["screens",d.readmeSections[2],"ON SCREEN"],["extend",d.extensions.title,"BUILD WITH US"],["start",d.readmeSections[4],"BEGIN"],["credits",d.readmeSections[6],"CREDITS"]];
   for (const [name,title,label] of sections) {
     output.push([`assets/readme/section-${name}-${lang}.svg`,svgDocument(1200,120,title,`
 <rect width="1200" height="120" rx="12" fill="#eff4ff"/>
@@ -61,7 +62,7 @@ export function renderReadme(d, locales) {
   const s=d.readmeSections;
   const e=escapeXml;
   const graphic=(id,index)=>`<a name="${id}"></a>\n<h2><img src="assets/readme/section-${id}-${d.lang}.svg" width="100%" alt="${e(s[index])}"></h2>`;
-  const navLabels=[d.readmeStory,d.nav[2],d.nav[3],d.readmeSections[6]];
+  const navLabels=[d.readmeStory,d.nav[2],d.extensions.nav,d.nav[3],d.readmeSections[6]];
   const readmeOnly = d.lang==="zh-CN"
     ? "当前这里是 GitHub 仓库首页。下方图形与内容可直接阅读；独立网页设计需要下载仓库后打开 site/index.html，点击 HTML 文件在 GitHub 上只会显示源码。"
     : d.lang==="en"
@@ -81,7 +82,7 @@ export function renderReadme(d, locales) {
 <p align="center"><strong>${e(d.readmeIntro)}</strong></p>
 
 <p align="center">
-${["story","screens","start","credits"].map((id,i)=>`<a href="#${id}"><img src="assets/readme/nav-${id}-${d.lang}.svg" width="180" alt="${e(navLabels[i])}"></a>`).join("\n")}
+${["story","screens","extend","start","credits"].map((id,i)=>`<a href="#${id}"><img src="assets/readme/nav-${id}-${d.lang}.svg" width="150" alt="${e(navLabels[i])}"></a>`).join("\n")}
 </p>
 
 > ${d.draft}
@@ -110,17 +111,7 @@ ${graphic("screens",2)}
 
 ${d.galleryIntro}
 
-<a href="assets/screenshots/idle.png"><img src="assets/screenshots/idle.png" width="100%" alt="${e(d.shotAlt[0])}"></a>
-
-<table>
-<tr>
-<td width="50%"><a href="assets/screenshots/wave.png"><img src="assets/screenshots/wave.png" alt="${e(d.shotAlt[1])}"></a></td>
-<td width="50%"><a href="assets/screenshots/small.png"><img src="assets/screenshots/small.png" alt="${e(d.shotAlt[2])}"></a></td>
-</tr>
-<tr><td><strong>${d.shots[1][1]}</strong> · ${d.shots[1][3]}</td><td><strong>${d.shots[2][1]}</strong> · ${d.shots[2][3]}</td></tr>
-</table>
-
-[${d.screenshotSource}](docs/screenshots.md) · DeepSeek-chan（大肥鱼） / 神宫凉子 / 霓虹猫_NeonNeko
+${d.shots.map((s,i)=>`<a href="assets/screenshots/${s[0]}.png"><img src="assets/screenshots/${s[0]}.png" width="100%" alt="${e(d.shotAlt[i])}"></a>\n\n**${s[1]}** · ${s[2]} · ${s[3]}`).join("\n\n")}
 
 ### ${s[3]}
 
@@ -129,6 +120,29 @@ ${d.galleryIntro}
 ${d.features.map(f=>`| **${f[0]}** | ${f[1]} |`).join("\n")}
 
 ${d.featuresNote}
+
+${d.galleryHint} [${d.screenshotSource}](docs/screenshots.md)
+
+<a name="extend"></a>
+<h2><img src="assets/readme/section-extend-${d.lang}.svg" width="100%" alt="${e(d.extensions.title)}"></h2>
+
+${d.extensions.intro}
+
+> ${d.extensions.status}
+
+| ${d.extensions.columns[0]} | ${d.extensions.columns[1]} | ${d.extensions.columns[2]} |
+| :--- | :--- | :--- |
+${d.extensions.routes.map(r=>`| **${r[0]}** | ${r[1]} | ${r[2]} |`).join("\n")}
+
+${d.extensions.protocol}
+
+\`\`\`json
+{"id":"hello-1","op":"hello"}
+\`\`\`
+
+${d.extensions.invite}
+
+**[${d.extensions.guide} →](docs/extensions.md)** · **[${d.extensions.contribute} →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 
 ${graphic("start",4)}
 

@@ -11,10 +11,11 @@
 <p align="center"><strong>SeedBank is a local AI companion project for preserving experiences, memories and choices. We want a first meeting to have a future, and an individual to gradually have a past of its own.</strong></p>
 
 <p align="center">
-<a href="#story"><img src="assets/readme/nav-story-en.svg" width="180" alt="Read the story"></a>
-<a href="#screens"><img src="assets/readme/nav-screens-en.svg" width="180" alt="On screen"></a>
-<a href="#start"><img src="assets/readme/nav-start-en.svg" width="180" alt="Before you begin"></a>
-<a href="#credits"><img src="assets/readme/nav-credits-en.svg" width="180" alt="Creators and asset sources"></a>
+<a href="#story"><img src="assets/readme/nav-story-en.svg" width="150" alt="Read the story"></a>
+<a href="#screens"><img src="assets/readme/nav-screens-en.svg" width="150" alt="App tour"></a>
+<a href="#extend"><img src="assets/readme/nav-extend-en.svg" width="150" alt="Build with us"></a>
+<a href="#start"><img src="assets/readme/nav-start-en.svg" width="150" alt="Before you begin"></a>
+<a href="#credits"><img src="assets/readme/nav-credits-en.svg" width="150" alt="Creators and asset sources"></a>
 </p>
 
 > Private design draft · First release planned: 0.0.1 · No public download
@@ -63,21 +64,11 @@ Our page tells the story of Cheng: an individual who begins without a name, come
 **[Read the story →](docs/story.en.md)**
 
 <a name="screens"></a>
-<h2><img src="assets/readme/section-screens-en.svg" width="100%" alt="Real development captures"></h2>
+<h2><img src="assets/readme/section-screens-en.svg" width="100%" alt="App tour"></h2>
 
-These are real application captures from an isolated artificial scenario. Recorded on 3 November 2026 using that day’s 01:50 development build, they predate the current branding and are not evidence of 0.0.1 acceptance.
+Companion, Diary, Memories, Life and Settings each hold a different part of everyday life. Here is what the development application currently provides.
 
-<a href="assets/screenshots/idle.png"><img src="assets/screenshots/idle.png" width="100%" alt="An older SeedBank companion screen with navigation, a Live2D maid and an empty chat area, using an artificial isolated scenario"></a>
 
-<table>
-<tr>
-<td width="50%"><a href="assets/screenshots/wave.png"><img src="assets/screenshots/wave.png" alt="The same development build with the Live2D maid raising a hand"></a></td>
-<td width="50%"><a href="assets/screenshots/small.png"><img src="assets/screenshots/small.png" alt="The same development build in an 860 by 640 compact window"></a></td>
-</tr>
-<tr><td><strong>A little greeting</strong> · 1280 × 840</td><td><strong>A smaller window</strong> · 860 × 640</td></tr>
-</table>
-
-[Capture versions and provenance](docs/screenshots.md) · DeepSeek-chan（大肥鱼） / 神宫凉子 / 霓虹猫_NeonNeko
 
 ### Five parts of everyday life
 
@@ -87,9 +78,35 @@ These are real application captures from an isolated artificial scenario. Record
 | **Journal** | Put the days back on a calendar. Choose a date and read what was left there. |
 | **Memory** | Find out why something was remembered. Return to the evidence, correct mistakes and allow views to change. |
 | **Life** | Give an idea a next step. Keep goals, attempts, works and feedback connected to later action. |
-| **Continuity** | Keep the archive with you. Local life packages, complete backups, explicit dormancy and restoration. |
+| **Settings** | Choose appearance, language and how to converse. Preferences belong to the user; experiences remain in the life pack. |
 
 These mechanisms exist in the original development project; application source has not yet moved into this repository. Long-term continuity and autonomous growth remain under observation.
+
+The three repeated images of the old companion page have been withdrawn. New captures of all five pages are pending, with build, artificial-scenario and date information. [Capture status and requirements](docs/screenshots.md)
+
+<a name="extend"></a>
+<h2><img src="assets/readme/section-extend-en.svg" width="100%" alt="Help this life find new possibilities."></h2>
+
+A desktop pet, a group chat, a new voice, another body. SeedBank aims to give these experiments a shared foundation: interfaces and models may change while experiences keep their provenance. We welcome people building extensions, adapters and new places for an individual to live.
+
+> Integration mechanisms exist in the original R&D repository. This repository is still a private design draft; application source and the full development setup have not migrated yet. The protocol is under development, not a stable SDK commitment.
+
+| Area | Existing integration point | What we can build together |
+| :--- | :--- | :--- |
+| **Chat platforms and tools** | Local subprocess · JSON Lines bridge | A QQ / OneBot adapter exists; explore Discord, Telegram and tool panels. |
+| **Model providers** | stub, OpenAI-compatible, Anthropic and Codex adapters | New services and local models; better timeouts, cost reporting and failure handling. |
+| **Interfaces and bodies** | Qt Quick / QML, local Live2D models, carrier bridge | New desktop, mobile or VR interfaces that preserve records and explicit choices. |
+| **Plugin infrastructure** | Unified installation, permission manifests and hot reload are not implemented | Design manifests, capabilities, lifecycle and compatibility together. |
+
+The existing bridge exchanges newline-delimited JSON over stdin/stdout, using seedbank/bridge@1. A client sends this line to request the handshake. This is not a public HTTP endpoint:
+
+```json
+{"id":"hello-1","op":"hello"}
+```
+
+There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples.
+
+**[Integration guide and roadmap (中文) →](docs/extensions.md)** · **[Contributing →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 
 <a name="start"></a>
 <h2><img src="assets/readme/section-start-en.svg" width="100%" alt="Current stage and getting started"></h2>
@@ -131,7 +148,7 @@ This repository does not redistribute the Live2D model files. The mascot portrai
 
 ### Contributing and licensing
 
-Once public, we welcome reproducible issues, clearer documentation and discussion of memory and lifecycle design. Use artificial examples in reports, without private life packages or keys. Code and original documentation use MIT; third-party character and model rights are not included.
+Start with one focused extension: a new entry point, a tool action with provenance, or a clearer memory interface. See CONTRIBUTING.md and docs/extensions.md for scope and examples. Use artificial examples in reports; omit private life packs and secrets. Code and original documentation use MIT. Third-party character and model rights are separate.
 
 [MIT](LICENSE) · [Design](docs/design.md) · [Website source](site/en.html) · [0.0.1](docs/release-plan.md) · [Acceptance steps](docs/acceptance.md)
 

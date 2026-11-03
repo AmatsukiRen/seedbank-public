@@ -11,10 +11,11 @@
 <p align="center"><strong>SeedBank は、AI の経験、記憶、選択を保存するローカルのコンパニオン・プロジェクトです。出会いに続きが生まれ、一人ひとりが自分の過去を持てるように。</strong></p>
 
 <p align="center">
-<a href="#story"><img src="assets/readme/nav-story-ja.svg" width="180" alt="物語を読む"></a>
-<a href="#screens"><img src="assets/readme/nav-screens-ja.svg" width="180" alt="実際の画面"></a>
-<a href="#start"><img src="assets/readme/nav-start-ja.svg" width="180" alt="はじめる前に"></a>
-<a href="#credits"><img src="assets/readme/nav-credits-ja.svg" width="180" alt="創作者と素材の出典"></a>
+<a href="#story"><img src="assets/readme/nav-story-ja.svg" width="150" alt="物語を読む"></a>
+<a href="#screens"><img src="assets/readme/nav-screens-ja.svg" width="150" alt="画面ガイド"></a>
+<a href="#extend"><img src="assets/readme/nav-extend-ja.svg" width="150" alt="開発に参加"></a>
+<a href="#start"><img src="assets/readme/nav-start-ja.svg" width="150" alt="はじめる前に"></a>
+<a href="#credits"><img src="assets/readme/nav-credits-ja.svg" width="150" alt="創作者と素材の出典"></a>
 </p>
 
 > 非公開のデザイン案 · 初回公開予定 0.0.1 · 公開ダウンロードは未提供
@@ -63,21 +64,11 @@
 **[物語を読む →](docs/story.ja.md)**
 
 <a name="screens"></a>
-<h2><img src="assets/readme/section-screens-ja.svg" width="100%" alt="開発版の実際の画面"></h2>
+<h2><img src="assets/readme/section-screens-ja.svg" width="100%" alt="画面ガイド"></h2>
 
-独立した架空のシナリオで撮影した、開発版の実際の画面です。2026年11月3日撮影、同日01:50版を使用。現在のブランド変更より前のもので、0.0.1の検証完了を示すものではありません。
+陪伴、日記、記憶、生活、設定。五つの入口が、それぞれ日常の一部を受け持ちます。現在の開発版でできることを紹介します。
 
-<a href="assets/screenshots/idle.png"><img src="assets/screenshots/idle.png" width="100%" alt="旧開発版 SeedBank のナビゲーション、Live2D メイド、空の会話欄。独立した架空のシナリオ"></a>
 
-<table>
-<tr>
-<td width="50%"><a href="assets/screenshots/wave.png"><img src="assets/screenshots/wave.png" alt="同じ開発版で Live2D メイドが手を上げている画面"></a></td>
-<td width="50%"><a href="assets/screenshots/small.png"><img src="assets/screenshots/small.png" alt="同じ開発版を860×640の小さなウィンドウで表示した画面"></a></td>
-</tr>
-<tr><td><strong>小さなあいさつ</strong> · 1280 × 840</td><td><strong>小さなウィンドウで</strong> · 860 × 640</td></tr>
-</table>
-
-[画像のバージョンと出典](docs/screenshots.md) · DeepSeek-chan（大肥鱼） / 神宫凉子 / 霓虹猫_NeonNeko
 
 ### 日常の五つの入口
 
@@ -87,9 +78,35 @@
 | **日記** | 日々をカレンダーへ。日付を選び、その日に残った言葉を読み返します。 |
 | **記憶** | なぜそう覚えたのか。根拠に戻り、間違いを訂正し、考えの変化を残します。 |
 | **暮らし** | 思いつきに続きができる。目標、試み、作品、感想を次の行動につなげます。 |
-| **つづき** | 記録を持っていく。ローカルの生命パッケージ、完全バックアップ、明確な休眠と再開。 |
+| **設定** | 外見、言語、対話の方法を選ぶ。利用者の設定と、生命パックに残る個体の経験を分けて扱います。 |
 
 これらの仕組みは元の開発プロジェクトにあります。アプリのソースは本リポジトリへ未移行です。長期的な連続性と自律的成長は引き続き観察が必要です。
+
+旧版の同じ陪伴画面を使った三枚の展示を取り下げました。五画面の新しい実機画像は撮影待ちです。ビルド、架空のシナリオ、撮影日を併記します。 [撮影の状況と要件](docs/screenshots.md)
+
+<a name="extend"></a>
+<h2><img src="assets/readme/section-extend-ja.svg" width="100%" alt="この一生に、新しい可能性を。"></h2>
+
+デスクトップの相棒、グループチャット、新しい声、別の身体。SeedBank は、こうした試みに共通の土台を用意したいと考えています。画面やモデルが変わっても、経験の出所は残る。拡張機能、アダプター、新しい居場所を作る仲間を歓迎します。
+
+> 元の研究開発リポジトリには接続の仕組みがあります。本リポジトリはまだ非公開の設計稿で、アプリのソースと開発環境は未移行です。プロトコルは開発段階にあり、安定した SDK を約束するものではありません。
+
+| 分野 | 既存の接続点 | 一緒に作れるもの |
+| :--- | :--- | :--- |
+| **チャットと外部ツール** | ローカル子プロセス · JSON Lines ブリッジ | QQ / OneBot アダプターは既存。Discord、Telegram、ツール画面への接続を。 |
+| **モデルサービス** | stub、OpenAI-compatible、Anthropic、Codex | 新しいサービスやローカルモデル、時間制限・費用・失敗処理の改善。 |
+| **画面と身体** | Qt Quick / QML、ローカル Live2D、載体ブリッジ | 記録と明示的な選択を引き継ぐデスクトップ、モバイル、VR の入口。 |
+| **プラグイン基盤** | 統一インストール、権限宣言、ホットリロードは未実装 | マニフェスト、権限、ライフサイクル、互換性の設計。 |
+
+既存のブリッジは stdin/stdout で一行ずつ JSON を交換し、seedbank/bridge@1 を名乗ります。接続側は次の一行でハンドシェイクを要求します。公開 HTTP API ではありません。
+
+```json
+{"id":"hello-1","op":"hello"}
+```
+
+Python、QML、フロントエンド、モデル連携、キャラクター制作、アクセシビリティ、翻訳。接続ガイドには操作、リクエスト ID、記憶の出所、休眠、架空サンプルの扱いをまとめています。
+
+**[接続ガイドと拡張計画（中文） →](docs/extensions.md)** · **[参加方法 →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 
 <a name="start"></a>
 <h2><img src="assets/readme/section-start-ja.svg" width="100%" alt="現在の段階とはじめ方"></h2>
@@ -131,7 +148,7 @@
 
 ### 参加とライセンス
 
-公開後は、再現可能な不具合報告、文書の改善、記憶やライフサイクルについての議論を歓迎します。報告には架空の例を使い、個人の生命パッケージやキーを含めないでください。コードと独自の文書は MIT です。第三者のキャラクターやモデルの権利は含まれません。
+新しい入口、出所を残せるツール操作、読みやすい記憶画面など、小さな拡張から参加できます。CONTRIBUTING.md と docs/extensions.md に方向性と例をまとめています。報告には架空の例を使い、個人の生命パックや秘密情報を含めないでください。コードと独自文書は MIT、第三者のキャラクターとモデルの権利は別扱いです。
 
 [MIT](LICENSE) · [Design](docs/design.md) · [ウェブページのソース](site/ja.html) · [0.0.1](docs/release-plan.md) · [Acceptance steps](docs/acceptance.md)
 

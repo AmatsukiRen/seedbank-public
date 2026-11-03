@@ -10,7 +10,7 @@
   "nav": [
     "The idea",
     "A story",
-    "On screen",
+    "App tour",
     "Before you begin"
   ],
   "language": "Choose a language",
@@ -20,7 +20,7 @@
   ],
   "heroText": "A place for an AI’s experiences to live. Keep the days you share, with room to become someone over time.",
   "heroPrimary": "Open the story",
-  "heroSecondary": "See the real interface",
+  "heroSecondary": "Explore the five pages",
   "heroArt": "SeedBank mascot: a blue-haired maid with eyes closed and hands together",
   "heroCaption": "Share a life. Leave room to become.",
   "whyTitle": "If we meet again tomorrow, what stays from today?",
@@ -106,35 +106,12 @@
       "meaning": "No fixed lifespan. Explicit dormancy preserves the complete archive and stops automatic activity, with explicit restoration available."
     }
   ],
-  "galleryTitle": "An idea, finding its way onto the desktop.",
-  "galleryIntro": "These are real application captures from an isolated artificial scenario. Recorded on 3 November 2026 using that day’s 01:50 development build, they predate the current branding and are not evidence of 0.0.1 acceptance.",
-  "shots": [
-    [
-      "idle",
-      "The companion window",
-      "Character stage and conversation area",
-      "1280 × 840"
-    ],
-    [
-      "wave",
-      "A little greeting",
-      "An actual Live2D motion frame",
-      "1280 × 840"
-    ],
-    [
-      "small",
-      "A smaller window",
-      "The real compact layout",
-      "860 × 640"
-    ]
-  ],
-  "shotAlt": [
-    "An older SeedBank companion screen with navigation, a Live2D maid and an empty chat area, using an artificial isolated scenario",
-    "The same development build with the Live2D maid raising a hand",
-    "The same development build in an 860 by 640 compact window"
-  ],
-  "galleryHint": "Open a picture to see the original PNG. Transparent areas are shown over a light background here.",
-  "screenshotSource": "Capture versions and provenance",
+  "galleryTitle": "Meet today. Revisit what came before.",
+  "galleryIntro": "Companion, Diary, Memories, Life and Settings each hold a different part of everyday life. Here is what the development application currently provides.",
+  "shots": [],
+  "shotAlt": [],
+  "galleryHint": "The three repeated images of the old companion page have been withdrawn. New captures of all five pages are pending, with build, artificial-scenario and date information.",
+  "screenshotSource": "Capture status and requirements",
   "galleryOriginal": "Open original image",
   "featuresTitle": "Give the everyday a place to stay.",
   "features": [
@@ -155,8 +132,8 @@
       "Give an idea a next step. Keep goals, attempts, works and feedback connected to later action."
     ],
     [
-      "Continuity",
-      "Keep the archive with you. Local life packages, complete backups, explicit dormancy and restoration."
+      "Settings",
+      "Choose appearance, language and how to converse. Preferences belong to the user; experiences remain in the life pack."
     ]
   ],
   "featuresNote": "These mechanisms exist in the original development project; application source has not yet moved into this repository. Long-term continuity and autonomous growth remain under observation.",
@@ -217,7 +194,7 @@
   "readmeSections": [
     "Why begin with a seed?",
     "How an experience might continue",
-    "Real development captures",
+    "App tour",
     "Five parts of everyday life",
     "Current stage and getting started",
     "Memory and data",
@@ -233,6 +210,42 @@
     "Letting go limits reference while keeping history. It does not erase all copies or retract data already sent elsewhere.",
     "You configure the model service, which may receive conversation, relevant memories or images and charge for usage."
   ],
-  "readmeContribute": "Once public, we welcome reproducible issues, clearer documentation and discussion of memory and lifecycle design. Use artificial examples in reports, without private life packages or keys. Code and original documentation use MIT; third-party character and model rights are not included."
+  "readmeContribute": "Start with one focused extension: a new entry point, a tool action with provenance, or a clearer memory interface. See CONTRIBUTING.md and docs/extensions.md for scope and examples. Use artificial examples in reports; omit private life packs and secrets. Code and original documentation use MIT. Third-party character and model rights are separate.",
+  "extensions": {
+    "nav": "Build with us",
+    "title": "Help this life find new possibilities.",
+    "intro": "A desktop pet, a group chat, a new voice, another body. SeedBank aims to give these experiments a shared foundation: interfaces and models may change while experiences keep their provenance. We welcome people building extensions, adapters and new places for an individual to live.",
+    "status": "Integration mechanisms exist in the original R&D repository. This repository is still a private design draft; application source and the full development setup have not migrated yet. The protocol is under development, not a stable SDK commitment.",
+    "columns": [
+      "Area",
+      "Existing integration point",
+      "What we can build together"
+    ],
+    "routes": [
+      [
+        "Chat platforms and tools",
+        "Local subprocess · JSON Lines bridge",
+        "A QQ / OneBot adapter exists; explore Discord, Telegram and tool panels."
+      ],
+      [
+        "Model providers",
+        "stub, OpenAI-compatible, Anthropic and Codex adapters",
+        "New services and local models; better timeouts, cost reporting and failure handling."
+      ],
+      [
+        "Interfaces and bodies",
+        "Qt Quick / QML, local Live2D models, carrier bridge",
+        "New desktop, mobile or VR interfaces that preserve records and explicit choices."
+      ],
+      [
+        "Plugin infrastructure",
+        "Unified installation, permission manifests and hot reload are not implemented",
+        "Design manifests, capabilities, lifecycle and compatibility together."
+      ]
+    ],
+    "protocol": "The existing bridge exchanges newline-delimited JSON over stdin/stdout, using seedbank/bridge@1. A client sends this line to request the handshake. This is not a public HTTP endpoint:",
+    "invite": "There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples.",
+    "guide": "Integration guide and roadmap (中文)",
+    "contribute": "Contributing"
+  }
 }
-
