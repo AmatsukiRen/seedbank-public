@@ -63,12 +63,6 @@ export function renderReadme(d, locales) {
   const e=escapeXml;
   const graphic=(id,index)=>`<a name="${id}"></a>\n<h2><img src="assets/readme/section-${id}-${d.lang}.svg" width="100%" alt="${e(s[index])}"></h2>`;
   const navLabels=[d.readmeStory,d.nav[2],d.extensions.nav,d.nav[3],d.readmeSections[6]];
-  const readmeOnly = d.lang==="zh-CN"
-    ? "当前这里是 GitHub 仓库首页。下方图形与内容可直接阅读；独立网页设计需要下载仓库后打开 site/index.html，点击 HTML 文件在 GitHub 上只会显示源码。"
-    : d.lang==="en"
-    ? "This is the GitHub repository front page. Its graphics and content are readable here. To view the separate website design, download the repository and open site/en.html; opening HTML on GitHub shows source code."
-    : "ここは GitHub のリポジトリのトップページです。以下の画像と文章はこのまま読めます。独立したウェブページは、リポジトリをダウンロードして site/ja.html を開いてください。GitHub 上の HTML はソース表示です。";
-  const previewSource = d.lang==="zh-CN"?"网页源文件":d.lang==="en"?"Website source":"ウェブページのソース";
   return `<!-- GitHub-native README layout: repository images and links, no page CSS or scripts. -->
 <p align="center">${locales.map(l=>`<a href="${l.readme}">${l.lang==="zh-CN"?"简体中文":l.lang==="en"?"English":"日本語"}</a>`).join(" &nbsp; / &nbsp; ")}</p>
 
@@ -84,10 +78,6 @@ export function renderReadme(d, locales) {
 <p align="center">
 ${["story","screens","extend","start","credits"].map((id,i)=>`<a href="#${id}"><img src="assets/readme/nav-${id}-${d.lang}.svg" width="150" alt="${e(navLabels[i])}"></a>`).join("\n")}
 </p>
-
-> ${d.draft}
-
-${readmeOnly}
 
 ## ${d.readmeHook}
 
@@ -128,8 +118,6 @@ ${d.galleryHint} [${d.screenshotSource}](docs/screenshots.md)
 
 ${d.extensions.intro}
 
-> ${d.extensions.status}
-
 | ${d.extensions.columns[0]} | ${d.extensions.columns[1]} | ${d.extensions.columns[2]} |
 | :--- | :--- | :--- |
 ${d.extensions.routes.map(r=>`| **${r[0]}** | ${r[1]} | ${r[2]} |`).join("\n")}
@@ -148,11 +136,7 @@ ${graphic("start",4)}
 
 ${d.startNotice}
 
-${d.readmeLocal}
-
 ${d.steps.map((f,i)=>`${i+1}. **${f[0]}** ${f[1]}`).join("\n")}
-
-${d.readmeStatus}
 
 ${d.faq[3][1]}
 
@@ -179,7 +163,7 @@ ${d.creditsNote}
 
 ${d.readmeContribute}
 
-[MIT](LICENSE) · [Design](docs/design.md) · [${previewSource}](site/${d.file}) · [0.0.1](docs/release-plan.md) · [Acceptance steps](docs/acceptance.md)
+[${d.licenseLink}: MIT](LICENSE) · [${d.extensions.contribute}](CONTRIBUTING.md) · [${d.releaseLink}](docs/release-plan.md)
 
 ---
 

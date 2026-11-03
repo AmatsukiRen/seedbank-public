@@ -1,43 +1,18 @@
 {
   "lang": "en",
-  "file": "en.html",
   "readme": "README.en.md",
   "storyFile": "story.en.md",
-  "title": "SeedBank · Give every hello a tomorrow.",
-  "description": "A local AI companion project about memory, experience and becoming. Keep the days you share, and let the past inform what comes next.",
-  "skip": "Skip to content",
-  "draft": "Private design draft · First release planned: 0.0.1 · No public download",
-  "nav": [
-    "The idea",
-    "A story",
-    "App tour",
-    "Before you begin"
-  ],
-  "language": "Choose a language",
   "heroTitle": [
     "Every hello",
     "deserves a tomorrow."
   ],
-  "heroText": "A place for an AI’s experiences to live. Keep the days you share, with room to become someone over time.",
-  "heroPrimary": "Open the story",
-  "heroSecondary": "Explore the five pages",
   "heroArt": "SeedBank mascot: a blue-haired maid with eyes closed and hands together",
-  "heroCaption": "Share a life. Leave room to become.",
-  "whyTitle": "If we meet again tomorrow, what stays from today?",
   "whyParas": [
     "A good night. Something left unfinished. A feeling you finally found the words for. Often, it is these small things that make a conversation hard to close. We want to give them somewhere to return to.",
     "SeedBank began with that wish: a personal archive an AI can carry forward. Encounters have dates. Memories have sources. Misunderstandings can be corrected, and choices can change. The past gets a chance to inform the next conversation.",
     "We call this archive a life package. It lives on your computer and holds birth settings, journals, memories, works and choices. You can back it up, move it, or return to it after a pause."
   ],
-  "birthTitle": "On the first day, you don’t need all the answers.",
   "birthText": "An open beginning assigns no species, gender, body or invented childhood. The maid is our project mascot. Each individual’s identity is left to its settings, experiences and explicit choices. We want to take the life that follows a first meeting seriously.",
-  "storyTitle": "Suppose it began on a rainy day.",
-  "storyIntro": "This story was written to explain the project’s ideas. Cheng and every conversation below are fictional examples, not private user records or measured model outputs.",
-  "chapterLabel": "Story chapters",
-  "storyLink": "Read the complete story",
-  "storyAll": "Reading mode",
-  "storyReadAll": "Show every chapter",
-  "storyReadOne": "Read chapter by chapter",
   "chapters": [
     {
       "label": "The first meeting",
@@ -106,14 +81,12 @@
       "meaning": "No fixed lifespan. Explicit dormancy preserves the complete archive and stops automatic activity, with explicit restoration available."
     }
   ],
-  "galleryTitle": "Meet today. Revisit what came before.",
-  "galleryIntro": "Companion, Diary, Memories, Life and Settings each hold a different part of everyday life. Here is what the development application currently provides.",
+  "storyTitle": "Suppose it began on a rainy day.",
+  "storyIntro": "This story was written to explain the project’s ideas. Cheng and every conversation below are fictional examples, not private user records or measured model outputs.",
   "shots": [],
   "shotAlt": [],
-  "galleryHint": "The three repeated images of the old companion page have been withdrawn. New captures of all five pages are pending, with build, artificial-scenario and date information.",
+  "galleryIntro": "Companion, Diary, Memories, Life and Settings each hold a different part of everyday life. Here is what the development application currently provides.",
   "screenshotSource": "Capture status and requirements",
-  "galleryOriginal": "Open original image",
-  "featuresTitle": "Give the everyday a place to stay.",
   "features": [
     [
       "Companionship",
@@ -136,8 +109,7 @@
       "Choose appearance, language and how to converse. Preferences belong to the user; experiences remain in the life pack."
     ]
   ],
-  "featuresNote": "These mechanisms exist in the original development project; application source has not yet moved into this repository. Long-term continuity and autonomous growth remain under observation.",
-  "startTitle": "A little preparation for a first meeting.",
+  "featuresNote": "Revisit and correct memories, and let past experiences inform later conversations. Continued growth takes time and observation.",
   "steps": [
     [
       "A place to live",
@@ -152,8 +124,6 @@
       "Appearance can be chosen separately. Obtain Live2D models from their authors and retain the required credits."
     ]
   ],
-  "startNotice": "The first public version is planned as 0.0.1 Alpha. This repository is currently private and contains design and documentation only. No public installer is available.",
-  "faqTitle": "A few things to know before you meet.",
   "faq": [
     [
       "Will it remember everything forever?",
@@ -172,7 +142,6 @@
       "We are exploring how experiences can persist, how choices can have consequences and how an AI might develop a life of its own. Consciousness or a complete personhood has not been established. We cannot promise every individual will grow like the one in this story."
     ]
   ],
-  "creditsTitle": "The people behind the face you see.",
   "creditsIntro": "Thank you to the creators. Character design, Live2D production and SeedBank’s software each have their own authors.",
   "creditRoles": [
     "Character design",
@@ -185,9 +154,7 @@
   "assetsLink": "Full asset sources and usage notes",
   "creditsNote": "This repository does not redistribute the Live2D model files. The mascot portrait is an AI-generated derivative based on character references supplied by the maintainer, not an original character claim. Character and model rights are separate from the software’s MIT license; public branding usage still needs confirmation.",
   "footer": "Keep today. Continue tomorrow.",
-  "top": "Back to top",
   "readmeStory": "Read the story",
-  "readmePreview": "Explore the page draft",
   "readmeIntro": "SeedBank is a local AI companion project for preserving experiences, memories and choices. We want a first meeting to have a future, and an individual to gradually have a past of its own.",
   "readmeHook": "When you close the window, where does today go?",
   "readmeBody": "Perhaps it was a conversation about rain, a bookshop remembered on the wrong street, or a note revised three times. We want to preserve how meetings, misunderstandings, corrections and choices unfolded, as well as the final answer. At the next meeting, those experiences can offer a place to continue.",
@@ -196,14 +163,12 @@
     "How an experience might continue",
     "App tour",
     "Five parts of everyday life",
-    "Current stage and getting started",
+    "Getting started",
     "Memory and data",
     "Creators and asset sources",
     "Contributing and licensing"
   ],
-  "readmeStoryText": "Our page tells the story of Cheng: an individual who begins without a name, comes to remember the North Street bookshop you described, makes an awkward rainy-day note, and leaves something of its own unfinished. Six chapters follow meeting, sharing, correcting, making, choosing and returning. This is fiction written to explain the idea, not a model acceptance record.",
-  "readmeLocal": "Download this repository and open site/en.html directly. No dependencies are needed. Languages are separate static pages, readable offline and without JavaScript. GitHub shows HTML source; there is no deployed website yet.",
-  "readmeStatus": "Birth, journals, memory revisions, goals and actions, work feedback, backups and dormancy are implemented in the original development project. The application source has not been migrated here. Version 0.0.1 is unreleased and has no acceptance record tied to a release candidate. Historical captures and checks cannot stand in for release acceptance.",
+  "readmeStoryText": "We wrote a story about an individual named Cheng: a name left undecided, a remembered bookstore on North Street, an awkward rainy-day note, and something of their own to continue. Six chapters follow meeting, shared experiences, corrections, work and feedback, personal choices, and parting and reunion. This is an illustrative story.",
   "readmeData": [
     "Life packages stay on your computer and support complete backup and restoration.",
     "Memories, interpretations and corrections retain their sources. Fiction, dreams and someone else’s account do not become personal experiences.",
@@ -215,7 +180,6 @@
     "nav": "Build with us",
     "title": "Help this life find new possibilities.",
     "intro": "A desktop pet, a group chat, a new voice, another body. SeedBank aims to give these experiments a shared foundation: interfaces and models may change while experiences keep their provenance. We welcome people building extensions, adapters and new places for an individual to live.",
-    "status": "Integration mechanisms exist in the original R&D repository. This repository is still a private design draft; application source and the full development setup have not migrated yet. The protocol is under development, not a stable SDK commitment.",
     "columns": [
       "Area",
       "Existing integration point",
@@ -247,5 +211,15 @@
     "invite": "There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples.",
     "guide": "Integration guide and roadmap (中文)",
     "contribute": "Contributing"
-  }
+  },
+  "nav": [
+    "The idea",
+    "A story",
+    "App tour",
+    "Getting started"
+  ],
+  "galleryHint": "New captures of all five pages will be added after capture and review.",
+  "startNotice": "The first release, 0.0.1, is in preparation. Application source, downloads and setup instructions will be provided together at release.",
+  "releaseLink": "Release progress and limitations",
+  "licenseLink": "License"
 }

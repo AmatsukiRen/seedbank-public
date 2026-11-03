@@ -2,7 +2,7 @@
 
 我们想给 AI 一段能够延续的经历。做好这件事需要许多人的专长：能读懂过去的记忆系统、可靠的模型接入、自然的界面、新的声音与身体，还有愿意认真追问“为什么”的人。
 
-**目前仓库保持私有，应用源码尚未迁入，0.0.1 未发布。** 现阶段可以讨论设计、改进文档和准备适配方案；获得仓库访问权限后可以提交 Issue / PR。未来公开时也会保留这些入口。
+欢迎通过 Issue 讨论具体问题，用 PR 提交独立改进。当前核心迁入与首发进度统一见[发行计划](docs/release-plan.md)；接入指南与参考客户端可用于提前准备适配方案。
 
 ## 找一件你愿意开始的小事
 
@@ -27,16 +27,16 @@
 
 ## 页面与素材维护
 
-- 三语文案源：`site/content/zh-CN.json`、`en.json`、`ja.json`。
-- 静态文档生成：`node tools/render-pages.mjs`，输出网页、README、章节图形与故事；它是文件生成工具，不是验收工具。
-- GitHub 不展示网页 CSS，README 需使用仓库图片与 Markdown。独立网页从本地打开 `site/index.html`。
+- 三语文案源：`docs/content/zh-CN.json`、`en.json`、`ja.json`。
+- 静态文档生成：`node tools/render-readme.mjs`，输出 README、章节图形与故事；它是文件生成工具，不是验收工具。
+- 介绍集中在三语 README 与 docs；不维护独立 HTML 网站。
 - 新截图按[来源登记与采集要求](docs/screenshots.md)办理，一页对应一个场景，注明实际程序版本，不用网页模拟图冒充实机。
 - 代码及自撰文档使用 MIT。角色、品牌衍生图与 Live2D 权利分别见[素材说明](docs/assets.md)。
 
 ## English
 
-We welcome provider and chat adapters, new interfaces, memory research, accessibility, translations and character work. Start with one concrete scenario. Describe the integration layer, inputs and outputs, data access, networking, failures and dormancy. Include artificial examples and clearly separate executed checks from proposed steps. This private repository currently contains design and documentation; application source and a complete development setup are pending. See the [integration guide](docs/extensions.md) and [offline reference client](examples/bridge_client.py). No stable plugin SDK or plugin manager is available yet.
+We welcome provider and chat adapters, new interfaces, memory research, accessibility, translations and character work. Start with one concrete scenario. Describe the integration layer, inputs and outputs, data access, networking, failures and dormancy. Include artificial examples and clearly separate executed checks from proposed steps. Application migration and release progress are tracked in [the release plan](docs/release-plan.md). See the [integration guide](docs/extensions.md) and [offline reference client](examples/bridge_client.py). No stable plugin SDK or plugin manager is available yet.
 
 ## 日本語
 
-モデルやチャットのアダプター、新しい画面、記憶の研究、アクセシビリティ、翻訳、キャラクター制作を歓迎します。具体的な利用場面を一つ決め、接続する層、入出力、データアクセス、通信、失敗時と休眠時の扱いを説明してください。架空の例を使い、実施済みと未実施の確認を明確に分けます。本庫はまだ非公開の設計・文書段階で、アプリ本体と開発環境は移行待ちです。[接続ガイド](docs/extensions.md)と[オフラインの参考実装](examples/bridge_client.py)をご覧ください。安定したプラグイン SDK や管理機能はまだありません。
+モデルやチャットのアダプター、新しい画面、記憶の研究、アクセシビリティ、翻訳、キャラクター制作を歓迎します。具体的な利用場面を一つ決め、接続する層、入出力、データアクセス、通信、失敗時と休眠時の扱いを説明してください。架空の例を使い、実施済みと未実施の確認を明確に分けます。アプリ移行と公開の進捗は[リリース計画](docs/release-plan.md)にまとめています。[接続ガイド](docs/extensions.md)と[オフラインの参考実装](examples/bridge_client.py)をご覧ください。安定したプラグイン SDK や管理機能はまだありません。

@@ -92,4 +92,4 @@ The story stops as you open the window again. The bookshop is still the one on N
 
 We are exploring how experiences can persist, how choices can have consequences and how an AI might develop a life of its own. Consciousness or a complete personhood has not been established. We cannot promise every individual will grow like the one in this story.
 
-[SeedBank](../README.en.md) · [Explore the page draft](../site/en.html)
+[SeedBank](../README.en.md)

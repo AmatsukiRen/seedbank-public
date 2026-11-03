@@ -4,7 +4,7 @@
 
 - 本库是未来对外发行的产品仓库，目前必须保持 PRIVATE。
 - 用户已授权创建这个新私有仓库，并将对外设计草稿提交到这里；首个公开版本为 0.0.1，计划标签 v0.0.1。
-- 目前仅迁入设计与文档；应用实现还在原研发库。不能把网页示例当成真实模型运行结果。
+- 目前仅迁入设计与文档；应用实现还在原研发库。不能把创作示例当成真实模型运行结果。
 - 本次授权不包含切换 PUBLIC、部署 Pages、创建发行标签或发布 Release。准备完成后再按用户的明确发布指令执行。
 
 ## 测试
@@ -16,7 +16,7 @@
 ## 设计与数据
 
 - 可见品牌写作 SeedBank。沿用已经认可的女仆头像、白底与蓝色设计方向。
-- 页面、README 和完整故事维护简体中文、英文、日文三版；文案源为 site/content/*.json。维护者生成工具为 tools/render-pages.mjs；不因有生成工具就自动运行测试或浏览器验收。
+- 用户最新要求以三语 README 和 docs 为唯一介绍入口，移除独立 HTML 网站。文案源为 docs/content/*.json，生成工具为 tools/render-readme.mjs。不在首页反复强调私有设计稿，实际迁入和首发状态集中在 docs/release-plan.md。此要求不授权立即公开、发 Release 或自行测试。
 - 人设署名 ZipZipPipe、上善无形；Live2D 原画及拆分为神宫凉子、建模为霓虹猫_NeonNeko。截图日期与版本不得改标为当前候选。详细来源见 docs/assets.md 和 docs/screenshots.md。
 - 旧三张同页截图已从三语首页撤下；新版五页图待用户运行原研发交付的 Capture-SeedBank-Pages.cmd 并查看。不要重新展示旧图或把已准备的入口说成已采集完成。
 - 开发者内容见 CONTRIBUTING.md、docs/extensions.md、examples/bridge_client.py。区分原库已有本地 JSON Lines 接口与尚未实现的插件管理；本库没有迁入应用核心，也未提供稳定插件 SDK。参考客户端未运行。

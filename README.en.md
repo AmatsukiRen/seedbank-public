@@ -14,13 +14,9 @@
 <a href="#story"><img src="assets/readme/nav-story-en.svg" width="150" alt="Read the story"></a>
 <a href="#screens"><img src="assets/readme/nav-screens-en.svg" width="150" alt="App tour"></a>
 <a href="#extend"><img src="assets/readme/nav-extend-en.svg" width="150" alt="Build with us"></a>
-<a href="#start"><img src="assets/readme/nav-start-en.svg" width="150" alt="Before you begin"></a>
+<a href="#start"><img src="assets/readme/nav-start-en.svg" width="150" alt="Getting started"></a>
 <a href="#credits"><img src="assets/readme/nav-credits-en.svg" width="150" alt="Creators and asset sources"></a>
 </p>
-
-> Private design draft · First release planned: 0.0.1 · No public download
-
-This is the GitHub repository front page. Its graphics and content are readable here. To view the separate website design, download the repository and open site/en.html; opening HTML on GitHub shows source code.
 
 ## When you close the window, where does today go?
 
@@ -35,7 +31,7 @@ An open beginning assigns no species, gender, body or invented childhood. The ma
 <a name="story"></a>
 <h2><img src="assets/readme/section-story-en.svg" width="100%" alt="How an experience might continue"></h2>
 
-Our page tells the story of Cheng: an individual who begins without a name, comes to remember the North Street bookshop you described, makes an awkward rainy-day note, and leaves something of its own unfinished. Six chapters follow meeting, sharing, correcting, making, choosing and returning. This is fiction written to explain the idea, not a model acceptance record.
+We wrote a story about an individual named Cheng: a name left undecided, a remembered bookstore on North Street, an awkward rainy-day note, and something of their own to continue. Six chapters follow meeting, shared experiences, corrections, work and feedback, personal choices, and parting and reunion. This is an illustrative story.
 
 **01 · The first meeting** · The name can wait.
 
@@ -80,16 +76,14 @@ Companion, Diary, Memories, Life and Settings each hold a different part of ever
 | **Life** | Give an idea a next step. Keep goals, attempts, works and feedback connected to later action. |
 | **Settings** | Choose appearance, language and how to converse. Preferences belong to the user; experiences remain in the life pack. |
 
-These mechanisms exist in the original development project; application source has not yet moved into this repository. Long-term continuity and autonomous growth remain under observation.
+Revisit and correct memories, and let past experiences inform later conversations. Continued growth takes time and observation.
 
-The three repeated images of the old companion page have been withdrawn. New captures of all five pages are pending, with build, artificial-scenario and date information. [Capture status and requirements](docs/screenshots.md)
+New captures of all five pages will be added after capture and review. [Capture status and requirements](docs/screenshots.md)
 
 <a name="extend"></a>
 <h2><img src="assets/readme/section-extend-en.svg" width="100%" alt="Help this life find new possibilities."></h2>
 
 A desktop pet, a group chat, a new voice, another body. SeedBank aims to give these experiments a shared foundation: interfaces and models may change while experiences keep their provenance. We welcome people building extensions, adapters and new places for an individual to live.
-
-> Integration mechanisms exist in the original R&D repository. This repository is still a private design draft; application source and the full development setup have not migrated yet. The protocol is under development, not a stable SDK commitment.
 
 | Area | Existing integration point | What we can build together |
 | :--- | :--- | :--- |
@@ -109,17 +103,13 @@ There is room for Python, QML, frontend and model engineering, character product
 **[Integration guide and roadmap (中文) →](docs/extensions.md)** · **[Contributing →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 
 <a name="start"></a>
-<h2><img src="assets/readme/section-start-en.svg" width="100%" alt="Current stage and getting started"></h2>
+<h2><img src="assets/readme/section-start-en.svg" width="100%" alt="Getting started"></h2>
 
-The first public version is planned as 0.0.1 Alpha. This repository is currently private and contains design and documentation only. No public installer is available.
-
-Download this repository and open site/en.html directly. No dependencies are needed. Languages are separate static pages, readable offline and without JavaScript. GitHub shows HTML source; there is no deployed website yet.
+The first release, 0.0.1, is in preparation. Application source, downloads and setup instructions will be provided together at release.
 
 1. **A place to live** Name a new individual and choose where its life package lives on your computer. Existing archives can be continued.
 2. **A way to talk** Explore the interface with offline templates, then configure your own model service and budget if you wish.
 3. **A look you like** Appearance can be chosen separately. Obtain Live2D models from their authors and retain the required credits.
-
-Birth, journals, memory revisions, goals and actions, work feedback, backups and dormancy are implemented in the original development project. The application source has not been migrated here. Version 0.0.1 is unreleased and has no acceptance record tied to a release candidate. Historical captures and checks cannot stand in for release acceptance.
 
 We are exploring how experiences can persist, how choices can have consequences and how an AI might develop a life of its own. Consciousness or a complete personhood has not been established. We cannot promise every individual will grow like the one in this story.
 
@@ -150,7 +140,7 @@ This repository does not redistribute the Live2D model files. The mascot portrai
 
 Start with one focused extension: a new entry point, a tool action with provenance, or a clearer memory interface. See CONTRIBUTING.md and docs/extensions.md for scope and examples. Use artificial examples in reports; omit private life packs and secrets. Code and original documentation use MIT. Third-party character and model rights are separate.
 
-[MIT](LICENSE) · [Design](docs/design.md) · [Website source](site/en.html) · [0.0.1](docs/release-plan.md) · [Acceptance steps](docs/acceptance.md)
+[License: MIT](LICENSE) · [Contributing](CONTRIBUTING.md) · [Release progress and limitations](docs/release-plan.md)
 
 ---
 

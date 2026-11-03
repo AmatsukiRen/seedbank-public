@@ -14,13 +14,9 @@
 <a href="#story"><img src="assets/readme/nav-story-zh-CN.svg" width="150" alt="读这段故事"></a>
 <a href="#screens"><img src="assets/readme/nav-screens-zh-CN.svg" width="150" alt="界面导览"></a>
 <a href="#extend"><img src="assets/readme/nav-extend-zh-CN.svg" width="150" alt="开发与扩展"></a>
-<a href="#start"><img src="assets/readme/nav-start-zh-CN.svg" width="150" alt="开始之前"></a>
+<a href="#start"><img src="assets/readme/nav-start-zh-CN.svg" width="150" alt="开始使用"></a>
 <a href="#credits"><img src="assets/readme/nav-credits-zh-CN.svg" width="150" alt="创作者与素材来源"></a>
 </p>
-
-> 私有设计稿 · 首发计划 0.0.1 · 暂无公开下载
-
-当前这里是 GitHub 仓库首页。下方图形与内容可直接阅读；独立网页设计需要下载仓库后打开 site/index.html，点击 HTML 文件在 GitHub 上只会显示源码。
 
 ## 你关掉窗口以后，今天会留在哪里？
 
@@ -35,7 +31,7 @@
 <a name="story"></a>
 <h2><img src="assets/readme/section-story-zh-CN.svg" width="100%" alt="一段经历，可以怎样继续"></h2>
 
-在页面里，我们写了一个名叫「澄」的个体：起初连名字都没想好，后来记住你说过的北街书店，写过一张笨拙的雨天便签，也留下过自己想继续的事。六章讲述初次见面、共同经历、记错以后的修正、作品与反馈、自己的选择，以及暂别与重逢。它是创作示例，不是模型验收记录。
+我们写了一个名叫「澄」的个体：起初连名字都没想好，后来记住你说过的北街书店，写过一张笨拙的雨天便签，也留下过自己想继续的事。六章讲述初次见面、共同经历、记错以后的修正、作品与反馈、自己的选择，以及暂别与重逢。它是创作示例。
 
 **01 · 初次见面** · 名字先空着，也没关系。
 
@@ -80,16 +76,14 @@
 | **生活** | 让想法有下文。保存目标、尝试、作品与反馈，接上下一次行动。 |
 | **设置** | 选择外观、语言和对话方式。配置属于使用者，个体的经历保存在生命包里。 |
 
-以上为原研发版本已有机制；应用源码尚待迁入本库。长期连续性与自主成长仍需观察。
+记忆可以回看与更正，经历能参与后续对话。持续成长仍需要时间与观察。
 
-旧版陪伴页的三张重复展示已撤下。新版五页实机图待采集，将注明程序版本、人工场景与拍摄日期。 [截图状态与采集约定](docs/screenshots.md)
+新版五页实机图将在采集完成后补充。 [截图状态与采集约定](docs/screenshots.md)
 
 <a name="extend"></a>
 <h2><img src="assets/readme/section-extend-zh-CN.svg" width="100%" alt="让更多人，为这一生添一点可能。"></h2>
 
 也许你想让它住进桌宠、来到群聊、用新的声音说话，或者拥有另一种身体。SeedBank 想给这些尝试一个共同的起点：界面和模型可以更换，经历仍有自己的来处。欢迎做插件、写适配器、设计载体的人一起建设。
-
-> 原研发库已有接入机制；本库目前仍是私有设计稿，应用源码与完整开发环境尚待迁入。现有协议处于研发阶段，不承诺稳定 SDK。
 
 | 方向 | 已有接入点 | 可以一起做什么 |
 | :--- | :--- | :--- |
@@ -109,17 +103,13 @@ Python、QML、前端、模型工程、角色制作、无障碍与翻译，都�
 **[接入协议与扩展路线 →](docs/extensions.md)** · **[如何参与 →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 
 <a name="start"></a>
-<h2><img src="assets/readme/section-start-zh-CN.svg" width="100%" alt="当前阶段与开始方式"></h2>
+<h2><img src="assets/readme/section-start-zh-CN.svg" width="100%" alt="开始使用"></h2>
 
-首个公开版本计划为 0.0.1 Alpha。目前仓库保持私有，仅包含设计与文档，没有公开安装包。
-
-下载本库后，双击 site/index.html 查看介绍页，无需安装依赖。语言切换为独立静态页面，离线及关闭 JavaScript 时仍可阅读。GitHub 展示 HTML 源码，当前没有在线站点。
+首发版本 0.0.1 正在准备。应用源码、安装包与使用说明将在发布时集中提供。
 
 1. **一处住处** 为新的个体取名，选择本机生命包的保存位置。已有档案可以继续使用。
 2. **一种对话方式** 先用离线模板熟悉操作，再按需要配置自己的模型服务与预算。
 3. **一个喜欢的外观** 外观可以另行选择。Live2D 模型请从作者渠道取得，并保留素材署名。
-
-出生、日记、记忆修订、目标与行动、作品反馈、备份与休眠恢复等实现仍在原研发库。本库尚未迁入应用源码，0.0.1 未发布，也没有绑定该候选的通过记录。历史截图和检查不能替代首发验收。
 
 我们在探索怎样让经历延续、让选择有后果、让 AI 逐渐形成自己的生活。当前没有证据证明意识或完整人格，也不承诺每个个体都会像这段故事一样成长。
 
@@ -150,7 +140,7 @@ Python、QML、前端、模型工程、角色制作、无障碍与翻译，都�
 
 欢迎用一个小而完整的扩展开始：一种新的入口、一项可追溯的工具能力，或者更好读懂的记忆界面。具体方向和提交方式见 CONTRIBUTING.md；接入范围与示例见 docs/extensions.md。反馈使用人工样例，不附私人生命包或密钥。代码与自撰文档使用 MIT；第三方角色和模型权利另行记录。
 
-[MIT](LICENSE) · [Design](docs/design.md) · [网页源文件](site/index.html) · [0.0.1](docs/release-plan.md) · [Acceptance steps](docs/acceptance.md)
+[许可: MIT](LICENSE) · [如何参与](CONTRIBUTING.md) · [首发进度与已知限制](docs/release-plan.md)
 
 ---
 
