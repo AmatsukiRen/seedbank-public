@@ -1,5 +1,6 @@
 """Assemble dependency license texts for a private candidate; no app imports."""
 from importlib import metadata
+import ast
 import json
 from pathlib import Path
 import shutil
@@ -15,6 +16,18 @@ def assemble(destination: Path):
     destination.mkdir(parents=True, exist_ok=True)
     queue = ['PyInstaller', 'PySide6', 'shiboken6', 'live2d-py', 'PyOpenGL',
              'Pillow', 'numpy', 'discord.py', 'lark-oapi', 'dingtalk-stream']
+    # Some optional imports (voice/crypto, for example) are collected by the
+    # freezer even though they are not mandatory Requires-Dist dependencies.
+    # Read its assembly manifest, never import those packages to discover them.
+    toc = ROOT / 'build/seedbank/Analysis-00.toc'
+    if toc.is_file():
+        packages = metadata.packages_distributions()
+        for node in ast.walk(ast.parse(toc.read_text(encoding='utf-8'))):
+            if isinstance(node, ast.Constant) and isinstance(node.value, str):
+                value = node.value.replace('\\', '/')
+                if '/site-packages/' in value:
+                    package = value.split('/site-packages/', 1)[1].split('/', 1)[0].split('.')[0]
+                    queue.extend(packages.get(package, ()))
     seen, inventory = set(), []
     while queue:
         name = canonicalize_name(queue.pop())
@@ -35,6 +48,12 @@ def assemble(destination: Path):
             target = destination / name / Path(*safe_parts)
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, target)
+            copied.append(target.relative_to(destination).as_posix())
+        supplemental = ROOT / 'packaging/licenses' / f'{dist.metadata["Name"]}-{dist.version}.txt'
+        if supplemental.is_file():
+            target = destination / name / supplemental.name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(supplemental, target)
             copied.append(target.relative_to(destination).as_posix())
         inventory.append({'name': dist.metadata['Name'], 'version': dist.version,
                           'license_expression': dist.metadata.get('License-Expression', ''),
