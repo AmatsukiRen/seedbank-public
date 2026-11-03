@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.1 — Unreleased
+## 0.0.1 — 2026-11-04 · Preview
 
 Initial SeedBank candidate: local life archives, diary and memory views, explicit dormancy/recovery, model-service configuration, local Live2D presentation, chat adapters and manually invoked local text plugins.
 
@@ -15,12 +15,13 @@ Initial SeedBank candidate: local life archives, diary and memory views, explici
 
 ### Documentation and maintenance
 
-- Separate application source publication from Windows runtime distribution, retaining Live2D. Produce commit-bound runtime receipts and matching Source ZIPs, and provide a user-run entry for packaging, notice and isolated UI checks. Remove the unused Qt PDF image reader from the packaging recipe; acceptance remains pending.
-- Follow-up licensing preparation: exclude unused QML debugging/Quick 3D dependencies in packaging source and supplement Qt LGPL/GPL texts. Independent candidate production is recorded per executable; new acceptance remains pending. Track corresponding source, third-party notices and author/SDK inquiries separately.
+- Publish the user-tested runtime from source commit 3e13707 without recompiling it; record updated release documents under their own commit. User-run packaging, archive/notice, isolated UI/plugin and two-cycle native Live2D checks passed on 2026-11-04.
+- Remove unused Qt Virtual Keyboard, QML debugging/Quick 3D and PDF dependencies. Include LGPL/GPL texts, upstream source archives and collected source notices; retain untested rebuild instructions and independent SDK licensing information.
+- Add three-language download instructions, character and Live2D credits, the creator's CC BY-NC-SA statement and model acquisition links. Demo model files are not bundled. Publication follows the maintainer's decision; no third-party approval is claimed.
 - Add isolated QQ security regressions, a reproducible Windows dependency snapshot, manual-only CI, issue/PR templates and security reporting guidance.
 - Restore a runnable five-page capture entry using artificial offline data; screenshots record the actual runtime and scenario.
 - Repair protocol links left behind by the source migration and provide current implementation navigation.
 
 ### Scope
 
-Test evidence is recorded in [acceptance](docs/acceptance.md). Offline tests do not prove live-service compatibility or long-term continuity. SDK publication conditions and character/branding permissions remain separate release requirements; see [licensing review](docs/licensing-review.md).
+Test evidence is recorded in [acceptance](docs/acceptance.md). Offline tests do not prove live-service compatibility or long-term continuity. Release assembly updates documents and notices around the same executable; it does not rerun the application. SDK licensing and artwork rights remain independent of the software's MIT license; see [licensing review](docs/licensing-review.md).

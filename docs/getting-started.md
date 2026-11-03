@@ -4,7 +4,7 @@
 
 ## Windows 程序包
 
-首个版本为 **0.0.1**。当前程序包仅供本私有仓库的协作者验收，尚未公开发布。
+首个版本为 **0.0.1 预览版**，从 [GitHub Releases](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1) 下载 Windows x64 程序包。
 解压整个 `SeedBank-0.0.1-windows-x64.zip`，双击其中的 `seedbank.exe`。
 不要只复制旧研发交付中的固定启动器；本包的 exe 是完整运行程序。
 当前包未代码签名。系统若提出安全提示，应先核对下载来源与随附 SHA256，不能据此宣称已通过安全认证。
@@ -16,6 +16,7 @@
 5. 模型生成的回复可以携带表情与招手提示；现阶段没有语音合成和音频口型同步。
 
 没有模型文件时显示选择提示，对话和记录仍可使用。用户的角色外观不修改出生身份或记忆。
+演示中的 DeepSeek-chan 公皮只用于维护者演示，仓库和下载包都不附带该资源。需要该形象时请自行向作者获取：[发布视频](https://www.bilibili.com/video/BV1KmxY66EZ3/) · [模型获取页](https://gf.bilibili.com/item/detail/1109618072)，并遵守模型的使用说明与署名要求。
 程序会读取当前 Windows 用户已有的 SeedBank 配置；维护者验收请使用独立 Windows 测试账号，避免自动打开既有个体。
 
 ## 选择哪一种模型

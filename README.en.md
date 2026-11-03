@@ -127,7 +127,7 @@ There is room for Python, QML, frontend and model engineering, character product
 <a name="start"></a>
 <h2><img src="assets/readme/section-start-en.svg" width="100%" alt="Getting started"></h2>
 
-Application source, desktop UI and build scripts are now in this repository for version 0.0.1. Start with the [setup guide (中文)](docs/getting-started.md). Collaborators can review the private candidate; public downloads will follow publication.
+[Download SeedBank 0.0.1 for Windows (preview)](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1), extract the complete ZIP and open seedbank.exe. See the [setup guide (中文)](docs/getting-started.md) and use your own model-service key. The Live2D model shown in demonstrations is not bundled; obtain it from its creators using the links below.
 
 1. **A place to live** Name a new individual and choose where its life package lives on your computer. Existing archives can be continued.
 2. **A way to talk** Explore the interface with offline templates, then configure your own model service and budget if you wish.

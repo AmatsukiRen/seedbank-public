@@ -1,6 +1,6 @@
-# Qt 发行材料与未完成项
+# Qt 源码、许可与替换说明
 
-2026-11-04 更新。用户已完成新候选的打包与隔离程序检查，但 **Qt 发行材料尚未全部完成**。本页不是商业许可证，也不改变应用自身 MIT 许可。
+2026-11-04 更新。0.0.1 保留用户已验收的 exe，补充官方库源码附件、源包许可通知及替换说明。本页不是商业许可证或法律认证，也不改变应用自身 MIT 许可。修改库后的重建未实测，下面明确区分交付资料与已完成的程序检查。
 
 ## 旧包问题与新候选处理
 
@@ -14,7 +14,16 @@
 
 ## 源码取得与替换路径
 
-Qt 官方列出了 [Qt 6.12.0 源码 ZIP](https://download.qt.io/official_releases/qt/6.12/6.12.0/single/qt-everywhere-src-6.12.0.zip.mirrorlist)及 [PySide/shiboken 6.12.0 源码](https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.12.0-src/pyside-setup-everywhere-src-6.12.0.tar.xz.mirrorlist)。上游公布的版本、大小和摘要记录于 [sources.json](../packaging/licenses/qt/sources.json)。本轮只核对下载元数据，没有下载并确认全部源码与 wheel 二进制逐项对应。
+在 [0.0.1 Releases](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1) 与 Windows 包同页提供以下完整、未修改的上游源包，无需注册或付费：
+
+| 对应库 | Release 源码附件 | 官方原始位置 |
+| --- | --- | --- |
+| Qt 6.12.0 | [qt-everywhere-src-6.12.0.zip](https://github.com/AmatsukiRen/seedbank-public/releases/download/v0.0.1/qt-everywhere-src-6.12.0.zip) | [Qt 官方下载与摘要](https://download.qt.io/official_releases/qt/6.12/6.12.0/single/qt-everywhere-src-6.12.0.zip.mirrorlist) |
+| PySide / shiboken 6.12.0 | [pyside-setup-everywhere-src-6.12.0.tar.xz](https://github.com/AmatsukiRen/seedbank-public/releases/download/v0.0.1/pyside-setup-everywhere-src-6.12.0.tar.xz) | [Qt for Python 官方下载与摘要](https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.12.0-src/pyside-setup-everywhere-src-6.12.0.tar.xz.mirrorlist) |
+
+版本、大小和上游摘要见 [sources.json](../packaging/licenses/qt/sources.json)，实际组包附件及摘要见 Release 中的 `release-provenance.json` 和 `SHA256SUMS.txt`。软件仅重新打包锁定版本的上游 PyPI Windows x64 abi3 wheel，SeedBank 没有修改 Qt/PySide 库源码。完整 Qt 源包包括未用于本应用的模块；它们保留各自许可，不能按应用 MIT 一概处理。
+
+Windows ZIP 的 `third-party/qt/upstream-notices/` 保留两个源包中的许可、版权、Qt attribution 及相关说明文件与原路径。该目录按源码宽范围收集，包含未编入程序的模块，避免把未经确认的裁剪清单冒充准确 SBOM。它不代表其中所有组件都被加载；原始许可证仍在完整源包中。
 
 LGPL 库适用的修改及为调试这些修改而进行逆向工程的权利应保留。SeedBank 不要求维护者签名密钥才能运行重建程序。单文件 exe 不能用“把 DLL 放在旁边”作为已验证的替换说明；应从应用源码在独立构建环境中使用接口兼容的修改版 PySide/Qt 重建：
 
@@ -23,18 +32,18 @@ LGPL 库适用的修改及为调试这些修改而进行逆向工程的权利应
 3. 将 `PYTHON` 指向该环境，用 `packaging/build_windows.ps1 -NoInstall -SkipSmoke` 重建，避免安装步骤把修改库换回发行 wheel。
 4. 在人工数据中运行所得 exe，验证实际装载了修改库，而非原 wheel 或系统副本；保存版本、来源、修改说明和结果。
 
-这是待执行的重建路线，**尚未通过修改库重建实验**。Qt 自身源码的编译参数、第三方依赖和所需安装信息仍需按实际发行 wheel 补齐；不能用应用自身源码包代替全部 LGPL 对应源码。
+这是供开发者执行的重建路线，**尚未通过修改库重建实验**。完整源包包含上游构建脚本和说明；安装 Windows x64 C++ 工具链、CMake、Ninja 及匹配 Python 后，按源包指引构建 Qt 和 PySide。可参阅 [Qt for Python 构建说明](https://doc.qt.io/qtforpython-6/building_from_source/index.html)。上游 wheel 的每项编译开关和逐字节可复现性未独立确认；源码版本匹配不等于编译产物逐字节一致。
 
-## 公开前剩余交付
+## 交付范围与未实测项
 
 | 项目 | 当前状态 |
 | --- | --- |
 | 未使用 GPLv3/commercial 调试依赖 | 用户的新包归档检查通过，隔离原生渲染两轮通过 |
 | LGPL/GPL 正文与显著通知 | 原文已入源码及组包流程；用户 ZIP 通知检查通过 |
-| Qt/PySide 对应源码、构建修改和安装信息 | 官方源包位置已记录；尚未整理完整对应源码附件和等同可取得方式 |
-| Qt 内嵌第三方组件声明 | 尚未按 wheel 构建配置/SBOM 完整匹配，不能以 Python 包元数据代替 |
+| Qt/PySide 源码 | 版本对应的完整官方源包作为独立 Release 附件提供；本项目无库源码补丁 |
+| Qt 第三方组件声明 | 从完整源包保留许可与 attribution 文件；包含未使用模块，不称为精确二进制 SBOM |
 | PDF 插件 | 新候选实际归档排除检查通过；若未来重新加入，须补齐其 PDFium 等依赖材料 |
-| 修改库重建后运行 | 步骤已准备，尚未执行 |
+| 修改库重建后运行 | 允许替换并提供步骤；尚未执行，不作通过结论 |
 
 依据：[Qt LGPL 义务说明](https://www.qt.io/development/open-source-lgpl-obligations)、[Qt 组件许可与第三方清单说明](https://doc.qt.io/qt-6/licensing.html)。不需要仅因使用 Qt 就默认购买商业许可；应先完成所选开源许可路线的实际义务。
 

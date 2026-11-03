@@ -1,5 +1,5 @@
 {
-  "reviewed_on": "2026-11-03",
+  "reviewed_on": "2026-11-04",
   "pyside_version": "6.12.0",
   "license_texts": [
     {
@@ -27,5 +27,5 @@
       "upstream_published_sha256": "099c1a597cf33c1b000e11cf68a0b82d216fb802bf81726efc720394f10c7751"
     }
   ],
-  "scope": "Official source locations and published digests, not downloaded source verification. Exact correspondence with wheel binaries, PDF/PDFium and other embedded third-party notices still require completion before public distribution."
+  "scope": "Version-matched official Qt and PySide source assets supplied with 0.0.1; release assembly records downloaded digests. Original license and attribution files are collected conservatively from both archives, including unused modules. SeedBank made no library source patches. Upstream wheel build options and modified-library rebuilding have not been independently reproduced."
 }

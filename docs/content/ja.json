@@ -264,7 +264,7 @@
     "はじめに"
   ],
   "galleryHint": "すべて同じ検査済み Windows 実行ファイルの画面です。ハッシュと撮影範囲は撮影記録に記載しています。",
-  "startNotice": "0.0.1 に向けてアプリのソース、画面、ビルド手順を本リポジトリに収録しました。[導入ガイド（中文）](docs/getting-started.md)から始められます。協力者向けの候補版を検証し、正式公開後にダウンロードを提供します。",
+  "startNotice": "[SeedBank 0.0.1 Windows プレビュー版をダウンロード](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1)し、ZIP 全体を展開して seedbank.exe を開いてください。[導入ガイド（中文）](docs/getting-started.md)に従い、自分のモデルサービスのキーを設定します。実演中の Live2D モデルは同梱していません。必要な方は下記の作者の配布先から入手してください。",
   "licenseLink": "ライセンス",
   "api": {
     "title": "自分のモデルサービスを使う",

@@ -127,7 +127,7 @@ Python、QML、フロントエンド、モデル連携、キャラクター制�
 <a name="start"></a>
 <h2><img src="assets/readme/section-start-ja.svg" width="100%" alt="はじめに"></h2>
 
-0.0.1 に向けてアプリのソース、画面、ビルド手順を本リポジトリに収録しました。[導入ガイド（中文）](docs/getting-started.md)から始められます。協力者向けの候補版を検証し、正式公開後にダウンロードを提供します。
+[SeedBank 0.0.1 Windows プレビュー版をダウンロード](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1)し、ZIP 全体を展開して seedbank.exe を開いてください。[導入ガイド（中文）](docs/getting-started.md)に従い、自分のモデルサービスのキーを設定します。実演中の Live2D モデルは同梱していません。必要な方は下記の作者の配布先から入手してください。
 
 1. **記録の住まい** 新しい個体の名前を決め、生命パッケージを保存する場所を選びます。既存の記録も引き継げます。
 2. **話すための方法** オフラインのテンプレートで操作に慣れてから、必要に応じてモデルサービスと予算を設定します。

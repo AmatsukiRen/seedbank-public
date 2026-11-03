@@ -127,7 +127,7 @@ Python、QML、前端、模型工程、角色制作、无障碍与翻译，都�
 <a name="start"></a>
 <h2><img src="assets/readme/section-start-zh-CN.svg" width="100%" alt="开始使用"></h2>
 
-应用源码、桌面界面与构建脚本已在本库准备，目标版本为 0.0.1。先从[使用说明](docs/getting-started.md)开始；协作者可验收私有候选包，正式下载将在公开发布后提供。
+[下载 SeedBank 0.0.1 Windows 预览版](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1)，完整解压后打开 seedbank.exe。先从[使用说明](docs/getting-started.md)开始，使用自己的模型服务 Key。演示中的 Live2D 公皮不随程序提供，需要时请从下方作者渠道取得。
 
 1. **一处住处** 为新的个体取名，选择本机生命包的保存位置。已有档案可以继续使用。
 2. **一种对话方式** 先用离线模板熟悉操作，再按需要配置自己的模型服务与预算。

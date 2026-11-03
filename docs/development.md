@@ -48,6 +48,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File packaging/build_windows.ps1 
 
 以上是生产流程，不运行验收；没有验收报告的 ZIP 会明确标为未测试。源码、文档和程序从同一干净提交产生，`package_candidate.py` 不上传、发布或自动替换用户正在使用的程序。
 
+## 保留已测程序的文档组包
+
+0.0.1 公开交付沿用用户已测的 `3e13707` 源码 / `1da9030c…` exe。`packaging/assemble_release.py` 只更新包外文档、许可与源码附件；不编译、不运行程序或测试。运行源码 ZIP 和原 `runtime-build.json` 原样保留，当前文档提交单独记录在 `release-provenance.json`。
+
+```powershell
+.\.venv\Scripts\python.exe packaging/assemble_release.py --candidate dist/candidate-preparation --upstream dist/upstream --report artifacts/user-acceptance/report.json --output dist/publication
+```
+
+输入必须是用户报告对应的程序、先前 Windows ZIP / Source ZIP 和官方源包。组包的摘要约束用于避免混交文件，不是新一轮应用验收。它保留原 exe 的已有结果，同时将更新文档后的 ZIP 标记为没有重跑归档验收。若运行源码、冻结输入或依赖锁变更，应重新生产并按用户约定验收，不用此入口延用旧程序结论。
+
 ## 隔离离线回归
 
 以下命令均只使用临时人工数据。执行结果与范围见 [验收记录](acceptance.md)：

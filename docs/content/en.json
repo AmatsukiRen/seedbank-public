@@ -264,7 +264,7 @@
     "Getting started"
   ],
   "galleryHint": "All pages come from the same checked Windows executable. See the capture record for its hash and scope.",
-  "startNotice": "Application source, desktop UI and build scripts are now in this repository for version 0.0.1. Start with the [setup guide (中文)](docs/getting-started.md). Collaborators can review the private candidate; public downloads will follow publication.",
+  "startNotice": "[Download SeedBank 0.0.1 for Windows (preview)](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1), extract the complete ZIP and open seedbank.exe. See the [setup guide (中文)](docs/getting-started.md) and use your own model-service key. The Live2D model shown in demonstrations is not bundled; obtain it from its creators using the links below.",
   "licenseLink": "License",
   "api": {
     "title": "Bring your own model service",
