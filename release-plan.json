@@ -14,6 +14,8 @@
   },
   "windows_distribution": {
     "status": "private-preparation",
+    "candidate_source_commit": "3e13707542cead1a65ad7df84c3f19462919e2c7",
+    "candidate_runtime_sha256": "1da9030c942ec39cbd60d0f903213436f1f112d6b25926a02ab9fa20147a2759",
     "sdk_publication_conditions": "pending",
     "qt_source_and_notices": "incomplete",
     "acceptance_after_packaging_changes": "pending-user"
