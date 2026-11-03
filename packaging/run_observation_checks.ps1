@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([string]$Python, [string]$LogDirectory)
+param([string]$Python, [string]$LogDirectory, [switch]$Followup)
 # User entry only: artificial packs, fake transports and software Qt.
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
@@ -11,7 +11,8 @@ if (-not $Python) {
 }
 if (-not $LogDirectory) { $LogDirectory = Join-Path $repoRoot 'artifacts' }
 New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
-$logFile = Join-Path $LogDirectory ('observation-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.log')
+$logPrefix = if ($Followup) { 'observation-followup-' } else { 'observation-' }
+$logFile = Join-Path $LogDirectory ($logPrefix + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.log')
 $settings = @{
     PYTHONUTF8 = '1'
     PYTHONDONTWRITEBYTECODE = '1'
@@ -28,7 +29,9 @@ Push-Location $repoRoot
 try {
     $ErrorActionPreference = 'Continue'
     Write-Host ('Log: ' + $logFile)
-    & $Python (Join-Path $repoRoot 'tools/seed/run_observation_tests.py') 2>&1 | Tee-Object -FilePath $logFile | Out-Host
+    $runnerArguments = @((Join-Path $repoRoot 'tools/seed/run_observation_tests.py'))
+    if ($Followup) { $runnerArguments += '--followup' }
+    & $Python @runnerArguments 2>&1 | Tee-Object -FilePath $logFile | Out-Host
     $resultCode = $LASTEXITCODE
     ('Exit code: ' + $resultCode) | Tee-Object -FilePath $logFile -Append | Out-Host
 } finally {

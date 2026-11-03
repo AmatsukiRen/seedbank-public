@@ -260,34 +260,58 @@ class QuickTest(unittest.TestCase):
         self.assert_no_errors()
 
     def test_observation_settings_and_review_close_in_all_locales(self):
-        from seedbank import observing
+        from seedbank import channels, observing, qq
         self.interface()
         self.root.setProperty("page", 4)
         self.root.setWidth(860)
         self.root.setHeight(640)
-        for language in ("zh_CN", "en_US", "ja_JP", "ko_KR"):
+
+        def current_item(name):
+            # Loader can leave an old QObject awaiting DeferredDelete after a
+            # page switch. A global findChild may return its hidden QQ field.
+            matches = [item for item in self.visual_items() if item.objectName() == name and item.isVisible()]
+            self.assertEqual(len(matches), 1, "Expected one current visual item: " + name)
+            return matches[0]
+
+        for index, language in enumerate(("zh_CN", "en_US", "ja_JP", "ko_KR")):
             self.bridge.preference("language", language)
             for section in (3, 4):
                 self.find("settingsPage").setProperty("section", section)
+                QCoreApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
                 self.app.processEvents()
-                field = self.find("observationGroups")
+                if section == 4:
+                    self.bridge.selectChannel("telegram")
+                    self.app.processEvents()
+                field = current_item("observationGroups")
                 if section == 3:
-                    self.qml(field, "edited('456')")
+                    selected = "45" + str(index)
+                    other_form = dict(self.bridge.channelForm)
+                    self.qml(field, "edited(" + json.dumps(selected) + ")")
+                    self.assertEqual(self.bridge.qqForm["observe_groups"], selected, "QQ draft edit")
+                    self.assertEqual(self.bridge.channelForm, other_form, "QQ edit must not change channel draft")
                     self.bridge.editQQ("owner", "123")
                     self.bridge.saveQQ()
                     self.wait_for(lambda: not self.bridge._pending)
-                    self.assertEqual(self.bridge.qqForm["observe_groups"], "456")
+                    self.assertEqual(self.bridge.qqForm["observe_groups"], selected)
+                    self.assertEqual(qq.config_defaults()["observe_groups"], selected, "QQ persisted setting")
                 else:
-                    self.bridge.selectChannel("telegram")
-                    self.qml(field, "edited('group1')")
+                    selected = "group" + str(index)
+                    other_form = dict(self.bridge.qqForm)
+                    self.qml(field, "edited(" + json.dumps(selected) + ")")
+                    self.assertEqual(self.bridge.channelForm["observe_groups"], selected, "Channel draft edit")
+                    self.assertEqual(self.bridge.qqForm, other_form, "Channel edit must not change QQ draft")
                     self.bridge.editChannel("owner", "42")
                     self.bridge.saveChannel()
-                    self.assertEqual(self.bridge.channelForm["observe_groups"], "group1")
+                    self.assertEqual(self.bridge.channelForm["observe_groups"], selected)
+                    self.assertEqual(channels.load_config(self.pack, "telegram")["observe_groups"], selected, "Channel persisted setting")
+                    self.bridge.selectChannel("discord")
+                    self.bridge.selectChannel("telegram")
+                    self.assertEqual(self.bridge.channelForm["observe_groups"], selected, "Reloaded channel setting")
                 self.assertFalse(self.bridge.error, self.bridge.notice)
-                self.qml(self.find("openObservationHistory"), "clicked()")
+                self.qml(current_item("openObservationHistory"), "clicked()")
                 dialog = self.find("observationHistoryDialog")
                 self.wait_for(lambda: dialog.property("opened") and not self.bridge._pending)
-                button = self.find("closeObservationHistory")
+                button = current_item("closeObservationHistory")
                 self.assertTrue(button.isVisible())
                 point = button.mapToScene(QPointF(button.width() / 2, button.height() / 2)).toPoint()
                 QTest.mouseClick(self.root, Qt.MouseButton.LeftButton, Qt.KeyboardModifier.NoModifier, point)

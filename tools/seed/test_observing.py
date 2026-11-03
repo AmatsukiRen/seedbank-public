@@ -287,10 +287,15 @@ class ObservationTests(unittest.TestCase):
         with runtime_self.host(self.pack, lambda: {"qq": adapter.runtime_status()}):
             owner = runtime_self.context(self.pack)
             public = runtime_self.context(self.pack, "qq-group:456")
-        self.assertEqual(owner["channels"]["qq"]["observed"], 1)
-        self.assertTrue(owner["channels"]["qq"]["observation_enabled"])
-        self.assertNotIn("456", json.dumps(owner))
-        self.assertNotIn("observed", json.dumps(public))
+            with runtime_self.incoming(self.pack, "qq", adapter.runtime_status):
+                inbound_public = runtime_self.context(self.pack, "qq-group:456")
+        self.assertEqual(owner["channels"], {"qq": {"state": "listening", "received": 0,
+            "sent": 0, "failed": 0, "observed": 1, "observation_enabled": True}})
+        # Inspect fields, not substrings: observed_at is a legitimate timestamp,
+        # and its milliseconds can even contain the artificial group number.
+        self.assertEqual(set(owner), {"app", "version", "observed_at", "channel", "channels"})
+        self.assertNotIn("channels", public)
+        self.assertEqual(inbound_public["channels"], {"qq": {"state": "receiving_this_message"}})
 
 
 if __name__ == "__main__":
