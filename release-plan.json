@@ -10,8 +10,8 @@
   "published_at": "2026-11-03T18:33:38Z",
   "release_url": "https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2",
   "release_tag_commit": "1314fef6ea38f9c99309bb36dfb51d7607587ac1",
-  "artifact_revision": "initial",
-  "artifacts_updated_at": "2026-11-03T18:33:24Z",
+  "artifact_revision": "observation-20261104",
+  "artifacts_updated_at": "2026-11-03T19:25:36Z",
   "source_publication": {
     "status": "published",
     "proprietary_runtime_binaries_in_git": false,
@@ -20,20 +20,24 @@
   },
   "windows_distribution": {
     "status": "published-preview",
-    "windows_zip_sha256": "2455117a189bfcbc7fce7c283fba0f4a036afe6bf0accd9285d2c1ecf92e45ef",
-    "windows_zip_bytes": 111556188,
-    "candidate_source_commit": "1314fef6ea38f9c99309bb36dfb51d7607587ac1",
-    "candidate_runtime_sha256": "14792745a2da53b9920c0b14b9abc1a18130109b16f65b14d3c5cdb1f2e1749f",
-    "source_zip_sha256": "c94dc99091a92210b5065b966fe60609dab37029b2bf1919969e2e506afe492d",
-    "package_documents_commit": "409381f49bbb8b63c07d4bfa2c3092c6a7656d8f",
+    "windows_zip_sha256": "5c20ba6c956e306ab792a7d7b8a1e6c238e555feda0b57f7077cc4bc3076c5cb",
+    "windows_zip_bytes": 111601027,
+    "candidate_source_commit": "4f849675b8107c93859cdcc7284a9a70baefb9b6",
+    "candidate_runtime_sha256": "39bfcf92a8114b2d2bdb5c0789ddd142496781a360be4383364f0b24eed94ed8",
+    "source_zip_sha256": "c2ab81c42002266b405ede2bf83fb6e576cb20359b79dd04787b3ecd6fd92f16",
+    "package_documents_commit": "a8e6143ce20317ec1a703da03d9455ba43d671f0",
     "sdk_publication_conditions": "unconfirmed-maintainer-directed-publication-without-inquiry",
     "qt_source_and_notices": "upstream-source-assets-and-conservative-notices-provided",
     "modified_qt_rebuild_tested": false,
-    "acceptance_after_packaging_changes": "agent-passed",
-    "acceptance_actor": "agent",
-    "acceptance_completed_at": "2026-11-03T18:30:25.004892+00:00",
-    "acceptance_scope": "New 0.0.2 executable: 5 packaging tests, archive/icon/notices, isolated software UI, frozen plugin worker, showcase and CLI/Windows version checks passed. Final ZIP and all eight remote asset digests verified. Business code differs from the preceding 415 core / 310 integration executions / 134 security run only in the version constant; those suites were not repeated. No real services or native Live2D checks.",
-    "acceptance_record": "docs/acceptance.md"
+    "acceptance_after_packaging_changes": "accepted-runtime-document-overlay-not-retested",
+    "acceptance_actor": "user",
+    "acceptance_completed_at": "2026-11-04T03:19:35+08:00",
+    "acceptance_scope": "User-run: core 415/415; integrations 334 executions with two failures of one outdated status expectation, corrected case passed a focused 1/1 rerun; security 134/134. Exact executable passed 5 packaging cases, archive/icon/notices, software UI, frozen plugin and showcase checks. Reused the accepted runtime without rebuilding; the final document-overlay ZIP was not retested. All eight remote asset digests match local publication assets. No real group/model or native Live2D acceptance in this revision.",
+    "acceptance_record": "docs/acceptance.md",
+    "runtime_rebuilt_for_publication": false,
+    "archive_after_document_update_tested": false,
+    "remote_asset_digests_match": true,
+    "remote_asset_count": 8
   },
   "artifact_history": [
     {
@@ -53,6 +57,28 @@
       "acceptance_status": "unverified-maintainer-directed",
       "acceptance_completed_at": null,
       "version": "0.0.1"
+    },
+    {
+      "artifacts_updated_at": "2026-11-03T18:33:24Z",
+      "revision": "initial",
+      "version": "0.0.2",
+      "windows_distribution": {
+        "status": "published-preview",
+        "windows_zip_sha256": "2455117a189bfcbc7fce7c283fba0f4a036afe6bf0accd9285d2c1ecf92e45ef",
+        "windows_zip_bytes": 111556188,
+        "candidate_source_commit": "1314fef6ea38f9c99309bb36dfb51d7607587ac1",
+        "candidate_runtime_sha256": "14792745a2da53b9920c0b14b9abc1a18130109b16f65b14d3c5cdb1f2e1749f",
+        "source_zip_sha256": "c94dc99091a92210b5065b966fe60609dab37029b2bf1919969e2e506afe492d",
+        "package_documents_commit": "409381f49bbb8b63c07d4bfa2c3092c6a7656d8f",
+        "sdk_publication_conditions": "unconfirmed-maintainer-directed-publication-without-inquiry",
+        "qt_source_and_notices": "upstream-source-assets-and-conservative-notices-provided",
+        "modified_qt_rebuild_tested": false,
+        "acceptance_after_packaging_changes": "agent-passed",
+        "acceptance_actor": "agent",
+        "acceptance_completed_at": "2026-11-04T02:30:25.004892+08:00",
+        "acceptance_scope": "New 0.0.2 executable: 5 packaging tests, archive/icon/notices, isolated software UI, frozen plugin worker, showcase and CLI/Windows version checks passed. Final ZIP and all eight remote asset digests verified. Business code differs from the preceding 415 core / 310 integration executions / 134 security run only in the version constant; those suites were not repeated. No real services or native Live2D checks.",
+        "acceptance_record": "docs/acceptance.md"
+      }
     }
   ],
   "previous_releases": [
