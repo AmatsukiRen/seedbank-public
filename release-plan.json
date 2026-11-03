@@ -10,12 +10,8 @@
   "published_at": "2026-11-03T16:30:36Z",
   "release_url": "https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1",
   "release_tag_commit": "8c1e4769ae8e3179c8455162eecfbf0328e5ff9f",
-  "pending_update": {
-    "revision": "lifecycle-close-20261104",
-    "runtime_source_commit": "b51bb5c94decaac75f295527a192a08fe8a34f69",
-    "runtime_sha256": "afde352b337edfb570eb4ac678444db357271a345444911f6693592ed018634a",
-    "acceptance_status": "unverified-maintainer-directed"
-  },
+  "artifact_revision": "lifecycle-close-20261104",
+  "artifacts_updated_at": "2026-11-03T17:34:52Z",
   "source_publication": {
     "status": "published",
     "proprietary_runtime_binaries_in_git": false,
@@ -24,15 +20,27 @@
   },
   "windows_distribution": {
     "status": "published-preview",
-    "windows_zip_sha256": "ceb64b384d859d027ff70082e1f48cc801915faa146d8a5608be67ae61bf2bd5",
-    "candidate_source_commit": "3e13707542cead1a65ad7df84c3f19462919e2c7",
-    "candidate_runtime_sha256": "1da9030c942ec39cbd60d0f903213436f1f112d6b25926a02ab9fa20147a2759",
+    "windows_zip_sha256": "d6c63c640fafd5bd83626a81a84937ef253cbe79b27dd18b16ae81e71b9cd766",
+    "windows_zip_bytes": 111508862,
+    "candidate_source_commit": "b51bb5c94decaac75f295527a192a08fe8a34f69",
+    "candidate_runtime_sha256": "afde352b337edfb570eb4ac678444db357271a345444911f6693592ed018634a",
+    "source_zip_sha256": "bcb45383ec7600ee03bb9d25a000a3e1320d39405b498ad79e68c8072a536610",
+    "package_documents_commit": "37256977f5035dfc2de885e52e03dd0d7cc2f9aa",
     "sdk_publication_conditions": "unconfirmed-maintainer-directed-publication-without-inquiry",
     "qt_source_and_notices": "upstream-source-assets-and-conservative-notices-provided",
     "modified_qt_rebuild_tested": false,
-    "acceptance_after_packaging_changes": "user-passed-isolated-candidate-checks",
-    "acceptance_completed_at": "2026-11-04T00:04:28+08:00",
-    "acceptance_scope": "5 packaging tests; archive/icons; ZIP notices; isolated UI/plugin/native Live2D/showcase; not full core rerun or licensing clearance",
+    "acceptance_after_packaging_changes": "unverified-maintainer-directed",
+    "acceptance_completed_at": null,
+    "acceptance_scope": "No new results for the dialog-close executable. Three new UI regressions and one existing lifecycle test are prepared for user execution; original acceptance does not apply to this revision.",
     "acceptance_record": "docs/acceptance.md"
-  }
+  },
+  "artifact_history": [
+    {
+      "revision": "initial",
+      "windows_zip_sha256": "ceb64b384d859d027ff70082e1f48cc801915faa146d8a5608be67ae61bf2bd5",
+      "runtime_source_commit": "3e13707542cead1a65ad7df84c3f19462919e2c7",
+      "runtime_sha256": "1da9030c942ec39cbd60d0f903213436f1f112d6b25926a02ab9fa20147a2759",
+      "acceptance_completed_at": "2026-11-04T00:04:28+08:00"
+    }
+  ]
 }
