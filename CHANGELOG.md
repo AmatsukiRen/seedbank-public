@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Restore visible header and footer close buttons in the dormancy/recovery dialog and support Escape, including while status is loading. Dismissal never applies a lifecycle choice. Three new UI regressions and a user-run entry are prepared; not yet executed. See [repair and acceptance steps](docs/fix-lifecycle-dialog-close.md).
+
 ## 0.0.1 — 2026-11-04 · Preview
 
 Initial SeedBank candidate: local life archives, diary and memory views, explicit dormancy/recovery, model-service configuration, local Live2D presentation, chat adapters and manually invoked local text plugins.

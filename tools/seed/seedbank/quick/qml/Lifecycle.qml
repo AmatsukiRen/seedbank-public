@@ -10,10 +10,24 @@ Dialog {
     width: Math.min(680, parent ? parent.width - 32 : 680)
     height: Math.min(700, parent ? parent.height - 32 : 700)
     modal: true
-    closePolicy: Popup.NoAutoClose
+    focus: true
+    closePolicy: Popup.CloseOnEscape
     title: Style.tr("休眠与恢复")
     background: Rectangle { color: Style.surface; radius: 20; border.color: Style.line }
-    header: LabelText { text: dialog.title; padding: 22; font.pixelSize: 22 * Style.scale }
+    header: Item {
+        implicitHeight: headerRow.implicitHeight + 32
+        RowLayout {
+            id: headerRow
+            anchors.fill: parent; anchors.margins: 16
+            spacing: 12
+            LabelText { text: dialog.title; font.pixelSize: 22 * Style.scale; Layout.fillWidth: true }
+            AppButton {
+                objectName: "closeLifecycleHeader"
+                text: Style.tr("关闭")
+                onClicked: dialog.reject()
+            }
+        }
+    }
     property int expected: 0
     onOpened: { note.text = ""; confirmation.checked = false; bridge.loadLifecycle() }
     Connections {
@@ -53,5 +67,20 @@ Dialog {
             }
         }
     }
-    footer: DialogButtonBox { standardButtons: DialogButtonBox.Close; onRejected: dialog.close() }
+    // Dialog forwards its own standardButtons to a DialogButtonBox footer.
+    // A footer-only Close setting gets reset to NoButton. Use explicit controls,
+    // outside the scroll area, and keep dismissal available during status reads.
+    footer: Item {
+        implicitHeight: footerRow.implicitHeight + 32
+        RowLayout {
+            id: footerRow
+            anchors.fill: parent; anchors.margins: 16
+            Item { Layout.fillWidth: true }
+            AppButton {
+                objectName: "closeLifecycleFooter"
+                text: Style.tr("关闭")
+                onClicked: dialog.reject()
+            }
+        }
+    }
 }

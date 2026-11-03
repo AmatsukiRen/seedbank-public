@@ -2427,6 +2427,91 @@ class QuickTest(unittest.TestCase):
         self.assertGreater(self.bridge.life.rowCount(), 1)
         self.assert_no_errors()
 
+    def test_lifecycle_close_buttons_remain_reachable_with_small_window_and_long_content(self):
+        from seedbank import lifecycle
+        self.interface()
+        self.root.setProperty("page", 3)
+        dialog = self.find("lifecycleDialog")
+        before = lifecycle.status(self.pack)
+        cases = ((1280, 840, "night", "zh_CN", False),
+                 (860, 640, "sky", "en_US", True),
+                 (640, 420, "mint", "ja_JP", True),
+                 (640, 420, "night", "ko_KR", True))
+        for width, height, theme, language, large in cases:
+            self.root.setWidth(width)
+            self.root.setHeight(height)
+            self.bridge.preference("desktop_theme", theme)
+            self.bridge.preference("desktop_large_text", large)
+            self.bridge.preference("language", language)
+            for name in ("closeLifecycleHeader", "closeLifecycleFooter"):
+                with self.subTest(size=(width, height), language=language, close=name):
+                    self.qml(self.find("openLifecycle"), "clicked()")
+                    self.wait_for(lambda: dialog.property("opened") and not self.bridge._pending)
+                    # Force the content beyond the viewport. Both controls must
+                    # stay outside that scrolling region and receive real clicks.
+                    self.find("lifecycleNote").setProperty("text", "人工关闭检查，仅填写不提交。\n" * 35)
+                    self.find("lifecycleConfirmation").setProperty("checked", True)
+                    QTest.qWait(40)
+                    button = self.find(name)
+                    self.assertTrue(button.isVisible())
+                    self.assertTrue(button.isEnabled())
+                    self.assertGreater(button.width(), 40)
+                    self.assertGreater(button.height(), 20)
+                    top_left = button.mapToScene(QPointF(0, 0))
+                    bottom_right = button.mapToScene(QPointF(button.width(), button.height()))
+                    self.assertGreaterEqual(top_left.x(), 0)
+                    self.assertGreaterEqual(top_left.y(), 0)
+                    self.assertLessEqual(bottom_right.x(), self.root.width())
+                    self.assertLessEqual(bottom_right.y(), self.root.height())
+                    point = button.mapToScene(QPointF(button.width() / 2, button.height() / 2)).toPoint()
+                    QTest.mouseClick(self.root, Qt.MouseButton.LeftButton, Qt.KeyboardModifier.NoModifier, point)
+                    self.wait_for(lambda: not dialog.property("visible"))
+                    self.assertEqual(lifecycle.status(self.pack), before)
+        self.assert_no_errors()
+
+    def test_lifecycle_escape_from_editor_does_not_apply_confirmation(self):
+        from seedbank import lifecycle
+        self.interface()
+        self.root.setProperty("page", 3)
+        dialog = self.find("lifecycleDialog")
+        before = lifecycle.status(self.pack)
+        for editing in (False, True):
+            with self.subTest(editing=editing):
+                self.qml(self.find("openLifecycle"), "clicked()")
+                self.wait_for(lambda: dialog.property("opened") and not self.bridge._pending)
+                note = self.find("lifecycleNote")
+                note.setProperty("text", "人工关闭检查：即使已填写并勾选，也只关闭页面。")
+                self.find("lifecycleConfirmation").setProperty("checked", True)
+                if editing:
+                    self.qml(note, "input.forceActiveFocus()")
+                QTest.keyClick(self.root, Qt.Key.Key_Escape)
+                self.wait_for(lambda: not dialog.property("visible"))
+                self.assertEqual(lifecycle.status(self.pack), before)
+        self.assert_no_errors()
+
+    def test_lifecycle_can_close_while_status_is_loading(self):
+        from seedbank import lifecycle
+        self.interface()
+        self.root.setProperty("page", 3)
+        dialog = self.find("lifecycleDialog")
+        before = lifecycle.status(self.pack)
+        queued = []
+        with mock.patch.object(self.bridge._executor, "submit", side_effect=queued.append):
+            self.qml(self.find("openLifecycle"), "clicked()")
+            self.wait_for(lambda: dialog.property("opened"))
+            self.assertTrue(self.bridge.busy)
+            button = self.find("closeLifecycleHeader")
+            self.assertTrue(button.isEnabled())
+            point = button.mapToScene(QPointF(button.width() / 2, button.height() / 2)).toPoint()
+            QTest.mouseClick(self.root, Qt.MouseButton.LeftButton, Qt.KeyboardModifier.NoModifier, point)
+            self.wait_for(lambda: not dialog.property("visible"))
+        for job in queued:
+            job()
+        self.wait_for(lambda: not self.bridge._pending)
+        self.assertFalse(dialog.property("visible"))
+        self.assertEqual(lifecycle.status(self.pack), before)
+        self.assert_no_errors()
+
     def test_lifecycle_dialog_stops_activity_preserves_reader_and_explicitly_resumes(self):
         from seedbank import lifecycle
         self.interface()
