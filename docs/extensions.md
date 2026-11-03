@@ -4,7 +4,7 @@
 
 桌面窗口只是一个入口。我们希望一个个体可以换用不同的模型、声音和身体，也可以来到新的平台；经历、记忆的来源和明确作出的选择继续留在生命包里。欢迎把自己擅长的部分接进来。
 
-**当前状态：** 应用核心、桌面界面和适配器已迁入本库，接口对应 0.0.1 候选源码。这些接口尚未作为稳定插件 SDK 发布。现在没有插件商店、统一安装器、热加载、权限沙箱或公开 HTTP 服务。新增 AstrBot 转接只监听本机、使用独立令牌、只接收消息，不是通用核心 HTTP API。
+**当前状态：** 应用核心、桌面界面和适配器已迁入本库，接口对应 0.0.1 候选源码。这些接口尚未作为稳定插件 SDK 发布。新增“设置 → 插件与扩展”，可导入本地 Python 文本插件，确认信任后手动运行；详见[插件开发指南](plugins.md)。现在没有插件商店、热加载、权限沙箱或公开 HTTP 服务。新增 AstrBot 转接只监听本机、使用独立令牌、只接收消息，不是通用核心 HTTP API。
 
 ## 1. 选择一条接入路线
 
@@ -13,9 +13,9 @@
 | 让个体来到聊天平台 | Python JSON Lines 载体桥；QQ / OneBot；新增 Discord、Telegram、飞书、钉钉及 AstrBot 转接 | [渠道配置与范围](channels.md)；继续完善附件、身份映射及投递恢复，新增项待验收 |
 | 使用新的模型服务 | `stub`、`openai-compatible`、`anthropic`、`codex` 适配器；13 家云服务预设 | [模型服务接入](model-services.md)；服务适配、结构化输出、请求预算、超时和取消 |
 | 做另一种界面或身体 | Qt Quick / QML 桌面界面、Live2D 本地模型、独立载体桥 | 手机端、桌宠、无障碍界面或 VR 载体；这些新载体是贡献方向，并非已有成品 |
-| 加入新的工具能力 | 桥接操作、事件输入、目标与行动记录 | 在核心中明确能力边界，记录来源、尝试和结果；当前不能把任意脚本扔进 plugins 文件夹运行 |
+| 加入新的工具能力 | 本地文本插件管理页与 `seedbank/plugin@1` | 从[便签示例](../examples/plugins/hello/)开始；添加、信任、配置后手动运行，不自动写入生命经历 |
 | 改进记忆和成长 | 来源、修订、放下、目标、作品与反馈的已有机制 | 更好的查看和解释、更可靠的检索、失败反馈及人工回归场景 |
-| 建设插件生态 | 尚无统一插件运行时 | 一起设计 manifest、能力声明、授权界面、兼容版本、安装卸载和隔离机制 |
+| 建设插件生态 | 初版清单、访问声明、信任确认和独立工作进程 | 继续完善兼容性、分发、权限隔离与行动回执；当前进程不是沙箱 |
 
 模型适配器只负责与模型交互；载体负责平台、输入输出和呈现；生命包保存个体的经历。不要让每个新平台再维护一份互相失联的“人格”。新增内置渠道经桌面的同一个 Session 顺序处理，其网络子进程不打开生命包。开发自定义 JSON Lines 客户端时，仍不要另开独立写会话同时使用一个包：初次接入请让一个桥接进程持有一个独立人工包，并先关闭使用这个包的 GUI。
 
@@ -73,7 +73,7 @@ python examples/bridge_client.py --pack <独立人工包.life> --exe <seedbank.e
 | `requests` / `resume` | 查未完成请求；按 `request_id` 恢复 | 顶层 resume 是恢复请求，**不是**生命周期恢复；不自动无限重试 |
 | `day` / `tick` | 人工推进或按时间处理 | 会改变档案、可能调用模型；不要把 UI 刷新循环接到 day |
 
-细节目前以原研发源码的 `seedbank/bridge.py` 为准，以上不是完整的稳定 API schema。应用迁入后应补齐字段约束、响应示例和兼容性用例。源代码位置：`tools/seed/seedbank/bridge.py`、`brain.py`、`quick/` 和 `adapters/qq-onebot/`；这些路径当前属于原研发库，不能在本库直接运行。
+细节以本库 `tools/seed/seedbank/bridge.py` 为准，以上不是完整的稳定 API schema。模型适配在 `brain.py`，桌面在 `quick/`，平台示例在 `adapters/`。这些源码已在本库，运行方法见[开发说明](development.md)。
 
 ## 4. 请求重试、休眠和记忆的约定
 
@@ -83,12 +83,12 @@ python examples/bridge_client.py --pack <独立人工包.life> --exe <seedbank.e
 
 **来源随记忆一起走。** 展示召回结果时保留来源、修订链及是否放下。不要只复制一句“事实”到插件私有库，然后永远忽略它的更正。私人会话与公开频道的受众不同；不要把 owner 身份用于所有群成员。模型、附件和日志的实际外发范围应让使用者看得见。
 
-## 5. 一起定义插件规范
+## 5. 开始编写本地插件
 
-下一步值得共同设计的是：插件 ID 和版本、核心协议兼容范围、入口命令、请求能力、允许访问的数据、离线/联网声明、停止与卸载行为，以及可撤回的用户授权。
+[插件指南](plugins.md)包含 `plugin.json` 清单、`handle(request)` 约定、便签示例、配置和启停方式。文本插件采用初版 `seedbank/plugin@1` 协议，新增实现与用例尚待用户执行验收。独立工作进程不代表系统权限沙箱。
 
-这些仍是设计任务，暂不提供看似能用的 `manifest.json` 或安装命令。可先提交小型提案，说明：谁使用、输入与输出、接入哪一层、是否写生命包或联网、失败如何恢复，以及人工验收方法。核心与协议已在本库，可围绕实际接口提交示例；统一插件运行时仍需另行设计。
+更大的扩展可先提交小型提案：谁使用、输入与输出、接入哪一层、是否写生命包或联网、失败如何恢复，以及人工验收方法。自动工具选择、行动回执、插件商店与稳定 SDK 仍需继续设计。
 
-**English:** The source in this repository includes a local JSON Lines bridge (`seedbank/bridge@1`), provider adapters and Qt Quick/Live2D presentation. See [development instructions](development.md). A plugin manager, permission manifest, hot reload and a stable SDK are future work. The offline Python example is a reference client, not a tested release.
+**English:** Source includes the local JSON Lines bridge, provider adapters and Qt Quick/Live2D presentation. The new Settings → Plugins & extensions page manages trusted local, manual text plugins. See the [plugin contract and example](plugins.md). No store, hot reload, OS sandbox or stable SDK is claimed. The new implementation has not yet been tested.
 
-**日本語:** 本リポジトリに JSON Lines ブリッジ、モデルアダプター、Qt Quick / Live2D のソースを収録しました。[開発手順](development.md)をご覧ください。統一プラグイン管理、権限宣言、ホットリロード、安定 SDK は今後の設計課題です。Python のオフライン例は参考実装で、検証済みリリースではありません。
+**日本語:** JSON Lines ブリッジ、モデルアダプター、Qt Quick / Live2D のソースを収録しています。設定の「プラグインと拡張」から、信頼できるローカルテキストプラグインを管理し、手動実行できます。[仕様とサンプル](plugins.md)をご覧ください。ストア、ホットリロード、OS サンドボックス、安定 SDK は未提供です。新実装は未検証です。

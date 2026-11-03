@@ -26,6 +26,9 @@ def package():
              'THIRD_PARTY_NOTICES.md': ROOT / 'THIRD_PARTY_NOTICES.md'}
     for document in (ROOT / 'docs').rglob('*.md'):
         files[document.relative_to(ROOT).as_posix()] = document
+    for example in (ROOT / 'examples' / 'plugins').rglob('*'):
+        if example.is_file() and example.suffix in ('.py', '.json', '.md'):
+            files[example.relative_to(ROOT).as_posix()] = example
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as out:
         for name, path in files.items():
             out.write(path, label + '/' + name)

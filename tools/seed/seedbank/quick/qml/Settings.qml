@@ -13,10 +13,10 @@ ColumnLayout {
     Flow {
         Layout.fillWidth: true; spacing: 8
         Repeater {
-            model: ["外观", "对话", "记忆", "QQ", "聊天渠道"]
+            model: ["外观", "对话", "记忆", "QQ", "聊天渠道", "插件与扩展"]
             AppButton { required property string modelData; required property int index; compact: page.condensed; text: Style.tr(modelData); quiet: true; selected: page.section === index; onClicked: page.section = index }
         }
-        AppButton { compact: page.condensed; text: Style.tr("保存设置"); visible: page.section > 0; primary: true; enabled: !bridge.busy; onClicked: page.section === 4 ? bridge.saveChannel() : (page.section === 3 ? bridge.saveQQ() : bridge.saveSettings()) }
+        AppButton { compact: page.condensed; text: Style.tr("保存设置"); visible: page.section > 0 && page.section < 5; primary: true; enabled: !bridge.busy; onClicked: page.section === 4 ? bridge.saveChannel() : (page.section === 3 ? bridge.saveQQ() : bridge.saveSettings()) }
     }
     ScrollPane {
         id: scroll
@@ -27,7 +27,7 @@ ColumnLayout {
         Loader {
             id: contentLoader
             width: scroll.availableWidth - 14
-            sourceComponent: [appearance, conversation, memory, connection, channels][page.section]
+            sourceComponent: [appearance, conversation, memory, connection, channels, plugins][page.section]
         }
     }
     FileDialog {
@@ -272,6 +272,10 @@ ColumnLayout {
     Component {
         id: channels
         ChannelPanel { }
+    }
+    Component {
+        id: plugins
+        PluginPanel { onSectionRequested: function(section) { page.section = section } }
     }
     Component {
         id: connection

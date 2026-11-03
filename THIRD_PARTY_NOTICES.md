@@ -13,7 +13,7 @@ The Windows candidate includes Python, PySide6 / Qt, shiboken6, live2d-py, PyOpe
 
 ## Before public binary publication
 
-The current candidate remains private. Live2D's official licensing page distinguishes ordinary applications from **Expandable Applications**, including a specific AI/chatbot section. Because SeedBank accepts user-selected models and supports extension, its applicable category and publication terms need confirmation with Live2D; this is a project-specific unresolved classification, not a claim that a fee is necessarily due or that an exemption applies. No publisher approval is recorded here. Confirm applicable Qt redistribution requirements as well before publishing the binary.
+The current candidate remains private. Live2D's official licensing page distinguishes ordinary applications from **Expandable Applications**, including a specific AI/chatbot section. SeedBank accepts user-selected models; we therefore infer that it likely falls within that category. [The category's terms](https://www.live2d.com/en/sdk/license/expandable/) require review and a special agreement even for individuals or small businesses. Fully free applications may qualify under separately specified conditions. This is not an official project-specific classification or a claim that fees are necessarily due. No publisher approval is recorded here. Confirm applicable Qt redistribution requirements as well before publishing the binary. See the [dated licensing review](docs/licensing-review.md) and [unsent inquiry draft](docs/licensing-inquiry.md).
 
 ## Artwork
 

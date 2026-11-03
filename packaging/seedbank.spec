@@ -109,6 +109,7 @@ hiddenimports += [
 # Local Live2D replaces generated artwork. The user's third-party model stays
 # outside the distribution; shader files belong to the runtime dependency.
 datas = [
+    (str(REPO_ROOT / "examples" / "plugins" / "hello"), "examples/plugins/hello"),
     # 第一颗蛋：巫师向导孵化时用（onboarding.find_egg 在冻结后找 <MEIPASS>/eggs/...）。
     (str(EGG_DIR), "eggs/dafeiyu.egg"),
     (str(REPO_ROOT / "eggs" / "open.egg"), "eggs/open.egg"),

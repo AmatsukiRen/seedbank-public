@@ -22,6 +22,7 @@ from .models import Rows
 from .avatar_view import normalized_view
 from .avatar_expression import mood_style, choose_expression
 from ..live2d_model import DEFAULT_MODEL, MODEL_CREDIT, descriptor
+from ..plugins import PluginManager
 
 
 class Bridge(QObject):
@@ -60,6 +61,7 @@ class Bridge(QObject):
     petAction = Signal(str)
     avatarUtterance = Signal("QVariantMap")
     avatarReloadRequested = Signal()
+    pluginsChanged = Signal()
 
     def __init__(self, pack=None, brain_override="", *, timers=True, acquire_lock=None):
         super().__init__()
@@ -145,6 +147,11 @@ class Bridge(QObject):
         from ..channels import defaults
         self._channel_form = defaults("telegram")
         self._channel_status = []
+        self._plugins = PluginManager()
+        self._plugin_rows = []
+        self._plugin_output = {}
+        self._plugin_running = ""
+        self._plugin_cancel = None
         self._preferences = read_json(ui_settings_path(), {})
         if not isinstance(self._preferences, dict):
             self._preferences = {}
@@ -257,6 +264,113 @@ class Bridge(QObject):
     @Property(str, constant=True)
     def avatarCredit(self):
         return MODEL_CREDIT
+
+    @Property("QVariantList", notify=pluginsChanged)
+    def plugins(self):
+        return self._plugin_rows
+
+    @Property("QVariantMap", notify=pluginsChanged)
+    def pluginOutput(self):
+        return self._plugin_output
+
+    @Property(str, notify=pluginsChanged)
+    def runningPlugin(self):
+        return self._plugin_running
+
+    def _set_plugins(self, rows):
+        self._plugin_rows = rows
+        self.pluginsChanged.emit()
+
+    @Slot()
+    def refreshPlugins(self):
+        if not self._busy:
+            self.submit("plugins-refresh", self._plugins.list, self._set_plugins)
+
+    def _plugin_change(self, action, message):
+        if self._busy:
+            return
+        def work():
+            action()
+            return self._plugins.list()
+        def done(rows):
+            self._set_plugins(rows)
+            self.notify(t(message))
+        self.submit("plugins-change", work, done)
+
+    @Slot(str)
+    def addPlugin(self, value):
+        url = QUrl(value)
+        if not url.isLocalFile():
+            self.notify(t("请选择本地 plugin.json 文件。"), True)
+            return
+        manifest = Path(url.toLocalFile())
+        if manifest.name != "plugin.json":
+            self.notify(t("请选择本地 plugin.json 文件。"), True)
+            return
+        self._plugin_change(lambda: self._plugins.install(manifest.parent), "插件已添加；确认来源后才能启用。")
+
+    @Slot()
+    def addExamplePlugin(self):
+        base = Path(sys._MEIPASS) if getattr(sys, "frozen", False) else Path(__file__).resolve().parents[4]
+        self._plugin_change(lambda: self._plugins.install(base / "examples/plugins/hello"), "插件已添加；确认来源后才能启用。")
+
+    @Slot(str, bool)
+    def enablePlugin(self, identifier, enabled):
+        self._plugin_change(lambda: self._plugins.enable(identifier, enabled), "插件状态已保存。")
+
+    @Slot(str, "QVariantMap")
+    def configurePlugin(self, identifier, values):
+        self._plugin_change(lambda: self._plugins.configure(identifier, dict(values)), "插件配置已保存。")
+
+    @Slot(str)
+    def removePlugin(self, identifier):
+        self._plugin_change(lambda: self._plugins.remove(identifier), "插件已从列表移除，文件保留。")
+
+    @Slot(str)
+    def openPluginFolder(self, identifier):
+        # Resolve a registered managed folder; no arbitrary URL from a manifest.
+        try:
+            row = self._plugins._read().get(identifier)
+            if row:
+                QDesktopServices.openUrl(QUrl.fromLocalFile(str(self._plugins._folder(row))))
+        except (OSError, ValueError) as error:
+            self.notify(str(error), True)
+
+    @Slot()
+    def pluginDeveloperGuide(self):
+        QDesktopServices.openUrl(QUrl("https://github.com/AmatsukiRen/seedbank-public/blob/main/docs/plugins.md"))
+
+    @Slot(str, str, "QVariantMap")
+    def runPlugin(self, identifier, text, values):
+        if not self._ready or not self.lifeActive or self._busy or self._closing or self._closed:
+            return
+        cancel = Event()
+        self._plugin_cancel = cancel
+        self._plugin_running = identifier
+        self._plugin_output = {}
+        self.pluginsChanged.emit()
+        config = dict(values)
+        def work():
+            if cancel.is_set():
+                raise ValueError(t("插件运行已停止。"))
+            self._plugins.configure(identifier, config)
+            output = self._plugins.run(identifier, text, cancel=cancel)
+            return output, self._plugins.list()
+        def finish(result, error=False):
+            self._plugin_running = ""
+            self._plugin_cancel = None
+            if not error:
+                result, self._plugin_rows = result
+            self._plugin_output = {"id": identifier, "text": t(result) if error else result, "error": error}
+            self.pluginsChanged.emit()
+        if not self.submit("plugins-run", work, finish, on_error=lambda message: finish(message, True)):
+            finish("插件运行未开始。", True)
+
+    @Slot()
+    def stopPlugin(self):
+        if self._plugin_cancel is not None:
+            self._plugin_cancel.set()
+        self._plugins.cancel()
 
     @Slot(str)
     def selectAvatarModel(self, value):
@@ -550,7 +664,7 @@ class Bridge(QObject):
                 if on_error is not None:
                     on_error(error)
                 else:
-                    self.notify(t(error) if kind in ("memory-history", "memory-revise", "settings") or kind.startswith(("semantic-", "facts-", "learning-", "reminder-", "relationships-", "disclosure-", "life-story-", "archive-", "lifecycle-")) else error, True)
+                    self.notify(t(error) if kind in ("memory-history", "memory-revise", "settings") or kind.startswith(("semantic-", "facts-", "learning-", "reminder-", "relationships-", "disclosure-", "life-story-", "archive-", "lifecycle-", "plugins-")) else error, True)
             else:
                 callback(result)
         except Exception as failure:
@@ -658,6 +772,8 @@ class Bridge(QObject):
     def apply_snapshot(self, snapshot):
         previous = self.snapshot
         self.snapshot = snapshot
+        if not self.lifeActive:
+            self.stopPlugin()
         transcript = snapshot.get("transcript", [])
         if any(snapshot.get(key) != previous.get(key) for key in ("transcript", "day", "senses", "news")):
             rows = [{"who": row["who"], "text": row["text"],
@@ -1901,6 +2017,7 @@ class Bridge(QObject):
 
     @Slot()
     def requestClose(self):
+        self.stopPlugin()
         self._closing = True
         self._pulse.stop()
         self._watch.stop()
@@ -1923,6 +2040,7 @@ class Bridge(QObject):
         self.closeReady.emit()
 
     def shutdown(self):
+        self.stopPlugin()
         self._pulse.stop()
         self._watch.stop()
         self._executor.shutdown(wait=True)

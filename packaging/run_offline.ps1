@@ -1,9 +1,9 @@
 [CmdletBinding()]
-param([ValidateSet('core','integrations')][string]$Suite = 'core')
+param([ValidateSet('core','integrations','plugins')][string]$Suite = 'core')
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $pythonExe = if ($env:PYTHON) { $env:PYTHON } else { 'python' }
-$script = if ($Suite -eq 'core') { 'run_core_regressions.py' } else { 'run_integration_tests.py' }
+$script = @{ core = 'run_core_regressions.py'; integrations = 'run_integration_tests.py'; plugins = 'run_plugin_tests.py' }[$Suite]
 $logDir = Join-Path $repoRoot 'artifacts'
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $logFile = Join-Path $logDir ('offline-' + $Suite + '-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.log')

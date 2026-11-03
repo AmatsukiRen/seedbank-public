@@ -259,6 +259,56 @@ class QuickTest(unittest.TestCase):
             proc.assert_not_called()
         self.assert_no_errors()
 
+    def test_plugins_page_import_enable_and_remove_never_launches_code(self):
+        with mock.patch("seedbank.plugins.subprocess.Popen") as spawn:
+            self.interface()
+            self.root.setProperty("page", 4)
+            self.find("settingsPage").setProperty("section", 5)
+            self.wait_for(lambda: not self.bridge._pending)
+            self.bridge.addExamplePlugin()
+            self.wait_for(lambda: not self.bridge._pending)
+            self.assertEqual(len(self.bridge.plugins), 1)
+            self.assertFalse(self.bridge.plugins[0]["enabled"])
+            self.qml(self.find("enablePlugin"), "clicked()")
+            self.assertTrue(self.find("pluginTrustDialog").property("visible"))
+            self.assertFalse(self.bridge.plugins[0]["enabled"])
+            self.qml(self.find("confirmEnablePlugin"), "clicked()")
+            self.wait_for(lambda: not self.bridge._pending)
+            self.assertTrue(self.bridge.plugins[0]["enabled"])
+            for locale in ("zh_CN", "en_US", "ja_JP", "ko_KR"):
+                self.bridge.preference("language", locale)
+                self.app.processEvents()
+                self.assertIsNotNone(self.find("runPlugin"))
+            folder = Path(self.bridge.plugins[0]["folder"])
+            self.bridge.removePlugin(self.bridge.plugins[0]["id"])
+            self.wait_for(lambda: not self.bridge._pending)
+            self.assertEqual(self.bridge.plugins, [])
+            self.assertTrue(folder.is_dir())
+            spawn.assert_not_called()
+        self.assert_no_errors()
+
+    def test_plugin_output_is_plain_text_and_uses_visible_config(self):
+        self.interface()
+        self.root.setProperty("page", 4)
+        self.find("settingsPage").setProperty("section", 5)
+        self.wait_for(lambda: not self.bridge._pending)
+        self.bridge.addExamplePlugin()
+        self.wait_for(lambda: not self.bridge._pending)
+        identifier = self.bridge.plugins[0]["id"]
+        self.bridge.enablePlugin(identifier, True)
+        self.wait_for(lambda: not self.bridge._pending)
+        with mock.patch.object(self.bridge._plugins, "run", return_value="<b>literal</b>") as run:
+            self.bridge.runPlugin(identifier, "artificial", {"prefix": "Saved from run"})
+            self.wait_for(lambda: not self.bridge._pending)
+            run.assert_called_once()
+        self.assertEqual(self.bridge.plugins[0]["config"]["prefix"], "Saved from run")
+        self.assertEqual(self.bridge.pluginOutput["text"], "<b>literal</b>")
+        self.assertFalse(self.bridge.pluginOutput["error"])
+        self.assertEqual(self.find("pluginResult").property("text"), "<b>literal</b>")
+        self.assertTrue(self.qml(self.find("pluginResult"), "textFormat === TextEdit.PlainText"))
+        self.assertEqual(self.bridge.runningPlugin, "")
+        self.assert_no_errors()
+
     def test_reply_text_expression_and_gesture_arrive_together(self):
         self.interface()
         pet = self.find("live2dStage")

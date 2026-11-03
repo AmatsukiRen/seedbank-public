@@ -1,0 +1,11 @@
+{
+  "protocol": "seedbank/plugin@1",
+  "id": "seedbank.example.hello",
+  "name": "Hello · 文本便签",
+  "version": "0.0.1",
+  "author": "SeedBank contributors",
+  "description": "一个只整理手动输入的最小示例。无模型调用，不读取个体档案。",
+  "entry": "main.py",
+  "access": [],
+  "settings": [{"key": "prefix", "label": "便签前缀", "default": "今天的小事"}]
+}

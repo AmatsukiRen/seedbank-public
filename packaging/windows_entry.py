@@ -577,6 +577,10 @@ def main(argv: list[str] | None = None) -> int:
         from seedbank.channel_worker import main as channel_main
         return channel_main()
 
+    if len(args) == 2 and args[0] == "--plugin-worker":
+        from seedbank.plugin_worker import main as plugin_main
+        return plugin_main(args[1:])
+
     if args == ["--safe-graphics"]:
         # User-selected recovery entry. Set before importing/creating Qt; it
         # affects this process only and never edits UI preferences or life data.

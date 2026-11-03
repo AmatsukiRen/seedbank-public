@@ -24,6 +24,8 @@
 - 三语 README 与 docs 为介绍入口，不维护 HTML 站点，不重新引入 docs/release-plan.md。文案源 docs/content/*.json，生成工具 tools/render-readme.mjs。
 - 历史三张同页截图已从首页撤下；新截图待用户提供真实新候选画面，不假造截图或运行结果。
 - 本地 JSON Lines、模型和渠道适配已经有实现；没有稳定插件 SDK、插件商店、热加载或权限沙箱，不混写为已完成。
+- 2026-11-03 新增本地手动文本插件：设置 → 插件与扩展，导入默认停用，确认信任才启用，每次手动执行，进程不是沙箱，不自动读写生命包或向模型提交结果。协议 `seedbank/plugin@1`；示例与说明见 docs/plugins.md。用户执行专项 packaging/run_offline.ps1 -Suite plugins，代理未运行。取消须处理 Windows 单文件启动器与工作进程树。
+- 已读取模型随包使用须知、上善无形非商业二创声明及 Live2D 官方 SDK/可扩展应用条款。加载任意本地模型很可能属于需官方审查的可扩展应用，不得宣称个人、免费或开源自动豁免。docs/licensing-review.md 记录依据，docs/licensing-inquiry.md 只是未发送草稿；不代用户发信、签约或改 PUBLIC。
 
 ## 版本
 

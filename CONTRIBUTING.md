@@ -11,7 +11,7 @@
 | Python / 模型工程 | 阅读[桥接协议](docs/extensions.md)，设计新模型适配、预算或失败恢复 |
 | QML / 前端 / 移动端 | 改进记忆来源的呈现、键盘操作，或设计新的载体 |
 | 聊天机器人 / 工具开发 | 以[离线客户端](examples/bridge_client.py)为起点，描述消息、身份、受众和附件的转换 |
-| 插件架构 | 帮助定义能力权限、版本兼容、安装卸载和生命周期；这些还没有统一实现 |
+| 插件架构 | 从[本地文本插件](docs/plugins.md)与便签示例开始；继续完善能力权限、版本兼容和生命周期 |
 | Live2D / 声音 / 角色制作 | 提供有明确来源和使用范围的外观方案，避免把外观固定成所有个体的出生身份 |
 | 写作 / 翻译 / 无障碍 | 改进三语介绍、错误说明、屏幕阅读与理解成本 |
 | 记忆与成长研究 | 提供可复现的人工场景，区分记错、后来变化、转述与亲历；讨论什么证据才算成长 |
@@ -35,8 +35,8 @@
 
 ## English
 
-We welcome provider and chat adapters, new interfaces, memory research, accessibility, translations and character work. Start with one concrete scenario. Describe the integration layer, inputs and outputs, data access, networking, failures and dormancy. Include artificial examples and clearly separate executed checks from proposed steps. The application core and desktop UI are included in this repository; setup and offline regression commands are in docs/development.md. See the [integration guide](docs/extensions.md) and [offline reference client](examples/bridge_client.py). No stable plugin SDK or plugin manager is available yet.
+We welcome provider and chat adapters, new interfaces, memory research, accessibility, translations and character work. Start with one concrete scenario. Describe the integration layer, inputs and outputs, data access, networking, failures and dormancy. Include artificial examples and clearly separate executed checks from proposed steps. The application core and desktop UI are included in this repository; setup and offline regression commands are in docs/development.md. See the [integration guide](docs/extensions.md) and [offline reference client](examples/bridge_client.py). A local manual text-plugin manager and example are now included; see docs/plugins.md. There is no stable SDK or permission sandbox, and the new implementation awaits user testing.
 
 ## 日本語
 
-モデルやチャットのアダプター、新しい画面、記憶の研究、アクセシビリティ、翻訳、キャラクター制作を歓迎します。具体的な利用場面を一つ決め、接続する層、入出力、データアクセス、通信、失敗時と休眠時の扱いを説明してください。架空の例を使い、実施済みと未実施の確認を明確に分けます。アプリのコアとデスクトップ画面は本リポジトリに収録しています。導入と回帰テストの手順は docs/development.md を参照してください。[接続ガイド](docs/extensions.md)と[オフラインの参考実装](examples/bridge_client.py)をご覧ください。安定したプラグイン SDK や管理機能はまだありません。
+モデルやチャットのアダプター、新しい画面、記憶の研究、アクセシビリティ、翻訳、キャラクター制作を歓迎します。具体的な利用場面を一つ決め、接続する層、入出力、データアクセス、通信、失敗時と休眠時の扱いを説明してください。架空の例を使い、実施済みと未実施の確認を明確に分けます。アプリのコアとデスクトップ画面は本リポジトリに収録しています。導入と回帰テストの手順は docs/development.md を参照してください。[接続ガイド](docs/extensions.md)と[オフラインの参考実装](examples/bridge_client.py)をご覧ください。ローカルの手動テキストプラグイン管理とサンプルを追加しました。docs/plugins.md を参照してください。安定 SDK や権限サンドボックスは未提供で、新実装はユーザーによる検証待ちです。

@@ -94,7 +94,7 @@ A desktop pet, a group chat, a new voice, another body. SeedBank aims to give th
 | **Chat platforms and tools** | Local subprocess · JSON Lines bridge | Existing QQ/OneBot; new Discord, Telegram, Feishu and DingTalk text channels plus an AstrBot bridge. See the channel guide. |
 | **Model providers** | stub, OpenAI-compatible, Anthropic and Codex adapters | New services and local models; better timeouts, cost reporting and failure handling. |
 | **Interfaces and bodies** | Qt Quick / QML, local Live2D models, carrier bridge | New desktop, mobile or VR interfaces that preserve records and explicit choices. |
-| **Plugin infrastructure** | Unified installation, permission manifests and hot reload are not implemented | Design manifests, capabilities, lifecycle and compatibility together. |
+| **Local text plugins** | Import, trust, enable, configure and run from Settings | Start with the note example; help design automatic tool authorization, action receipts and compatibility. |
 
 The existing bridge exchanges newline-delimited JSON over stdin/stdout, using seedbank/bridge@1. A client sends this line to request the handshake. This is not a public HTTP endpoint:
 
@@ -102,7 +102,7 @@ The existing bridge exchanges newline-delimited JSON over stdin/stdout, using se
 {"id":"hello-1","op":"hello"}
 ```
 
-There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples.
+There is room for Python, QML, frontend and model engineering, character production, accessibility and translation. The integration guide covers operations, request IDs, memory provenance, dormancy and artificial examples. A local text-plugin manager is now implemented and awaits user testing. Start with the [plugin contract and note example (中文)](docs/plugins.md). There is no permission sandbox or automatic tool invocation.
 
 **[Integration guide and roadmap (中文) →](docs/extensions.md)** · **[Contributing →](CONTRIBUTING.md)** · [Python example](examples/bridge_client.py)
 

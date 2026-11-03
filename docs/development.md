@@ -10,6 +10,7 @@
 | `eggs/open.egg` | 默认开放出生种子 |
 | `eggs/dafeiyu.egg` | 历史格式与回归用种子，不是默认出生，也不是角色模型 |
 | `adapters` | AstrBot 插件与 OneBot 适配示例 |
+| `examples/plugins/hello` | 本地文本插件示例，供设置中的插件管理页导入 |
 | `spec` | 生命包及接口协议；历史格式版本独立于应用版本 |
 | `packaging` | Windows 生产与用户验收入口 |
 
@@ -41,6 +42,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File packaging/build_windows.ps1 
 # 临时 HOME、离线保护；日志保留在本地 artifacts，不入 Git
 powershell -NoProfile -ExecutionPolicy Bypass -File packaging/run_offline.ps1 -Suite core
 powershell -NoProfile -ExecutionPolicy Bypass -File packaging/run_offline.ps1 -Suite integrations
+powershell -NoProfile -ExecutionPolicy Bypass -File packaging/run_offline.ps1 -Suite plugins
 ```
 
 使用与运行源码相同的 Python；可通过 `PYTHON` 指定 venv 解释器。Qt 用例使用离屏软件模式，SDK 相关用例使用模拟对象；不代表原生画面实测。
