@@ -63,6 +63,8 @@ export function renderReadme(d, locales) {
   const e=escapeXml;
   const graphic=(id,index)=>`<a name="${id}"></a>\n<h2><img src="assets/readme/section-${id}-${d.lang}.svg" width="100%" alt="${e(s[index])}"></h2>`;
   const navLabels=[d.readmeStory,d.nav[2],d.extensions.nav,d.nav[3],d.readmeSections[6]];
+  const releaseUrl="https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1";
+  const downloadUrl="https://github.com/AmatsukiRen/seedbank-public/releases/download/v0.0.1/SeedBank-0.0.1-windows-x64.zip";
   return `<!-- GitHub-native README layout: repository images and links, no page CSS or scripts. -->
 <p align="center">${locales.map(l=>`<a href="${l.readme}">${l.lang==="zh-CN"?"简体中文":l.lang==="en"?"English":"日本語"}</a>`).join(" &nbsp; / &nbsp; ")}</p>
 
@@ -74,6 +76,10 @@ export function renderReadme(d, locales) {
 </table>
 
 <p align="center"><strong>${e(d.readmeIntro)}</strong></p>
+
+<h3 align="center"><a href="${downloadUrl}">↓ ${e(d.download.label)}</a></h3>
+<p align="center">${e(d.download.info)}<br>${e(d.download.instructions)}</p>
+<p align="center"><a href="${releaseUrl}">${e(d.download.releaseLabel)}</a> &nbsp; · &nbsp; <a href="docs/getting-started.md">${e(d.download.guideLabel)}</a></p>
 
 <p align="center">
 ${["story","screens","extend","start","credits"].map((id,i)=>`<a href="#${id}"><img src="assets/readme/nav-${id}-${d.lang}.svg" width="150" alt="${e(navLabels[i])}"></a>`).join("\n")}

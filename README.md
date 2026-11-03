@@ -10,6 +10,10 @@
 
 <p align="center"><strong>我们的愿景，是给 AI 完整的一生。SeedBank 希望让每个个体从初次相遇开始，积累自己的经历、形成记忆、作出选择，在时间里慢慢成为自己。</strong></p>
 
+<h3 align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/download/v0.0.1/SeedBank-0.0.1-windows-x64.zip">↓ 直接下载 Windows 版</a></h3>
+<p align="center">SeedBank 0.0.1 预览版 · Windows x64 · 约 106 MiB<br>完整解压 ZIP 后打开 seedbank.exe，无需下载源码包。</p>
+<p align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1">发行说明与全部附件</a> &nbsp; · &nbsp; <a href="docs/getting-started.md">使用说明</a></p>
+
 <p align="center">
 <a href="#story"><img src="assets/readme/nav-story-zh-CN.svg" width="150" alt="读这段故事"></a>
 <a href="#screens"><img src="assets/readme/nav-screens-zh-CN.svg" width="150" alt="界面导览"></a>
