@@ -1,9 +1,14 @@
 # Changelog
 
-## Unreleased — WorkBuddy account integration
+## Unreleased — Runtime self-knowledge and WorkBuddy account integration
+
+- Accept OneBot CQ-string group mentions as well as message arrays, and respond to a bare allowed mention. Reject incomplete login receipts and show local QQ processing/delivery diagnostics. Verify shared-pack persistence and desktop recall without real QQ traffic. See [QQ group replies](docs/qq-group-replies.md).
+
+- Provide per-turn birth identity, actual inbound channel and local connection observations to the model. Keep private identity and other-channel activity out of group prompts; never infer online status from saved settings or chat text. See [runtime self-knowledge](docs/runtime-self-knowledge.md).
+- Preserve original user speech under prompt pressure by omitting the optional new-project schema before evicting it. Add isolated regression coverage for runtime state, privacy and long follow-up conversations.
 
 - Add an experimental text provider using the official CodeBuddy CLI signed into the user's WorkBuddy account. Require an explicit model ID; desktop authentication and model selection are not imported.
-- Add separate usage receipts, bounded activity calls, tool-disabled ephemeral requests, failure handling and four-language settings. Offline regressions are prepared for user execution, but have not been run. See [setup and limitations](docs/workbuddy.md).
+- Add separate usage receipts, bounded activity calls, tool-disabled ephemeral requests, failure handling and four-language settings. The 50-case offline WorkBuddy/Codex/preset/UI suite passed on 2026-11-04; no real CodeBuddy call has been made. See [setup and limitations](docs/workbuddy.md).
 
 ## 0.0.1 — 2026-11-04 · Dialog-close artifact revision
 

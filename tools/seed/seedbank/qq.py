@@ -54,21 +54,62 @@ def inbound_secret(config) -> str:
 
 # —— 消息解析（纯函数，方便测试） ——
 
+_CQ = re.compile(r"\[CQ:([A-Za-z0-9_.-]+)((?:,[^\[\]]*)?)\]")
+
+
+def _cq_unescape(value, *, parameter=False):
+    if parameter:
+        value = value.replace("&#44;", ",")
+    # Decode ampersands last and never reparse decoded text as CQ markup.
+    return value.replace("&#91;", "[").replace("&#93;", "]").replace("&amp;", "&")
+
+
+def message_segments(message):
+    """Normalize both OneBot v11 message formats; arrays already hold raw text."""
+    if isinstance(message, list):
+        return [{"type": row["type"], "data": row.get("data") or {}} for row in message
+                if isinstance(row, dict) and isinstance(row.get("type"), str)
+                and (row.get("data") is None or isinstance(row.get("data"), dict))]
+    if not isinstance(message, str):
+        return []
+    rows, offset = [], 0
+
+    def text(value):
+        if value:
+            rows.append({"type": "text", "data": {"text": _cq_unescape(value)}})
+
+    for match in _CQ.finditer(message):
+        text(message[offset:match.start()])
+        params, valid = {}, True
+        for part in match[2][1:].split(",") if match[2] else []:
+            key, separator, value = part.partition("=")
+            if not separator or not re.fullmatch(r"[A-Za-z0-9_.-]+", key) or key in params:
+                valid = False
+                break
+            params[key] = _cq_unescape(value, parameter=True)
+        if valid:
+            rows.append({"type": match[1], "data": params})
+        else:
+            text(match[0])
+        offset = match.end()
+    text(message[offset:])
+    return rows
+
 def extract_text(segments) -> str:
     """把 OneBot 消息段里的纯文字拼起来（忽略 @、图片、表情）。"""
     parts = []
-    for segment in segments or []:
+    for segment in message_segments(segments):
         if not isinstance(segment, dict):
             continue
         if segment.get("type") == "text":
             data = segment.get("data") or {}
-            parts.append(str(data.get("text") or ""))
+            parts.append(data.get("text") if isinstance(data.get("text"), str) else "")
     return "".join(parts).strip()
 
 
 def find_images(segments) -> list[dict]:
     images = []
-    for segment in segments or []:
+    for segment in message_segments(segments):
         if isinstance(segment, dict) and segment.get("type") == "image":
             data = segment.get("data") or {}
             url = data.get("url") or data.get("file") or ""
@@ -81,7 +122,7 @@ def mentioned(segments, self_id) -> bool:
     self_id = str(self_id or "")
     if not self_id:
         return False
-    for segment in segments or []:
+    for segment in message_segments(segments):
         if not isinstance(segment, dict) or segment.get("type") != "at":
             continue
         data = segment.get("data") or {}
@@ -98,7 +139,7 @@ def decide(event: dict, *, owner: str, groups=None, self_id: str = "") -> dict:
 
     message_type = event.get("message_type")
     user_id = str(event.get("user_id") or "")
-    segments = event.get("message") or []
+    segments = message_segments(event.get("message"))
     text = extract_text(segments)[:MAX_TEXT]
     images = find_images(segments)
 
@@ -120,11 +161,11 @@ def decide(event: dict, *, owner: str, groups=None, self_id: str = "") -> dict:
         group_id = str(event.get("group_id") or "")
         if group_id not in groups:
             # 白名单为空 = 不回应任何群（和设置页「不填 = 不回应群聊」一致）
-            return {"action": "ignore", "reason": t("群不在白名单里")}
+            return {"action": "ignore", "reason": t("群不在白名单里"), "reason_code": "group_not_allowed"}
         if not mentioned(segments, self_id or event.get("self_id")):
-            return {"action": "ignore", "reason": t("没有 @ 她")}
+            return {"action": "ignore", "reason": t("没有 @ 她"), "reason_code": "not_mentioned"}
         if not text and not images:
-            return {"action": "ignore", "reason": t("空消息")}
+            text = t("（对方在群里 @ 了你，没有附带文字。）")
         return {
             "action": "sense" if images else "chat",
             "speaker": "访客",
@@ -289,7 +330,8 @@ def test_connection(base_url: str = "", token: str = "", timeout: float = 4.0) -
     except (OSError, ValueError) as exc:
         return {"ok": False, "error": str(exc), "base_url": url}
     data = result.get("data") if isinstance(result, dict) else None
-    if isinstance(data, dict):
+    if (isinstance(result, dict) and result.get("status") == "ok" and result.get("retcode") == 0
+            and isinstance(data, dict) and str(data.get("user_id") or "").isdigit()):
         return {
             "ok": True,
             "base_url": url,
@@ -298,7 +340,7 @@ def test_connection(base_url: str = "", token: str = "", timeout: float = 4.0) -
         }
     if isinstance(result, dict) and result.get("retcode") not in (0, None):
         return {"ok": False, "error": str(result.get("message") or result), "base_url": url}
-    return {"ok": True, "base_url": url, "user_id": "", "nickname": ""}
+    return {"ok": False, "base_url": url, "error": t("OneBot 未返回有效登录信息，不能确认 QQ 已连接。")}
 
 
 # —— 适配器本体 ——
@@ -316,6 +358,19 @@ class QQAdapter:
         self._owns_bridge = bridge is None
         self._stopped = threading.Event()
         self._delivery_lock = threading.RLock()
+        self._received = self._sent = self._failed = 0
+        self._last_stage, self._last_code = "waiting", None
+
+    def runtime_status(self):
+        return {"state": "stopped" if self._stopped.is_set() else "listening",
+                "received": self._received, "sent": self._sent, "failed": self._failed}
+
+    def diagnostics(self):
+        return {**self.runtime_status(), "stage": self._last_stage, "code": self._last_code}
+
+    def _stage(self, value, code=None):
+        self._last_stage = value
+        self._last_code = code if type(code) is int else None
 
     def _get_bridge(self):
         if self.bridge is None:
@@ -343,14 +398,22 @@ class QQAdapter:
         return path
 
     def handle(self, event: dict) -> dict:
+        from .runtime_self import incoming
+        with incoming(self.pack_dir, "qq", self.runtime_status):
+            return self._handle(event)
+
+    def _handle(self, event: dict) -> dict:
         from .lifecycle import active
         if self._stopped.is_set() or not active(self.pack_dir):
             return {"ok": True, "action": "ignore", "reason": "dormant"}
         if self.self_id and str(event.get("self_id") or "") != self.self_id:
+            self._stage("wrong_account")
             return {"ok": True, "action": "ignore", "reason": "different_account"}
         decision = decide(event, owner=self.owner, groups=self.groups,
                           self_id=self.self_id or str(event.get("self_id") or ""))
         if decision["action"] == "ignore":
+            if decision.get("reason_code"):
+                self._stage(decision["reason_code"])
             self.log(t("忽略：{reason}", reason=decision.get("reason")))
             return {"ok": True, **decision}
         message_id = event.get("message_id")
@@ -366,6 +429,8 @@ class QQAdapter:
         journal = Journal(self.pack_dir)
         if not journal.claim(request_id):
             return {"ok": True, "action": "ignore", "reason": "duplicate"}
+        self._received += 1
+        self._stage("generating")
         sending = False
         try:
             bridge = self._get_bridge()
@@ -395,22 +460,30 @@ class QQAdapter:
                 # A pause may have been confirmed while an earlier reply was
                 # being prepared. Do not send that reply after dormancy begins.
                 if self._stopped.is_set() or not active(self.pack_dir):
+                    self._stage("cancelled")
                     journal.finish(request_id, "cancelled")
                     return {"ok": True, "action": "ignore", "reason": "dormant"}
                 journal.finish(request_id, "sending")
                 sending = True
+                self._stage("sending")
                 if decision["target"] == "private":
                     receipt = sender.send_private(decision["user_id"], reply)
                 else:
                     receipt = sender.send_group(decision["group_id"], reply, at_user=decision["user_id"])
                 if not isinstance(receipt, dict) or receipt.get("retcode") != 0 or receipt.get("status") != "ok":
+                    self._failed += 1
+                    self._stage("send_failed", receipt.get("retcode") if isinstance(receipt, dict) else None)
                     journal.finish(request_id, "delivery_failed")
                     return {"ok": False, "action": decision["action"], "error": t("QQ 回复发送失败；未自动重试。")}
                 journal.finish(request_id, "delivered")
+                self._sent += 1
+                self._stage("sent")
             self.log(t("回复 {target} {who}：{reply}", target=decision["target"],
                        who=decision.get("group_id") or decision["user_id"], reply=reply[:40]))
             return {"ok": True, "action": decision["action"], "reply": reply}
         except (RuntimeError, OSError, ValueError, KeyError, SeedError) as exc:
+            self._failed += 1
+            self._stage("send_unknown" if sending else "generation_failed", getattr(exc, "code", None))
             journal.finish(request_id, "delivery_unknown" if sending else "failed")
             self.log(t("这一条没能处理：{error}", error=exc))
             return {"ok": False, "action": decision["action"], "error": str(exc)}
@@ -422,6 +495,27 @@ class QQAdapter:
             self._stopped.set()
         if self._owns_bridge and self.bridge is not None and hasattr(self.bridge, "close"):
             self.bridge.close()
+
+
+def diagnostic_text(row):
+    labels = {
+        "waiting": "本机接收服务已启动；等待消息，尚不能据此确认 QQ 在线。",
+        "group_not_allowed": "收到群消息，但该群不在白名单；检查后保存并重新启动连接。",
+        "not_mentioned": "收到群消息，但没有识别到对本账号的 @。",
+        "wrong_account": "上报账号与设置中的 QQ 号不一致。",
+        "generating": "消息已交给当前个体，正在生成回复。",
+        "sending": "回复已生成，正在发送到 QQ。",
+        "sent": "OneBot 已确认本次回复发送成功。",
+        "send_failed": "QQ 拒绝发送回复；请检查群禁言、权限和 OneBot 服务。未自动重发。",
+        "send_unknown": "QQ 发送结果未确认；请检查 OneBot 地址、令牌和网络。未自动重发。",
+        "generation_failed": "消息处理未完成；请检查模型设置与未完成请求。尚未发送回复。",
+        "cancelled": "回复已取消：个体已休眠或连接已停止。",
+    }
+    text = t(labels.get(row.get("stage"), labels["waiting"]))
+    if type(row.get("code")) is int:
+        text += " " + t("错误码：{code}", code=row["code"])
+    return t("交给个体 {received} 条 · 回复成功 {sent} 条 · 失败 {failed} 条",
+             received=row.get("received", 0), sent=row.get("sent", 0), failed=row.get("failed", 0)) + "\n" + text
 
 
 def _image_suffix(data: bytes) -> str:

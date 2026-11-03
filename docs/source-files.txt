@@ -313,3 +313,6 @@ tools/seed/testdata/bright-warm.png
 tools/seed/testdata/sound.wav
 tools/seed/seedbank/workbuddy_transport.py
 tools/seed/test_workbuddy_transport.py
+tools/seed/seedbank/runtime_self.py
+tools/seed/test_runtime_self.py
+tools/seed/test_qq_group_reply.py

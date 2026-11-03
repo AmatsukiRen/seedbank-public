@@ -407,9 +407,12 @@ def build_context(pack_dir, day_no: int, date: str, message: str = "", *, use_se
         raise ValueError(f"不是生命包（缺 birth.json）：{pack_dir}")
     from . import disclosure
     audience_id = disclosure.audience(person_id, audience_id, interaction_kind=interaction_kind)
+    from .runtime_self import context as runtime_context
+    runtime = runtime_context(pack_dir, audience_id)
     if audience_id != "owner":
-        return disclosure.context(pack_dir, day_no, date, message, person_id=person_id,
-                                  policy=disclosure.policy_for(pack_dir, audience_id, person_id), use_semantic=use_semantic)
+        return {**disclosure.context(pack_dir, day_no, date, message, person_id=person_id,
+                                    policy=disclosure.policy_for(pack_dir, audience_id, person_id), use_semantic=use_semantic),
+                "runtime_self": runtime}
     species = read_json(Path(pack_dir) / "species.json", {})
     traits_doc = read_json(Path(pack_dir) / "genome" / "traits.json", {})
     picked = read_json(Path(pack_dir) / "mind" / "traits.json", {"traits": []})
@@ -486,6 +489,7 @@ def build_context(pack_dir, day_no: int, date: str, message: str = "", *, use_se
     recent_days = [d for d in days if d["day"] < int(day_no)
                    and f"life/{d['file']}" not in outdated_sources][-2:]
     context = {
+        "runtime_self": runtime,
         "packDir": str(pack_dir),
         "_audience_id": audience_id, "_person_id": person_id,
         "birth": birth,

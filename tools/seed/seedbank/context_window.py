@@ -150,6 +150,17 @@ def fit(ctx, builder):
     # Recent raw dialogue outlives duplicated evidence/recall summaries.
     for key in ("evidence", "recalled", "learning", "disclosed", "transcript"):
         while selected.get(key):
+            # Do not evict original speech merely to keep the optional new
+            # multi-stage-project schema. Host observations can add enough
+            # overhead to expose this at the default budget. Existing goals,
+            # daily choices and execution constraints remain in the prompt.
+            if (key == "transcript" and selected.get("goal_project_protocol") is not False
+                    and not any(row.get("who") == "fish" and not row.get("person_id")
+                                for row in selected[key])):
+                selected["goal_project_protocol"] = False
+                prompt, size = render()
+                if size <= budget:
+                    return prompt, selected, {"input_bytes": size, "budget": budget, "limited": True}
             selected[key] = _trim_transcript(selected[key], len(selected[key]) - 1) if key == "transcript" else selected[key][:-1]
             prompt, size = render()
             if size <= budget:

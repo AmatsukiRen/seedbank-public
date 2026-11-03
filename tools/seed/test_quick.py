@@ -259,6 +259,34 @@ class QuickTest(unittest.TestCase):
             proc.assert_not_called()
         self.assert_no_errors()
 
+    def test_qq_delivery_status_refreshes_without_logging_messages_or_credentials(self):
+        self.interface()
+        self.root.setProperty("page", 4)
+        self.find("settingsPage").setProperty("section", 3)
+        adapter = mock.Mock()
+        row = {"state": "listening", "stage": "generating", "received": 1, "sent": 0, "failed": 0, "code": None}
+        adapter.diagnostics.side_effect = lambda: dict(row)
+        server = mock.Mock(adapter=adapter)
+        self.bridge.session.server = server
+        try:
+            for locale in ("zh_CN", "en_US", "ja_JP", "ko_KR"):
+                self.bridge.preference("language", locale)
+                for stage, code in (("generating", None), ("send_failed", 100), ("sent", None)):
+                    row.update(stage=stage, code=code)
+                    self.bridge.watch()
+                    self.app.processEvents()
+                    displayed = self.find("qqDeliveryStatus").property("text")
+                    self.assertEqual(displayed, self.bridge.qqStatusText)
+                    self.assertNotIn("{", displayed)
+                    if code:
+                        self.assertIn("100", displayed)
+                self.assert_no_errors()
+        finally:
+            self.bridge.session.server = None
+        self.bridge.watch()
+        self.app.processEvents()
+        self.assertEqual(self.find("qqDeliveryStatus").property("text"), self.bridge.qqStatusText)
+
     def test_plugins_page_import_enable_and_remove_never_launches_code(self):
         with mock.patch("seedbank.plugins.subprocess.Popen") as spawn:
             self.interface()

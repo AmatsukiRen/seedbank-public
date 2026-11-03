@@ -158,7 +158,9 @@ class Connection:
             self.received += 1
             delivery_started = False
             try:
-                result = self.session.call("message", **request)
+                from .runtime_self import incoming
+                with incoming(self.session.pack, self.config["id"]):
+                    result = self.session.call("message", **request)
                 if self.stopped.is_set() or not active(self.session.pack):
                     self.journal.finish(request["request_id"], "cancelled")
                     return deliver("")

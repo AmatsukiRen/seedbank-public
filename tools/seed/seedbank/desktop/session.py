@@ -5,7 +5,7 @@ import threading
 from pathlib import Path
 
 from .. import qq
-from .. import body, development
+from .. import body, development, runtime_self
 from ..identity import profile as identity_profile
 from ..agency import load_agency
 from ..bonds import load_bonds
@@ -38,7 +38,7 @@ class Session:
         self.channels = Manager(self)
 
     def call(self, operation, **fields):
-        with self.lock:
+        with self.lock, runtime_self.host(self.pack, self.runtime_channels):
             if self.closed:
                 raise RuntimeError("The room is closed.")
             result = self.bridge.handle({"op": operation, **fields})
@@ -48,7 +48,7 @@ class Session:
             return result
 
     def pulse(self):
-        with self.lock:
+        with self.lock, runtime_self.host(self.pack, self.runtime_channels):
             from ..lifecycle import active
             if not active(self.pack):
                 return {"dormant": True, "snapshot": self.snapshot()}
@@ -136,6 +136,18 @@ class Session:
             raise
         self.server, self.server_thread = server, worker
         return {"ok": True, "running": True, "port": port}
+
+    def runtime_channels(self):
+        # Only live in-process observations; saved forms do not imply a socket,
+        # remote login, or receipt. No disk config or account IDs are exposed.
+        server, worker = self.server, self.server_thread
+        rows = {"qq": {"state": "not_started"}}
+        if server is not None:
+            rows["qq"] = {**server.adapter.runtime_status(),
+                          "state": "listening" if worker and worker.is_alive() else "stopped"}
+        for row in self.channels.summaries():
+            rows[row["id"]] = {**row, "state": "running" if row["running"] else "stopped"}
+        return rows
 
     def stop_qq(self):
         server, self.server = self.server, None

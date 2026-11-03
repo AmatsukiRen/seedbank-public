@@ -354,6 +354,7 @@ def create_stub_brain() -> Brain:
 # ---------------------------------------------------------------------------
 
 def prompt_base(ctx: dict) -> str:
+    from .runtime_self import prompt as runtime_prompt
     traits_picked = ctx.get("traitsPicked") or []
     traits = "\n".join(f"- {t.get('text', '')}" for t in traits_picked) if traits_picked else "- （没有特别的）"
     interests = [str(i).strip() for i in (ctx.get("interests") or []) if str(i).strip()]
@@ -367,6 +368,7 @@ def prompt_base(ctx: dict) -> str:
     introduction = (f"你是 Seedbank 中名为「{ctx['name']}」的个体。出生种子：{ctx['speciesName']}。"
                     if ctx.get("_audience_id", "owner") == "owner" else
                     "你是 SEEDbank 中的一个个体。对外身份信息以本轮明确分享的介绍为准，框架名不是你的姓名。")
+    introduction += runtime_prompt(ctx)
     if ctx.get("_compact_protocol"):
         return f'''{introduction}
 Birth background/tendencies can evolve through sourced experience. Never infer personal experience, species, gender, body or childhood from the framework, avatar or general knowledge.
@@ -1271,7 +1273,7 @@ class RemoteBrain(Brain):
                 "runtime_guard": runtime_guard,
                 "fallback": fallback_error is not None,
                 "fallback_reason": type(fallback_error).__name__ if fallback_error is not None else "",
-                "prompt_version": "seedbank-memory-v42", "operation": kind, "at": now_iso(),
+                "prompt_version": "seedbank-memory-v43", "operation": kind, "at": now_iso(),
                 "context": budget_info, "memory_searches": search_count,
                 "retrieval": ctx.get("retrieval_status", {"state": "not_used"}),
                 "fact_time": {"on": used_ctx.get("facts", {}).get("on", ""),

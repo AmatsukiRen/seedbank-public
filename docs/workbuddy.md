@@ -4,7 +4,7 @@
 
 新增实验入口 **WorkBuddy（同账号 CodeBuddy CLI）**。SeedBank 负责提供当前对话、记忆和人生记录，官方 CodeBuddy CLI 负责账号认证及模型生成，回复再交回 SeedBank 保存。切换此入口不重新出生，也不改写已有经历。
 
-**当前状态：已实现，未运行离线测试、界面验收或真实账号调用；本次候选尚未更新到公开 Release。** 先用独立人工生命包验收。
+**当前状态：已实现，50 项离线传输与设置检查通过；真实 CLI 账号调用尚未验收，本次候选尚未更新到公开 Release。**
 
 ## 账号与模型的实际边界
 
@@ -35,12 +35,12 @@ SeedBank 从 PATH 查找 `codebuddy` 或 `cbc`。若安装在其他位置，可�
 - 用量回执独立存放于用户目录 `.seedbank/workbuddy-usage`。只保存状态、配置模型、调用编号、时间与已知 token 用量，不保存提示、正文或登录凭据；未知用量明确计为未知。关闭会话持久化不等于承诺上游服务或 CLI 的诊断系统完全不留记录。
 - 自动活动遇到错误后暂停调用；成功发送手动消息或重新保存设置后再继续。连接测试本身不会恢复个体休眠。
 
-## 由用户执行的验收
+## 验收
 
 仓库根目录运行 `powershell -NoProfile -ExecutionPolicy Bypass -File packaging/run_workbuddy_checks.ps1`。此入口只运行假传输、临时人工包及软件界面用例，禁止网络，不启动真实 CodeBuddy，不消耗账号额度；日志为 `artifacts/workbuddy-*.log`。
 
-已编写用例覆盖：独立工作目录和系统提示、模型 ID 必填、工具事件拒绝、错误/超时/缺失用量、环境变量隔离、调用预算共享、自动活动暂停、连接结果解析、四语设置保存及现有 Codex 回归。**已编写不等于已通过。** 真实 CLI 兼容性、账号授权与回答质量仍需要用户另行点击验收。
+2026-11-04 用户明确允许代理测试后，上述入口 **50/50 通过，1.842 秒**。覆盖独立工作目录和系统提示、模型 ID 必填、工具事件拒绝、错误/超时/缺失用量、环境变量隔离、调用预算共享、自动活动暂停、连接结果解析、四语设置保存及现有 Codex 回归。全部是假传输，没有启动真实 CodeBuddy 或消耗账号额度；真实 CLI 兼容性、账号授权与回答质量仍未验收。
 
-**English:** Experimental WorkBuddy account support uses the official CodeBuddy CLI, signed into the same account. Desktop authentication and selected models are not imported. A model ID is required. Not yet tested; the public release has not been updated with this candidate.
+**English:** Experimental WorkBuddy account support uses the official CodeBuddy CLI, signed into the same account. Desktop authentication and selected models are not imported. A model ID is required. Fifty offline regression checks passed; live CLI compatibility remains unverified. The public release has not been updated with this candidate.
 
-**日本語:** WorkBuddy と同じアカウントでログインした公式 CodeBuddy CLI 経由の実験的な接続です。デスクトップ認証・モデル選択は取り込まず、モデル ID の入力が必要です。未検証で、公開版にはまだ含まれません。
+**日本語:** WorkBuddy と同じアカウントでログインした公式 CodeBuddy CLI 経由の実験的な接続です。デスクトップ認証・モデル選択は取り込まず、モデル ID の入力が必要です。オフラインの50項目は成功しましたが、実際の CLI 接続は未検証で、公開版にはまだ含まれません。

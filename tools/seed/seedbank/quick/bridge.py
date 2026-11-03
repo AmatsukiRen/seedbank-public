@@ -149,6 +149,7 @@ class Bridge(QObject):
         from ..channels import defaults
         self._channel_form = defaults("telegram")
         self._channel_status = []
+        self._qq_status = {}
         self._plugins = PluginManager()
         self._plugin_rows = []
         self._plugin_output = {}
@@ -463,6 +464,11 @@ class Bridge(QObject):
     @Property(bool, notify=stateChanged)
     def qqRunning(self):
         return bool(self.session and self.session.server)
+
+    @Property(str, notify=stateChanged)
+    def qqStatusText(self):
+        server = self.session.server if self.session else None
+        return qq.diagnostic_text(server.adapter.diagnostics()) if server else t("尚未启动")
 
     @Property(bool, notify=formChanged)
     def dirty(self):
@@ -1502,6 +1508,11 @@ class Bridge(QObject):
     @Slot()
     def watch(self):
         if self.session:
+            server = self.session.server
+            qq_status = server.adapter.diagnostics() if server else {}
+            if qq_status != self._qq_status:
+                self._qq_status = qq_status
+                self.stateChanged.emit()
             states = self.session.channels.summaries()
             if states != self._channel_status:
                 self._channel_status = states
