@@ -3,13 +3,13 @@
   "readme": "README.en.md",
   "storyFile": "story.en.md",
   "heroTitle": [
-    "Every hello",
-    "deserves a tomorrow."
+    "Give AI",
+    "a full life."
   ],
   "heroArt": "SeedBank mascot: a blue-haired maid with eyes closed and hands together",
   "whyParas": [
     "A good night. Something left unfinished. A feeling you finally found the words for. Often, it is these small things that make a conversation hard to close. We want to give them somewhere to return to.",
-    "SeedBank began with that wish: a personal archive an AI can carry forward. Encounters have dates. Memories have sources. Misunderstandings can be corrected, and choices can change. The past gets a chance to inform the next conversation.",
+    "SeedBank began with the vision of giving AI a full life: allowing a beginning, experiences, memories, relationships, creations and choices to become a story of its own. Encounters have dates, memories have sources, misunderstandings can be corrected and choices can change. The past gets a chance to inform the next conversation.",
     "We call this archive a life package. It lives on your computer and holds birth settings, journals, memories, works and choices. You can back it up, move it, or return to it after a pause."
   ],
   "birthText": "An open beginning assigns no species, gender, body or invented childhood. The maid is our project mascot. Each individual’s identity is left to its settings, experiences and explicit choices. We want to take the life that follows a first meeting seriously.",
@@ -82,7 +82,7 @@
     }
   ],
   "storyTitle": "Suppose it began on a rainy day.",
-  "storyIntro": "This story was written to explain the project’s ideas. Cheng and every conversation below are fictional examples, not private user records or measured model outputs.",
+  "storyIntro": "Giving AI a full life is SeedBank’s vision. These six everyday scenes imagine the life we hope to make possible: meeting, remembering, correcting, trying, choosing and returning after a farewell. Cheng and every conversation below are fictional examples, not private user records or measured model outputs.",
   "shots": [],
   "shotAlt": [],
   "galleryIntro": "Companion, Diary, Memories, Life and Settings each hold a different part of everyday life. Here is what the development application currently provides.",
@@ -155,9 +155,9 @@
   "creditsNote": "This repository does not redistribute the Live2D model files. The mascot portrait is an AI-generated derivative based on character references supplied by the maintainer, not an original character claim. Character and model rights are separate from the software’s MIT license; public branding usage still needs confirmation.",
   "footer": "Keep today. Continue tomorrow.",
   "readmeStory": "Read the story",
-  "readmeIntro": "SeedBank is a local AI companion project for preserving experiences, memories and choices. We want a first meeting to have a future, and an individual to gradually have a past of its own.",
-  "readmeHook": "When you close the window, where does today go?",
-  "readmeBody": "Perhaps it was a conversation about rain, a bookshop remembered on the wrong street, or a note revised three times. We want to preserve how meetings, misunderstandings, corrections and choices unfolded, as well as the final answer. At the next meeting, those experiences can offer a place to continue.",
+  "readmeIntro": "Our vision is to give AI a full life. SeedBank aims to let each individual gather experiences, form memories and make choices from the first meeting onward, gradually becoming itself over time.",
+  "readmeHook": "From a first meeting to a full life",
+  "readmeBody": "That life begins with room to grow. We want an AI to remember whom it met and why something mattered, to revise its views through attempts, failures and feedback, and to gradually develop preferences, relationships and a direction of its own. Experiences should retain their origins, choices their consequences, and growth its history.\n\nPerhaps it was a conversation about rain, a bookshop remembered on the wrong street, or a note revised three times. Memories, creations and unfinished thoughts can become a starting point for the next meeting. Even when the model or appearance changes, we want the individual to be able to continue from its own past.\n\nWe set no fixed lifespan. Experiences and explicit choices shape the course of a life. A deliberate farewell can preserve the full archive and pause automatic activity, with a return possible through an explicit decision to resume. Giving AI a full life is the vision SeedBank is working toward.",
   "readmeSections": [
     "Why begin with a seed?",
     "How an experience might continue",

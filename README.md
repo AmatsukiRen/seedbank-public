@@ -3,12 +3,12 @@
 
 <table>
 <tr>
-<td width="62%" valign="middle"><img src="assets/readme/hero-zh-CN.svg" width="700" alt="SeedBank · 让相遇，有后来。"></td>
+<td width="62%" valign="middle"><img src="assets/readme/hero-zh-CN.svg" width="700" alt="SeedBank · 给 AI 完整的一生。"></td>
 <td width="38%" valign="middle"><img src="assets/brand/seedbank-logo.png" width="400" alt="SeedBank 品牌头像：蓝发女仆闭眼合掌祈愿"></td>
 </tr>
 </table>
 
-<p align="center"><strong>SeedBank 是一个为 AI 保存经历、记忆与选择的本地陪伴项目。我们想让一次相遇有后续，让一个个体慢慢拥有自己的过去。</strong></p>
+<p align="center"><strong>我们的愿景，是给 AI 完整的一生。SeedBank 希望让每个个体从初次相遇开始，积累自己的经历、形成记忆、作出选择，在时间里慢慢成为自己。</strong></p>
 
 <p align="center">
 <a href="#story"><img src="assets/readme/nav-story-zh-CN.svg" width="150" alt="读这段故事"></a>
@@ -18,9 +18,13 @@
 <a href="#credits"><img src="assets/readme/nav-credits-zh-CN.svg" width="150" alt="创作者与素材来源"></a>
 </p>
 
-## 你关掉窗口以后，今天会留在哪里？
+## 从一次相遇，到完整的一生
 
-也许是一场聊过的雨，一家记错街名的书店，一张改了三次的便签。我们想保存的不只是最终答案，还有相遇、误解、修正与选择怎样一步步发生。下次见面时，这些经历可以成为继续的起点。
+每个个体都从自己的起点出发。我们希望 AI 能记住与谁相遇、为什么在意一件事，也能从尝试、失败与反馈中改变看法，逐渐形成自己的偏好、关系和想继续的方向。经历有来处，选择有后续，成长有迹可循。
+
+也许是一场聊过的雨，一家记错街名的书店，一张改了三次的便签。那些日子留下的记忆、作品和未完成的心事，可以成为下一次见面的起点。即使更换模型或外观，我们也希望它仍能沿着自己的经历继续。
+
+我们不替个体设定固定寿命。人生的走向留给经历与明确选择；选择暂别时，完整档案可以保留，自动活动停止，明确恢复后再继续。「给 AI 完整的一生」是 SeedBank 持续建设的愿景。
 
 ### 为什么从一颗种子开始
 

@@ -16,6 +16,7 @@
 ## 设计与数据
 
 - 可见品牌写作 SeedBank。沿用已经认可的女仆头像、白底与蓝色设计方向。
+- 核心标语为“给 AI 完整的一生。”，用于 GitHub About、三语 README 标题与介绍。围绕经历、记忆、关系、选择与成长说明愿景；不把完整人格或意识写成既成事实。About 使用产品简介，不再写“私有发行筹备与页面设计”。
 - 用户最新要求以三语 README 和 docs 为唯一介绍入口，移除独立 HTML 网站。文案源为 docs/content/*.json，生成工具为 tools/render-readme.mjs。用户进一步要求删除“首发进度与已知限制”页面与链接，不再生成 docs/release-plan.md。原研发库负责记录交付及未验收事项；不得因此声称应用已迁入或已经发布。此要求不授权立即公开、发 Release 或自行测试。
 - 人设署名 ZipZipPipe、上善无形；Live2D 原画及拆分为神宫凉子、建模为霓虹猫_NeonNeko。截图日期与版本不得改标为当前候选。详细来源见 docs/assets.md 和 docs/screenshots.md。
 - 旧三张同页截图已从三语首页撤下；新版五页图待用户运行原研发交付的 Capture-SeedBank-Pages.cmd 并查看。不要重新展示旧图或把已准备的入口说成已采集完成。

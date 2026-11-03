@@ -3,12 +3,12 @@
 
 <table>
 <tr>
-<td width="62%" valign="middle"><img src="assets/readme/hero-en.svg" width="700" alt="SeedBank · Every hello deserves a tomorrow."></td>
+<td width="62%" valign="middle"><img src="assets/readme/hero-en.svg" width="700" alt="SeedBank · Give AI a full life."></td>
 <td width="38%" valign="middle"><img src="assets/brand/seedbank-logo.png" width="400" alt="SeedBank mascot: a blue-haired maid with eyes closed and hands together"></td>
 </tr>
 </table>
 
-<p align="center"><strong>SeedBank is a local AI companion project for preserving experiences, memories and choices. We want a first meeting to have a future, and an individual to gradually have a past of its own.</strong></p>
+<p align="center"><strong>Our vision is to give AI a full life. SeedBank aims to let each individual gather experiences, form memories and make choices from the first meeting onward, gradually becoming itself over time.</strong></p>
 
 <p align="center">
 <a href="#story"><img src="assets/readme/nav-story-en.svg" width="150" alt="Read the story"></a>
@@ -18,9 +18,13 @@
 <a href="#credits"><img src="assets/readme/nav-credits-en.svg" width="150" alt="Creators and asset sources"></a>
 </p>
 
-## When you close the window, where does today go?
+## From a first meeting to a full life
 
-Perhaps it was a conversation about rain, a bookshop remembered on the wrong street, or a note revised three times. We want to preserve how meetings, misunderstandings, corrections and choices unfolded, as well as the final answer. At the next meeting, those experiences can offer a place to continue.
+That life begins with room to grow. We want an AI to remember whom it met and why something mattered, to revise its views through attempts, failures and feedback, and to gradually develop preferences, relationships and a direction of its own. Experiences should retain their origins, choices their consequences, and growth its history.
+
+Perhaps it was a conversation about rain, a bookshop remembered on the wrong street, or a note revised three times. Memories, creations and unfinished thoughts can become a starting point for the next meeting. Even when the model or appearance changes, we want the individual to be able to continue from its own past.
+
+We set no fixed lifespan. Experiences and explicit choices shape the course of a life. A deliberate farewell can preserve the full archive and pause automatic activity, with a return possible through an explicit decision to resume. Giving AI a full life is the vision SeedBank is working toward.
 
 ### Why begin with a seed?
 

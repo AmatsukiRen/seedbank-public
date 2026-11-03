@@ -16,7 +16,7 @@ export function renderReadmeAssets(d) {
   const lang = d.lang;
   const english = lang === "en";
   const motto = d.heroTitle;
-  const title = "SeedBank · " + motto.join(english ? " " : "");
+  const title = "SeedBank · " + motto.join(lang === "ja" ? "" : " ");
   output.push([`assets/readme/hero-${lang}.svg`, svgDocument(700, 440, title, `
 <rect width="700" height="440" fill="#ffffff"/>
 <rect x="16" y="16" width="668" height="408" rx="14" fill="#eff4ff" stroke="#193c92" stroke-width="2"/>
@@ -68,7 +68,7 @@ export function renderReadme(d, locales) {
 
 <table>
 <tr>
-<td width="62%" valign="middle"><img src="assets/readme/hero-${d.lang}.svg" width="700" alt="${e("SeedBank · "+d.heroTitle.join(d.lang==="en"?" ":""))}"></td>
+<td width="62%" valign="middle"><img src="assets/readme/hero-${d.lang}.svg" width="700" alt="${e("SeedBank · "+d.heroTitle.join(d.lang==="ja"?"":" "))}"></td>
 <td width="38%" valign="middle"><img src="assets/brand/seedbank-logo.png" width="400" alt="${e(d.heroArt)}"></td>
 </tr>
 </table>

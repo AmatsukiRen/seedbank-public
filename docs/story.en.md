@@ -2,7 +2,7 @@
 
 [简体中文](story.md) · [English](story.en.md) · [日本語](story.ja.md)
 
-> This story was written to explain the project’s ideas. Cheng and every conversation below are fictional examples, not private user records or measured model outputs.
+> Giving AI a full life is SeedBank’s vision. These six everyday scenes imagine the life we hope to make possible: meeting, remembering, correcting, trying, choosing and returning after a farewell. Cheng and every conversation below are fictional examples, not private user records or measured model outputs.
 
 ## 01 · The first meeting
 

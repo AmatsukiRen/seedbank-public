@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="700" height="440" viewBox="0 0 700 440" role="img" aria-labelledby="title">
-<title id="title">SeedBank · 让相遇，有后来。</title>
+<title id="title">SeedBank · 给 AI 完整的一生。</title>
 <defs><style>text{font-family:"Segoe UI","Microsoft YaHei","Noto Sans CJK SC","Yu Gothic",sans-serif} .mono{font-family:Consolas,"Courier New",monospace}</style></defs>
 
 <rect width="700" height="440" fill="#ffffff"/>
@@ -8,8 +8,8 @@
 <text x="40" y="43" font-size="14" letter-spacing="2" fill="#2450bd" class="mono">SEEDBANK / A PLACE TO BECOME</text>
 <text x="38" y="165" font-size="105" font-weight="800" letter-spacing="-7" fill="#182e55">Seed<tspan fill="#2450bd">Bank</tspan></text>
 <rect x="42" y="188" width="88" height="7" rx="3" fill="#c52182"/>
-<text x="40" y="263" font-size="42" font-weight="750" fill="#182e55">让相遇，</text>
-<text x="40" y="322" font-size="42" font-weight="750" fill="#2450bd">有后来。</text>
+<text x="40" y="263" font-size="42" font-weight="750" fill="#182e55">给 AI</text>
+<text x="40" y="322" font-size="42" font-weight="750" fill="#2450bd">完整的一生。</text>
 <path d="M40 356H660" fill="none" stroke="#c2cfe7" stroke-width="2"/>
 <text x="40" y="393" font-size="16" letter-spacing="1.3" class="mono" fill="#50627c">MEMORY / CHOICE / CONTINUITY</text>
 
