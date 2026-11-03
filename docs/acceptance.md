@@ -6,6 +6,8 @@
 
 **本轮没有执行测试、验证例程、应用或真实模型请求。** 用户入口为 `packaging/run_workbuddy_checks.ps1`，含模拟传输、共享预算、UI 保存及相关 Codex/服务预设回归。现有公开 Release 与本机固定入口保持原样，历史结果不覆盖本次修改。
 
+已于 2026-11-04 01:49:53（UTC+8）生产独立候选并交付。源码 `3d19fecf6ad0a7d47aedb1df03cbd67c503c5578`；exe 107,377,785 字节，SHA256 `e004f55753b9fb4b63f7175a7fcbecf9b546b811a73c6bd7c0415e02935659d7`。Windows ZIP SHA256 `fb3b4f931f3f4af9d747d4e82faf39e7a22edb704af28b32a3955061cec136e8`，源码 ZIP SHA256 `293e3c5428addcca6b7f991aa4e88b331667d5b1a5960f6a89f1d21e2d1f5b99`。生产记录中 `application_executed` 和 `tests_executed` 均为 false；交付成功不代表测试通过。
+
 ## 2026-11-04 关闭弹窗修订包
 
 **已于 2026-11-04 01:34:52（UTC+8）更新现有 Release。** GitHub 的八个附件状态均为 uploaded；Windows ZIP 为 111,508,862 字节，SHA256 `d6c63c640fafd5bd83626a81a84937ef253cbe79b27dd18b16ae81e71b9cd766`。这只记录上传完成，不是应用测试结果。

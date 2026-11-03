@@ -2,6 +2,8 @@
 
 ## WorkBuddy 接入
 
+- 2026-11-04 01:49:53（UTC+8）已生产并独立交付 WorkBuddy 候选：源码 3d19fec，exe 107,377,785 字节，SHA256 e004f55753b9fb4b63f7175a7fcbecf9b546b811a73c6bd7c0415e02935659d7。程序与源码 ZIP 同一提交；没有运行测试、应用或真实 CLI 请求，未更新公开 Release、标签或原固定入口。用户离线入口为 Run-WorkBuddy-Checks.cmd，源码脚本 packaging/run_workbuddy_checks.ps1。此时命令路径中未发现独立 CodeBuddy CLI，需要用户按 docs/workbuddy.md 安装并登录同一账号后再验收，不能声称已有真实连通结果。
+
 - 2026-11-04 用户明确选择「让 SeedBank 使用 WorkBuddy 当前账号／模型来生成回复」。本轮新增实验性 `workbuddy` 适配器，经官方 CodeBuddy CLI 登录同一账号、显式填写模型 ID；已向用户说明不自动同步 WorkBuddy 桌面凭据和模型选择。官方国内版同账号共享积分，不扩大为其他地区或套餐保证。实现设置、预算、独立回执和用户运行入口，未运行测试/验证/应用、未连接真实模型，未读取凭据或真实生命包。允许本机独立生产候选，不将旧发布授权自动用于本功能 Release 替换。详见 docs/workbuddy.md。
 
 ## 仓库与发行
