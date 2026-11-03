@@ -1,17 +1,17 @@
 {
   "product": "SeedBank",
-  "target_version": "0.0.1",
-  "planned_tag": "v0.0.1",
+  "target_version": "0.0.2",
+  "planned_tag": "v0.0.2",
   "channel": "alpha",
-  "status": "public-preview",
+  "status": "release-in-preparation",
   "repository_visibility": "public",
   "application_source_migrated": true,
-  "release_published": true,
-  "published_at": "2026-11-03T16:30:36Z",
-  "release_url": "https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1",
-  "release_tag_commit": "8c1e4769ae8e3179c8455162eecfbf0328e5ff9f",
-  "artifact_revision": "channels-self-context-20261104",
-  "artifacts_updated_at": "2026-11-03T18:25:56Z",
+  "release_published": false,
+  "published_at": null,
+  "release_url": "https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2",
+  "release_tag_commit": null,
+  "artifact_revision": "initial",
+  "artifacts_updated_at": null,
   "source_publication": {
     "status": "published",
     "proprietary_runtime_binaries_in_git": false,
@@ -19,20 +19,20 @@
     "demo_model_bundled": false
   },
   "windows_distribution": {
-    "status": "published-preview",
-    "windows_zip_sha256": "56fd0dfaa0a323512733fad34d609ee3157999d9eb639745cfb6cddab5815c0f",
-    "windows_zip_bytes": 111555669,
-    "candidate_source_commit": "72651683bae7b5cfa97e6a9687adad2f3f1bf2cb",
-    "candidate_runtime_sha256": "69e8072971d9d9f4ff1960b53abcb37b6332c48cfcc0081fe9a17447b4759323",
-    "source_zip_sha256": "2914347521b5f82e344d47a412c4e364de6b6eed2c913243f10e4a824b5f5738",
-    "package_documents_commit": "e74b09ebc1934c28f81310b789737dd0a6fd4db7",
+    "status": "candidate-pending",
+    "windows_zip_sha256": null,
+    "windows_zip_bytes": null,
+    "candidate_source_commit": null,
+    "candidate_runtime_sha256": null,
+    "source_zip_sha256": null,
+    "package_documents_commit": null,
     "sdk_publication_conditions": "unconfirmed-maintainer-directed-publication-without-inquiry",
     "qt_source_and_notices": "upstream-source-assets-and-conservative-notices-provided",
     "modified_qt_rebuild_tested": false,
-    "acceptance_after_packaging_changes": "agent-passed",
-    "acceptance_actor": "agent",
-    "acceptance_completed_at": "2026-11-04T02:20:38+08:00",
-    "acceptance_scope": "Actual executable passed packaging, software Qt UI, frozen plugin worker and showcase checks. Offline core: 415 passes; integrations: 310 executions including 16 duplicate discoveries; security: 134 passes. Final release ZIP, notices and seven checksums passed after document assembly; all eight remote asset digests match. No real platform/model calls or native Live2D checks in this revision.",
+    "acceptance_after_packaging_changes": "pending",
+    "acceptance_actor": null,
+    "acceptance_completed_at": null,
+    "acceptance_scope": "New 0.0.2 executable acceptance pending; previous 0.0.1 results retain their original scope.",
     "acceptance_record": "docs/acceptance.md"
   },
   "artifact_history": [
@@ -41,7 +41,8 @@
       "windows_zip_sha256": "ceb64b384d859d027ff70082e1f48cc801915faa146d8a5608be67ae61bf2bd5",
       "runtime_source_commit": "3e13707542cead1a65ad7df84c3f19462919e2c7",
       "runtime_sha256": "1da9030c942ec39cbd60d0f903213436f1f112d6b25926a02ab9fa20147a2759",
-      "acceptance_completed_at": "2026-11-04T00:04:28+08:00"
+      "acceptance_completed_at": "2026-11-04T00:04:28+08:00",
+      "version": "0.0.1"
     },
     {
       "revision": "lifecycle-close-20261104",
@@ -50,7 +51,36 @@
       "runtime_source_commit": "b51bb5c94decaac75f295527a192a08fe8a34f69",
       "runtime_sha256": "afde352b337edfb570eb4ac678444db357271a345444911f6693592ed018634a",
       "acceptance_status": "unverified-maintainer-directed",
-      "acceptance_completed_at": null
+      "acceptance_completed_at": null,
+      "version": "0.0.1"
+    }
+  ],
+  "previous_releases": [
+    {
+      "target_version": "0.0.1",
+      "planned_tag": "v0.0.1",
+      "published_at": "2026-11-03T16:30:36Z",
+      "release_url": "https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1",
+      "release_tag_commit": "8c1e4769ae8e3179c8455162eecfbf0328e5ff9f",
+      "artifact_revision": "channels-self-context-20261104",
+      "artifacts_updated_at": "2026-11-03T18:25:56Z",
+      "windows_distribution": {
+        "status": "published-preview",
+        "windows_zip_sha256": "56fd0dfaa0a323512733fad34d609ee3157999d9eb639745cfb6cddab5815c0f",
+        "windows_zip_bytes": 111555669,
+        "candidate_source_commit": "72651683bae7b5cfa97e6a9687adad2f3f1bf2cb",
+        "candidate_runtime_sha256": "69e8072971d9d9f4ff1960b53abcb37b6332c48cfcc0081fe9a17447b4759323",
+        "source_zip_sha256": "2914347521b5f82e344d47a412c4e364de6b6eed2c913243f10e4a824b5f5738",
+        "package_documents_commit": "e74b09ebc1934c28f81310b789737dd0a6fd4db7",
+        "sdk_publication_conditions": "unconfirmed-maintainer-directed-publication-without-inquiry",
+        "qt_source_and_notices": "upstream-source-assets-and-conservative-notices-provided",
+        "modified_qt_rebuild_tested": false,
+        "acceptance_after_packaging_changes": "agent-passed",
+        "acceptance_actor": "agent",
+        "acceptance_completed_at": "2026-11-04T02:20:38+08:00",
+        "acceptance_scope": "Actual executable passed packaging, software Qt UI, frozen plugin worker and showcase checks. Offline core: 415 passes; integrations: 310 executions including 16 duplicate discoveries; security: 134 passes. Final release ZIP, notices and seven checksums passed after document assembly; all eight remote asset digests match. No real platform/model calls or native Live2D checks in this revision.",
+        "acceptance_record": "docs/acceptance.md"
+      }
     }
   ]
 }

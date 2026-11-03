@@ -4,8 +4,8 @@
 
 ## Windows 程序包
 
-首个版本为 **0.0.1 预览版**，从 [GitHub Releases](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1) 下载 Windows x64 程序包。
-解压整个 `SeedBank-0.0.1-windows-x64.zip`，双击其中的 `seedbank.exe`。
+当前版本为 **0.0.2 预览版**，从 [GitHub Releases](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2) 下载 Windows x64 程序包。
+解压整个 `SeedBank-0.0.2-windows-x64.zip`，双击其中的 `seedbank.exe`。从 0.0.1 升级时先备份自己的生命包，正常退出旧程序，解压到新目录后打开原生命包即可；无需重建个体。
 不要只复制旧研发交付中的固定启动器；本包的 exe 是完整运行程序。
 当前包未代码签名。系统若提出安全提示，应先核对下载来源与随附 SHA256，不能据此宣称已通过安全认证。
 

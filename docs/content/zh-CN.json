@@ -122,7 +122,7 @@
     "SeedBank 0.0.1 · 生活",
     "SeedBank 0.0.1 · 设置"
   ],
-  "galleryIntro": "以下是 0.0.1 当前候选程序的五个不同页面。使用独立人工生命包和离线回复，日期推进仅用于展示日记；不含真实用户内容。",
+  "galleryIntro": "以下五个页面截图来自 0.0.1，保留其真实版本标注；本次 0.0.2 没有重新采集截图。使用独立人工生命包和离线回复，日期推进仅用于展示日记；不含真实用户内容。",
   "screenshotSource": "截图状态与采集约定",
   "features": [
     [
@@ -203,7 +203,7 @@
   "readmeIntro": "我们的愿景，是给 AI 完整的一生。SeedBank 希望让每个个体从初次相遇开始，积累自己的经历、形成记忆、作出选择，在时间里慢慢成为自己。",
   "download": {
     "label": "直接下载 Windows 版",
-    "info": "SeedBank 0.0.1 预览版 · Windows x64 · 约 106 MiB",
+    "info": "SeedBank 0.0.2 预览版 · Windows x64 · 约 106 MiB",
     "instructions": "完整解压 ZIP 后打开 seedbank.exe，无需下载源码包。",
     "releaseLabel": "发行说明与全部附件",
     "guideLabel": "使用说明"
@@ -271,7 +271,7 @@
     "开始使用"
   ],
   "galleryHint": "画面来自同一个已检查的 Windows 程序；构建摘要与采集范围见截图记录。",
-  "startNotice": "[下载 SeedBank 0.0.1 Windows 预览版](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1)，完整解压后打开 seedbank.exe。先从[使用说明](docs/getting-started.md)开始，使用自己的模型服务 Key。演示中的 Live2D 公皮不随程序提供，需要时请从下方作者渠道取得。",
+  "startNotice": "[下载 SeedBank 0.0.2 Windows 预览版](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2)，完整解压后打开 seedbank.exe。先从[使用说明](docs/getting-started.md)开始，使用自己的模型服务 Key。演示中的 Live2D 公皮不随程序提供，需要时请从下方作者渠道取得。",
   "licenseLink": "许可",
   "api": {
     "title": "用自己的模型服务",
@@ -362,5 +362,6 @@
     ],
     "note": "接入实现与离线用例已纳入本库；已有研发离线结果按实际版本记录，真实平台连接仍待验收。附件、语音和主动推送不在新增渠道范围。AstrBot 平台列表不等于 SeedBank 全部实测支持。",
     "link": "平台配置、凭据与 AstrBot 插件说明"
-  }
+  },
+  "releaseVersion": "0.0.2"
 }

@@ -4,7 +4,7 @@
 
 新增实验入口 **WorkBuddy（同账号 CodeBuddy CLI）**。SeedBank 负责提供当前对话、记忆和人生记录，官方 CodeBuddy CLI 负责账号认证及模型生成，回复再交回 SeedBank 保存。切换此入口不重新出生，也不改写已有经历。
 
-**当前状态：实验入口已纳入本轮 0.0.1 预览修订，离线传输与设置检查通过；真实 CLI 账号调用尚未验收。** 具体发行范围以 [Release](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1) 的修订说明为准。
+**当前状态：实验入口已纳入本轮 0.0.2 预览修订，离线传输与设置检查通过；真实 CLI 账号调用尚未验收。** 具体发行范围以 [Release](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2) 的修订说明为准。
 
 ## 账号与模型的实际边界
 
@@ -41,6 +41,6 @@ SeedBank 从 PATH 查找 `codebuddy` 或 `cbc`。若安装在其他位置，可�
 
 2026-11-04 用户明确允许代理测试后，上述入口 **50/50 通过，1.842 秒**。覆盖独立工作目录和系统提示、模型 ID 必填、工具事件拒绝、错误/超时/缺失用量、环境变量隔离、调用预算共享、自动活动暂停、连接结果解析、四语设置保存及现有 Codex 回归。全部是假传输，没有启动真实 CodeBuddy 或消耗账号额度；真实 CLI 兼容性、账号授权与回答质量仍未验收。
 
-**English:** Experimental WorkBuddy account support uses the official CodeBuddy CLI, signed into the same account. Desktop authentication and selected models are not imported. A model ID is required. Offline transport/settings checks passed and the feature is included in this 0.0.1 preview revision; live CLI compatibility remains unverified.
+**English:** Experimental WorkBuddy account support uses the official CodeBuddy CLI, signed into the same account. Desktop authentication and selected models are not imported. A model ID is required. Offline transport/settings checks passed and the feature is included in this 0.0.2 preview revision; live CLI compatibility remains unverified.
 
-**日本語:** WorkBuddy と同じアカウントでログインした公式 CodeBuddy CLI 経由の実験的な接続です。デスクトップ認証・モデル選択は取り込まず、モデル ID の入力が必要です。オフライン検査は成功し、今回の 0.0.1 プレビュー修訂に含まれます。実際の CLI 接続は未検証です。
+**日本語:** WorkBuddy と同じアカウントでログインした公式 CodeBuddy CLI 経由の実験的な接続です。デスクトップ認証・モデル選択は取り込まず、モデル ID の入力が必要です。オフライン検査は成功し、今回の 0.0.2 プレビュー修訂に含まれます。実際の CLI 接続は未検証です。

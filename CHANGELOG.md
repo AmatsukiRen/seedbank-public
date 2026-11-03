@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.2 — 2026-11-04 · One life across channels
+
+- Give the channel, runtime self-knowledge, WorkBuddy and dialog fixes below a separate version and Release page. The application, Windows metadata, archive names and three-language download links now identify 0.0.2; the 0.0.1 release remains available.
+- Reuse the same life-pack format. Existing individuals can continue in 0.0.2 without being recreated. Model and platform credentials remain local to each user.
+- Keep the release as a preview. Actual-platform delivery, WorkBuddy account calls and native Live2D are outside this revision's isolated acceptance scope; dated results are recorded in [acceptance](docs/acceptance.md).
+
 ## 0.0.1 — 2026-11-04 · Channels and runtime self-knowledge revision
 
 - Follow up across Telegram, Discord, Feishu and DingTalk: accept allowlisted bare mentions, preserve literal Telegram text, require a Telegram message receipt, and expose generation/delivery stages. Count AstrBot handoff separately from platform delivery. Prompt v44 and new cross-channel persistence/privacy cases passed isolated integration checks. See [channels](docs/channels.md) and [exact acceptance scope](docs/acceptance.md).

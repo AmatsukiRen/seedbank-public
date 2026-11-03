@@ -122,7 +122,7 @@
     "SeedBank 0.0.1 · Life",
     "SeedBank 0.0.1 · Settings"
   ],
-  "galleryIntro": "Five distinct pages from the current 0.0.1 candidate. Captured with an isolated artificial life and offline replies; the date was explicitly advanced for the diary. No real user data is shown.",
+  "galleryIntro": "These five screenshots were captured in 0.0.1 and retain their original version labels; they were not recaptured for 0.0.2. They use an isolated artificial life and offline replies, with dates explicitly advanced for the diary. No real user data is shown.",
   "screenshotSource": "Capture status and requirements",
   "features": [
     [
@@ -203,7 +203,7 @@
   "readmeIntro": "Our vision is to give AI a full life. SeedBank aims to let each individual gather experiences, form memories and make choices from the first meeting onward, gradually becoming itself over time.",
   "download": {
     "label": "Download for Windows",
-    "info": "SeedBank 0.0.1 preview · Windows x64 · About 106 MiB",
+    "info": "SeedBank 0.0.2 preview · Windows x64 · About 106 MiB",
     "instructions": "Extract the complete ZIP, then open seedbank.exe. Source archives are optional.",
     "releaseLabel": "Release notes and all downloads",
     "guideLabel": "Setup guide (中文)"
@@ -271,7 +271,7 @@
     "Getting started"
   ],
   "galleryHint": "All pages come from the same checked Windows executable. See the capture record for its hash and scope.",
-  "startNotice": "[Download SeedBank 0.0.1 for Windows (preview)](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1), extract the complete ZIP and open seedbank.exe. See the [setup guide (中文)](docs/getting-started.md) and use your own model-service key. The Live2D model shown in demonstrations is not bundled; obtain it from its creators using the links below.",
+  "startNotice": "[Download SeedBank 0.0.2 for Windows (preview)](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2), extract the complete ZIP and open seedbank.exe. See the [setup guide (中文)](docs/getting-started.md) and use your own model-service key. The Live2D model shown in demonstrations is not bundled; obtain it from its creators using the links below.",
   "licenseLink": "License",
   "api": {
     "title": "Bring your own model service",
@@ -362,5 +362,6 @@
     ],
     "note": "Implementations and offline cases are included here. Prior offline results are version-specific; live platform acceptance remains pending. Attachments, voice and proactive notifications are outside the new channels. AstrBot’s platform list is not a list of verified SeedBank integrations.",
     "link": "Platform credentials and AstrBot plugin setup (中文)"
-  }
+  },
+  "releaseVersion": "0.0.2"
 }

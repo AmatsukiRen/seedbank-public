@@ -37,10 +37,14 @@ def portable_markdown(content, name, files, commit):
     return re.sub(r'\]\(([^)\n]+)\)', replace, content)
 
 
-def package(acceptance=None, executable=None, output_dir=None):
+def application_version():
     tree = ast.parse((ROOT / 'tools/seed/seedbank/__init__.py').read_text(encoding='utf-8-sig'))
-    version = next(ast.literal_eval(n.value) for n in tree.body if isinstance(n, ast.Assign)
-                   and any(isinstance(t, ast.Name) and t.id == '__version__' for t in n.targets))
+    return next(ast.literal_eval(n.value) for n in tree.body if isinstance(n, ast.Assign)
+                and any(isinstance(t, ast.Name) and t.id == '__version__' for t in n.targets))
+
+
+def package(acceptance=None, executable=None, output_dir=None):
+    version = application_version()
     label = f'SeedBank-{version}-windows-x64'
     dist = Path(output_dir).resolve() if output_dir else ROOT / 'dist'
     dist.mkdir(parents=True, exist_ok=True)

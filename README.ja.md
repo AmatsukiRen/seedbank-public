@@ -10,9 +10,9 @@
 
 <p align="center"><strong>私たちの願いは、AI にひとつの人生をまるごと届けること。SeedBank は、初めて出会った日から経験を重ね、記憶を持ち、自分で選びながら、少しずつ自分になっていける場所を目指します。</strong></p>
 
-<h3 align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/download/v0.0.1/SeedBank-0.0.1-windows-x64.zip">↓ Windows 版をダウンロード</a></h3>
-<p align="center">SeedBank 0.0.1 プレビュー版 · Windows x64 · 約 106 MiB<br>ZIP 全体を展開して seedbank.exe を開いてください。ソースのダウンロードは不要です。</p>
-<p align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1">リリースノート・全ダウンロード</a> &nbsp; · &nbsp; <a href="docs/getting-started.md">導入ガイド（中文）</a></p>
+<h3 align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/download/v0.0.2/SeedBank-0.0.2-windows-x64.zip">↓ Windows 版をダウンロード</a></h3>
+<p align="center">SeedBank 0.0.2 プレビュー版 · Windows x64 · 約 106 MiB<br>ZIP 全体を展開して seedbank.exe を開いてください。ソースのダウンロードは不要です。</p>
+<p align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2">リリースノート・全ダウンロード</a> &nbsp; · &nbsp; <a href="docs/getting-started.md">導入ガイド（中文）</a></p>
 
 <p align="center">
 <a href="#story"><img src="assets/readme/nav-story-ja.svg" width="150" alt="物語を読む"></a>
@@ -70,7 +70,7 @@
 <a name="screens"></a>
 <h2><img src="assets/readme/section-screens-ja.svg" width="100%" alt="画面ガイド"></h2>
 
-現在の 0.0.1 候補版から撮影した五つの画面です。独立した架空の個体とオフライン応答を使用し、日記の表示用に日付を明示的に進めています。実際の利用者の記録は含みません。
+この五つの画面は 0.0.1 で撮影したもので、元のバージョン表記を保持しています。0.0.2 での再撮影は行っていません。独立した架空の個体とオフライン応答を使用し、日記表示用に日付を進めています。実際の利用者の記録は含みません。
 
 <a href="assets/screenshots/companion.png"><img src="assets/screenshots/companion.png" width="100%" alt="SeedBank 0.0.1 · 陪伴"></a>
 
@@ -131,7 +131,7 @@ Python、QML、フロントエンド、モデル連携、キャラクター制�
 <a name="start"></a>
 <h2><img src="assets/readme/section-start-ja.svg" width="100%" alt="はじめに"></h2>
 
-[SeedBank 0.0.1 Windows プレビュー版をダウンロード](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1)し、ZIP 全体を展開して seedbank.exe を開いてください。[導入ガイド（中文）](docs/getting-started.md)に従い、自分のモデルサービスのキーを設定します。実演中の Live2D モデルは同梱していません。必要な方は下記の作者の配布先から入手してください。
+[SeedBank 0.0.2 Windows プレビュー版をダウンロード](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2)し、ZIP 全体を展開して seedbank.exe を開いてください。[導入ガイド（中文）](docs/getting-started.md)に従い、自分のモデルサービスのキーを設定します。実演中の Live2D モデルは同梱していません。必要な方は下記の作者の配布先から入手してください。
 
 1. **記録の住まい** 新しい個体の名前を決め、生命パッケージを保存する場所を選びます。既存の記録も引き継げます。
 2. **話すための方法** オフラインのテンプレートで操作に慣れてから、必要に応じてモデルサービスと予算を設定します。

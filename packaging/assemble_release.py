@@ -15,7 +15,7 @@ import tarfile
 import zipfile
 from pathlib import Path, PurePosixPath
 
-from package_candidate import portable_markdown
+from package_candidate import application_version, portable_markdown
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = 'https://github.com/AmatsukiRen/seedbank-public'
@@ -56,12 +56,13 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
         raise ValueError('Use a separate release output directory.')
     output.mkdir(parents=True, exist_ok=True)
     receipt = json.loads((candidate / 'runtime-build.json').read_text(encoding='utf-8'))
+    version = application_version()
     evidence = json.loads(Path(report).read_text(encoding='utf-8')) if report else None
     runtime_hash = digest(candidate / 'seedbank.exe')
     if receipt['runtime_sha256'] != runtime_hash or receipt['source_worktree_clean'] is not True:
         raise ValueError('Use the exact runtime from a clean recorded source build.')
     if evidence is not None and (evidence.get('runtime_sha256') != runtime_hash or evidence.get('ok') is not True):
-        raise ValueError('Use the exact runtime recorded by the user acceptance report.')
+        raise ValueError('Use the exact runtime recorded by the acceptance report.')
     if report and unverified_reason:
         raise ValueError('Specify either an acceptance report or an unverified release reason, not both.')
     if evidence is None and not (unverified_reason and unverified_reason.strip()):
@@ -95,7 +96,7 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
             raise ValueError('Downloaded source bytes differ from upstream metadata: ' + filename)
         shutil.copyfile(path, output / filename)
         source_assets.append({**item, 'asset': filename, 'sha256': actual,
-                              'download': f'{REPO}/releases/download/v0.0.1/{filename}'})
+                              'download': f'{REPO}/releases/download/v{version}/{filename}'})
         group = 'qt' if filename.startswith('qt-') else 'pyside'
         for name, data in upstream_notices(path, group):
             notice_files['third-party/qt/upstream-notices/' + name] = data
@@ -110,7 +111,7 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
     for name in ('NOTICE.md', 'sources.json'):
         overlays['third-party/qt/' + name] = ROOT / 'packaging/licenses/qt' / name
 
-    base_zip = candidate / 'SeedBank-0.0.1-windows-x64.zip'
+    base_zip = candidate / f'SeedBank-{version}-windows-x64.zip'
     target = output / base_zip.name
     with zipfile.ZipFile(base_zip) as source:
         prefix = next(info.filename.split('/', 1)[0] for info in source.infolist()) + '/'
@@ -140,7 +141,7 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
                               checks=checks, archive_after_document_update_tested=False)
             archive.writestr(prefix + 'build-info.json', json.dumps(build_info, indent=2) + '\n')
             publication = {
-                'version': '0.0.1', 'runtime_source_commit': runtime_source,
+                'version': version, 'runtime_source_commit': runtime_source,
                 'documentation_commit': docs_commit, 'runtime_sha256': runtime_hash,
                 'runtime_rebuilt': False, 'release_revision': revision,
                 'acceptance_status': acceptance_status,
@@ -157,11 +158,11 @@ def assemble(candidate, upstream, report, output, *, unverified_reason=None, rev
                 'source_notice_scope': 'Conservative upstream source notice collection; includes unused modules.',
             }
             archive.writestr(prefix + 'release-provenance.json', json.dumps(publication, indent=2) + '\n')
-    for name in ('SeedBank-0.0.1-source.zip', 'runtime-build.json'):
+    for name in (f'SeedBank-{version}-source.zip', 'runtime-build.json'):
         shutil.copyfile(candidate / name, output / name)
     shutil.copyfile(ROOT / 'THIRD_PARTY_NOTICES.md', output / 'THIRD_PARTY_NOTICES.md')
     (output / 'release-provenance.json').write_text(json.dumps(publication, indent=2) + '\n', encoding='utf-8')
-    filenames = [base_zip.name, 'SeedBank-0.0.1-source.zip',
+    filenames = [base_zip.name, f'SeedBank-{version}-source.zip',
                  *[item['asset'] for item in source_assets], 'runtime-build.json',
                  'THIRD_PARTY_NOTICES.md', 'release-provenance.json']
     (output / 'SHA256SUMS.txt').write_text(''.join(digest(output / n) + '  ' + n + '\n' for n in filenames),

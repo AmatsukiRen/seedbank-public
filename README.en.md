@@ -10,9 +10,9 @@
 
 <p align="center"><strong>Our vision is to give AI a full life. SeedBank aims to let each individual gather experiences, form memories and make choices from the first meeting onward, gradually becoming itself over time.</strong></p>
 
-<h3 align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/download/v0.0.1/SeedBank-0.0.1-windows-x64.zip">↓ Download for Windows</a></h3>
-<p align="center">SeedBank 0.0.1 preview · Windows x64 · About 106 MiB<br>Extract the complete ZIP, then open seedbank.exe. Source archives are optional.</p>
-<p align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1">Release notes and all downloads</a> &nbsp; · &nbsp; <a href="docs/getting-started.md">Setup guide (中文)</a></p>
+<h3 align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/download/v0.0.2/SeedBank-0.0.2-windows-x64.zip">↓ Download for Windows</a></h3>
+<p align="center">SeedBank 0.0.2 preview · Windows x64 · About 106 MiB<br>Extract the complete ZIP, then open seedbank.exe. Source archives are optional.</p>
+<p align="center"><a href="https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2">Release notes and all downloads</a> &nbsp; · &nbsp; <a href="docs/getting-started.md">Setup guide (中文)</a></p>
 
 <p align="center">
 <a href="#story"><img src="assets/readme/nav-story-en.svg" width="150" alt="Read the story"></a>
@@ -70,7 +70,7 @@ We wrote a story about an individual named Cheng: a name left undecided, a remem
 <a name="screens"></a>
 <h2><img src="assets/readme/section-screens-en.svg" width="100%" alt="App tour"></h2>
 
-Five distinct pages from the current 0.0.1 candidate. Captured with an isolated artificial life and offline replies; the date was explicitly advanced for the diary. No real user data is shown.
+These five screenshots were captured in 0.0.1 and retain their original version labels; they were not recaptured for 0.0.2. They use an isolated artificial life and offline replies, with dates explicitly advanced for the diary. No real user data is shown.
 
 <a href="assets/screenshots/companion.png"><img src="assets/screenshots/companion.png" width="100%" alt="SeedBank 0.0.1 · Companion"></a>
 
@@ -131,7 +131,7 @@ There is room for Python, QML, frontend and model engineering, character product
 <a name="start"></a>
 <h2><img src="assets/readme/section-start-en.svg" width="100%" alt="Getting started"></h2>
 
-[Download SeedBank 0.0.1 for Windows (preview)](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.1), extract the complete ZIP and open seedbank.exe. See the [setup guide (中文)](docs/getting-started.md) and use your own model-service key. The Live2D model shown in demonstrations is not bundled; obtain it from its creators using the links below.
+[Download SeedBank 0.0.2 for Windows (preview)](https://github.com/AmatsukiRen/seedbank-public/releases/tag/v0.0.2), extract the complete ZIP and open seedbank.exe. See the [setup guide (中文)](docs/getting-started.md) and use your own model-service key. The Live2D model shown in demonstrations is not bundled; obtain it from its creators using the links below.
 
 1. **A place to live** Name a new individual and choose where its life package lives on your computer. Existing archives can be continued.
 2. **A way to talk** Explore the interface with offline templates, then configure your own model service and budget if you wish.
